@@ -15,4 +15,9 @@ class Category extends Model
 
      protected $guarded = [];
      public $timestamps = false;
+
+     public function productos()
+     {
+         return $this->hasMany(Producto::class);
+     }
 }

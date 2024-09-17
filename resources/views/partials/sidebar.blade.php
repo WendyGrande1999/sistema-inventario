@@ -37,7 +37,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="" class="nav-link text-white d-flex">
+            <a href="{{ route('productos.index') }}" class="nav-link text-white d-flex">
                 <i class="bi bi-box-seam me-2"></i>
                 <span>Productos</span>
             </a>

@@ -20,7 +20,8 @@
                 <th>Email</th>
                 <th>Teléfono</th>
                 <th>Dirección</th>
-                <th>Acciones</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
             </tr>
         </thead>
         <tbody>
@@ -32,11 +33,14 @@
                 <td>{{ $supplier->phone }}</td>
                 <td>{{ $supplier->address }}</td>
                 <td>
-                    <a href="{{ route('suppliers.edit', $supplier->id) }}" class="btn btn-warning">Editar</a>
-                    <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="POST" class="d-inline">
+                    <a href="{{ route('suppliers.edit', $supplier->id) }}" class="btn btn-sm btn-warning">Editar</a>
+                   
+                </td>
+                <td>
+                <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
                     </form>
                 </td>
             </tr>
