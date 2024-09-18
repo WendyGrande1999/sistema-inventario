@@ -75,13 +75,21 @@ class ProductoController extends Controller
         return redirect()->route('productos.index')->with('success', 'Producto actualizado exitosamente.');
     }
 
-    // Eliminar un producto
+   
+
+
     public function destroy(Producto $producto)
     {
-        // Eliminar el producto
+
+        try {
+          // Eliminar el producto
         $producto->delete();
 
         // Redirigir a la lista de productos
         return redirect()->route('productos.index')->with('success', 'Producto eliminado exitosamente.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->route('productos.index')->with('error', 'No se puede eliminar este producto porque está asociada a una o más compras.');
+        }
+        
     }
 }

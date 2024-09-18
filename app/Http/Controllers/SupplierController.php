@@ -45,9 +45,19 @@ class SupplierController extends Controller
         return redirect()->route('suppliers.index')->with('success', 'Proveedor actualizado con éxito.');
     }
 
+   
+
+
+
     public function destroy(Supplier $supplier)
     {
-        $supplier->delete();
-        return redirect()->route('suppliers.index')->with('success', 'Proveedor eliminado con éxito.');
+
+        try {
+            $supplier->delete();
+           return redirect()->route('suppliers.index')->with('success', 'Proveedor eliminado con éxito.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->route('suppliers.index')->with('error', 'No se puede eliminar este proveedor porque está asociado a una o más compras.');
+        }
+        
     }
 }

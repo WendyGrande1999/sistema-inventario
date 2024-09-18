@@ -45,7 +45,7 @@
                 <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                        <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este proveedor?')" class="btn btn-sm btn-danger">Eliminar</button>
                     </form>
                 </td>
             </tr>

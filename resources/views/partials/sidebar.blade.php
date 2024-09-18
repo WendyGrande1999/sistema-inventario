@@ -58,7 +58,7 @@
             </a>
             <ul class="collapse list-unstyled ps-3" id="stockSubmenu">
                 <li class="nav-item">
-                    <a href="/inventory/stock/entries" class="nav-link text-white d-flex align-items-center">
+                    <a href="{{ route('entradas.index') }}" class="nav-link text-white d-flex align-items-center">
                         <i class="bi bi-box-arrow-in-right me-2"></i>
                         <span>Entradas</span>
                     </a>
