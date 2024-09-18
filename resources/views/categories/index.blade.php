@@ -6,6 +6,8 @@
 <div class="container">
     <h1>Categorías</h1>
 
+    <a href="{{ route('categories.create') }}" class="btn btn-primary mb-3">Agregar Categoría</a>
+
     <!-- Formulario de búsqueda -->
     <form action="{{ route('categories.search') }}" method="GET" class="d-flex mb-3">
         <input type="text" name="query" id="search" class="form-control me-2" placeholder="Buscar por nombre o ID">
@@ -17,6 +19,14 @@
 
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
     @endif
 
     <table class="table table-bordered">

@@ -51,13 +51,16 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        $category->delete();
+
+        try {
+            $category->delete();
 
         return redirect()->route('categories.index')->with('success', 'Categoría eliminada exitosamente.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->route('categories.index')->with('error', 'No se puede eliminar esta categoría porque está asociada a uno o más productos.');
+        }
+        
     }
-
-
-
 
 
     // Método de búsqueda
