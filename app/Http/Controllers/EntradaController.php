@@ -22,37 +22,43 @@ class EntradaController extends Controller
         $productos = Producto::all();
         $proveedores = Supplier::all();
         $usuarios = User::all();
-        return view('entradas.create', compact('productos', 'proveedores', 'usuarios'));
+        $user = auth()->user();
+        return view('entradas.create', compact('productos', 'proveedores', 'user'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'fecha_ingreso' => 'required|date',
-            'idproducto' => 'required|exists:productos,id',
-            'idproveedor' => 'required|exists:suppliers,id',
-            'idusuario' => 'required|exists:users,id',
-            'unidad_medida' => 'required|string|max:255',
-            'cantidad' => 'required|integer|min:1',
-            'precio_unidad' => 'required|numeric|min:0',
-            'saldo_compra' => 'required|numeric|min:0',
+        try {
+            $request->validate([
+                'fecha_ingreso' => 'required|date',
+                'idproducto' => 'required|exists:productos,id',
+                'idproveedor' => 'required|exists:suppliers,id',
+                'idusuario' => 'required|exists:users,id',
+                'unidad_medida' => 'required|string|max:255',
+                'cantidad' => 'required|integer|min:1',
+                'precio_unidad' => 'required|numeric|min:0',
+                'saldo_compra' => 'required|numeric|min:0',
+            ]);
+    
+            // Convertir la fecha a formato Carbon
+        $fecha_ingreso = Carbon::parse($request->input('fecha_ingreso'));
+    
+        Entrada::create([
+            'fecha_ingreso' => $fecha_ingreso,
+            'idproducto' => $request->input('idproducto'),
+            'idproveedor' => $request->input('idproveedor'),
+            'idusuario' => $request->input('idusuario'),
+            'unidad_medida' => $request->input('unidad_medida'),
+            'cantidad' => $request->input('cantidad'),
+            'precio_unidad' => $request->input('precio_unidad'),
+            'saldo_compra' => $request->input('saldo_compra'),
         ]);
-
-        // Convertir la fecha a formato Carbon
-    $fecha_ingreso = Carbon::parse($request->input('fecha_ingreso'));
-
-    Entrada::create([
-        'fecha_ingreso' => $fecha_ingreso,
-        'idproducto' => $request->input('idproducto'),
-        'idproveedor' => $request->input('idproveedor'),
-        'idusuario' => $request->input('idusuario'),
-        'unidad_medida' => $request->input('unidad_medida'),
-        'cantidad' => $request->input('cantidad'),
-        'precio_unidad' => $request->input('precio_unidad'),
-        'saldo_compra' => $request->input('saldo_compra'),
-    ]);
-
-        return redirect()->route('entradas.index')->with('success', 'Compra guardada exitosamente.');
+    
+            return redirect()->route('entradas.index')->with('success', 'Compra guardada exitosamente.');
+        }catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->route('entradas.index')->with('error', 'No se puede agregar la entrada');
+        }
+     
     }
 
     public function show(Entrada $entrada)
