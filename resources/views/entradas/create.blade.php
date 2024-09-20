@@ -23,12 +23,11 @@
           <label for="idproducto">Producto</label>
           </strong>
           <select name="idproducto" id="idproducto" class="form-control" required>
-              <option value="">Seleccione un proveedor</option>
+              <option value="">Seleccione un producto</option>
               @foreach ($productos as $producto)
                 <option value="{{ $producto->id }}">{{ $producto->nombre }}</option>
               @endforeach
             </select>
-       
         </div>
         <br>
 
@@ -91,7 +90,7 @@
             <strong>
             <label for="saldo_compra">Saldo Compra</label>
             </strong>
-            <input type="number" name="saldo_compra" id="saldo_compra" class="form-control" step="0.01" required>
+            <input type="number" name="saldo_compra" id="saldo_compra" class="form-control" step="0.01" readonly>
         </div>
       </div>
     </div>
@@ -99,7 +98,22 @@
     <br>
     <button type="submit" class="btn btn-primary">Guardar Entrada</button>
   </form>
+
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const cantidadInput = document.getElementById('cantidad');
+          const precioUnidadInput = document.getElementById('precio_unidad');
+          const saldoCompraInput = document.getElementById('saldo_compra');
+
+          function calcularSaldoCompra() {
+              const cantidad = parseFloat(cantidadInput.value) || 0;
+              const precioUnidad = parseFloat(precioUnidadInput.value) || 0;
+              saldoCompraInput.value = (cantidad * precioUnidad).toFixed(2);
+          }
+
+          cantidadInput.addEventListener('input', calcularSaldoCompra);
+          precioUnidadInput.addEventListener('input', calcularSaldoCompra);
+      });
+  </script>
 </div>
 @endsection
-
-

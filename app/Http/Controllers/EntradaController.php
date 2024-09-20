@@ -37,11 +37,13 @@ class EntradaController extends Controller
                 'unidad_medida' => 'required|string|max:255',
                 'cantidad' => 'required|integer|min:1',
                 'precio_unidad' => 'required|numeric|min:0',
-                'saldo_compra' => 'required|numeric|min:0',
+                
             ]);
     
             // Convertir la fecha a formato Carbon
         $fecha_ingreso = Carbon::parse($request->input('fecha_ingreso'));
+        // Calcular saldo_compra
+        $saldo_compra = $request->input('cantidad') * $request->input('precio_unidad');
     
         Entrada::create([
             'fecha_ingreso' => $fecha_ingreso,
@@ -51,7 +53,7 @@ class EntradaController extends Controller
             'unidad_medida' => $request->input('unidad_medida'),
             'cantidad' => $request->input('cantidad'),
             'precio_unidad' => $request->input('precio_unidad'),
-            'saldo_compra' => $request->input('saldo_compra'),
+            'saldo_compra' => $saldo_compra, // Guardar el saldo calculado
         ]);
     
             return redirect()->route('entradas.index')->with('success', 'Compra guardada exitosamente.');
@@ -76,20 +78,39 @@ class EntradaController extends Controller
 
     public function update(Request $request, Entrada $entrada)
     {
+
+
         $request->validate([
             'fecha_ingreso' => 'required|date',
             'idproducto' => 'required|exists:productos,id',
             'idproveedor' => 'required|exists:suppliers,id',
-            'idusuario' => 'required|exists:users,id',
             'unidad_medida' => 'required|string|max:255',
             'cantidad' => 'required|integer|min:1',
             'precio_unidad' => 'required|numeric|min:0',
-            'saldo_compra' => 'required|numeric|min:0',
+          
         ]);
 
-        $entrada->update($request->all());
+        // Calcular saldo_compra
+        $saldo_compra = $request->input('cantidad') * $request->input('precio_unidad');
 
-        return redirect()->route('entradas.index')->with('success', 'Entrada actualizada exitosamente.');
+
+        try {
+            
+            $entrada->update([
+                'fecha_ingreso' => $request->input('fecha_ingreso'),
+                'idproducto' => $request->input('idproducto'),
+                'idproveedor' => $request->input('idproveedor'),
+                'unidad_medida' => $request->input('unidad_medida'),
+                'cantidad' => $request->input('cantidad'),
+                'precio_unidad' => $request->input('precio_unidad'),
+                'saldo_compra' => $saldo_compra, // Guardar el nuevo saldo calculado
+            ]);
+
+            return redirect()->route('entradas.index')->with('success', 'Entrada actualizada exitosamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error al actualizar la entrada: ' . $e->getMessage());
+        }
+
     }
 
     public function destroy(Entrada $entrada)

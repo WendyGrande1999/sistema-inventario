@@ -15,10 +15,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $role1 = Role::create(['name' => 'admin']);
-        $role2 = Role::create(['name' => 'escritor']);
+        $role1 = Role::firstOrCreate(['name' => 'admin']);
+        $role2 = Role::firstOrCreate(['name' => 'escritor']);
+    
         $user = User::find(1);
-        $user->assignRole($role1);
+    
+        if ($user) {
+            $user->assignRole($role1);
+        }
+
+        $user2 = User::find(2);
+        if ($user2) {
+            $user2->assignRole($role1); // Asigna el rol 'admin' al usuario con ID 2
+        }
     }
 
     /**
