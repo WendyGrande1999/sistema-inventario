@@ -37,16 +37,14 @@ Route::resource('suppliers', SupplierController::class);
 Route::resource('productos', ProductoController::class);
 Route::resource('entradas', EntradaController::class);
 
-
-
-
-
 Route::get('/categories/search', [CategoryController::class, 'search'])->name('categories.search');
-
+Route::post('/admin/users', [UserController::class, 'store'])->name('users.store');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
+    Route::get('/admin/users/create', [UserController::class, 'create'])->name('admin.users.create'); // Nueva ruta
     Route::get('/admin/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+    Route::post('/admin/users', [UserController::class, 'store'])->name('users.store'); // Esta es la ruta correcta
     Route::post('/admin/users/{user}/roles', [UserController::class, 'assignRoles'])->name('admin.users.roles.assign');
 });
 

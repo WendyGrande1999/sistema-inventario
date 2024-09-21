@@ -3,6 +3,25 @@
 @section('content')
 <div class="container">
     <h1>Gestión de Usuarios</h1>
+
+    <br>
+
+    <a href="{{ route('admin.users.create') }}" class="btn btn-sm btn-primary">Agregar nuevo usuario</a>
+<br>
+<br>
+
+
+@if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <table class="table table-bordered">
         <thead>
             <tr>

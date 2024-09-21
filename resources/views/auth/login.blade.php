@@ -57,17 +57,23 @@
             </ul>
         </div>
     @endif
-                  <p>Ingresa tu correo y contraseña</p>
+                 
+                  
 
                   <div data-mdb-input-init class="form-outline mb-4">
-                  <label class="form-label" for="form2Example11">Usuario</label>
+                <strong>
+                <label class="form-label" for="form2Example11">Correo</label>
+                </strong>  
                     <input type="email" name="email" id="form2Example11" class="form-control"
-                      placeholder="Teléfono o correo electrónico" />
+                      placeholder="Correo electrónico" />
                     
                   </div>
 
                   <div data-mdb-input-init class="form-outline mb-4">
-                  <label class="form-label" for="form2Example22">Contraseña</label>
+                    <strong>
+                    <label class="form-label" for="form2Example22">Contraseña</label>
+                    </strong>
+                  
                     <input type="password" name="password" id="form2Example22" class="form-control" />
                    
                   </div>
@@ -75,11 +81,6 @@
                   <div class="text-center pt-1 mb-5 pb-1">
                     <button  class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">Ingresar</button>
                     
-                  </div>
-
-                  <div class="d-flex align-items-center justify-content-center pb-4">
-                    <p class="mb-0 me-2">¿No tienes una cuenta?</p>
-                    <a href="{{route('register')}}" class="btn btn-outline-danger">Crear una </a>
                   </div>
 
                 </form>

@@ -38,7 +38,7 @@
                 </div>
                 
                 <br>
-                <form action="{{route('register')}}" method="post">
+                <form action="{{ route('users.store') }}" method="post">
                     @csrf
                 
 
