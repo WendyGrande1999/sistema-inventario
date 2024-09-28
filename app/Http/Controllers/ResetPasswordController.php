@@ -23,26 +23,25 @@ class ResetPasswordController extends Controller
      * Maneja el restablecimiento de la contraseña.
      */
     public function reset(Request $request)
-    {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
-        ]);
+{
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|min:8|confirmed',
+    ]);
 
-        // Restablecer la contraseña
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->password = Hash::make($password);
-                $user->save();
+    // Restablecer la contraseña
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($user, $password) {
+            $user->password = Hash::make($password);
+            $user->save();
+        }
+    );
 
-                Auth::login($user);
-            }
-        );
+    return $status === Password::PASSWORD_RESET
+        ? redirect()->route('login')->with('status', 'Tu contraseña ha sido restablecida correctamente. Por favor, inicia sesión.')
+        : back()->withErrors(['email' => [__($status)]]);
+}
 
-        return $status === Password::PASSWORD_RESET
-            ? redirect()->route('home')->with('status', __($status))
-            : back()->withErrors(['email' => [__($status)]]);
-    }
 }

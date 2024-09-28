@@ -6,10 +6,10 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-header text-center bg-primary text-white">
-                    {{ __('Recuperar contraseña') }}
-                </div>
+            <div class="card">
+
+            <div class="card-header">{{ __('Recuperar contraseña') }}</div>
+            
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -33,8 +33,8 @@
                         </div>
 
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('Enviar enlace a correo electrónico') }}
+                            <button type="submit" class="btn btn-dark">
+                                {{ __('Enviar enlace') }}
                             </button>
                         </div>
                     </form>

@@ -1,6 +1,6 @@
  <!-- resourses/views/auth/paswords/confirm.blade.php -->
 
-@extends('layouts.app')
+ @extends('layouts.guest')
 
 @section('content')
 <div class="container">
