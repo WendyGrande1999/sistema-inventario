@@ -7,6 +7,8 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\EntradaController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,5 +57,27 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect('/'); // Redirige a la página de inicio o donde desees después de cerrar sesión
 })->name('logout');
+
+
+
+
+
+
+// Ruta para mostrar el formulario de solicitud de restablecimiento de contraseña
+Route::get('password/confirm', [ForgotPasswordController::class, 'showLinkRequestForm'])
+    ->name('password.confirm'); // Cambia el nombre de la ruta si lo deseas
+
+// Ruta para enviar el enlace de restablecimiento de contraseña
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
+
+// Ruta para mostrar el formulario de restablecimiento de contraseña
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])
+    ->name('password.reset');
+
+// Ruta para manejar la solicitud de restablecimiento de contraseña
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])
+    ->name('password.update');
+
 
 

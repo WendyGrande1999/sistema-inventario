@@ -1,3 +1,5 @@
+ <!-- resourses/views/auth/paswords/confirm.blade.php -->
+
 @extends('layouts.app')
 
 @section('content')

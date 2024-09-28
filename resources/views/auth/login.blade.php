@@ -83,6 +83,11 @@
                     
                   </div>
 
+                  <div class="text-center pt-1 mb-5 pb-1">
+                  
+                    <a class="text-muted" href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
+                  </div>
+
                 </form>
 
               </div>
