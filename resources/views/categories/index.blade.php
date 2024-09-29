@@ -1,41 +1,30 @@
-<!-- resources/views/categories/index.blade.php -->
-
 @extends('layouts.app')
 
 @section('content')
 <div class="container">
     <h1>Categorías</h1>
 
-    <a href="{{ route('categories.create') }}" class="btn btn-primary mb-3">Agregar Categoría</a>
-
-    <!-- Formulario de búsqueda -->
-    <form action="{{ route('categories.search') }}" method="GET" class="d-flex mb-3">
-        <input type="text" name="query" id="search" class="form-control me-2" placeholder="Buscar por nombre o ID">
-        <button type="submit" class="btn btn-primary">Buscar</button>
-    </form>
-
-
-  
-
+    <a href="{{ route('categories.create') }}" class="btn btn-primary justify-content-end mt-3">Agregar Categoría</a>
+<br>
+<br>
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-
-
     @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
+        <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
-    <table class="table table-bordered">
+<div class="card-body">
+    <div class="table-responsive">
+    <table id="my-table"  class="table table-bordered" width="100%" cellspacing="0">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Descripción</th>
-                <th>Acciones</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
             </tr>
         </thead>
         <tbody>
@@ -46,12 +35,18 @@
                     <td>{{ $category->description }}</td>
                     <td>
                         <a href="{{ route('categories.edit', $category) }}" class="btn btn-sm btn-warning">Editar</a>
-                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST" onsubmit="return confirmDelete()" style="display: inline;">
+
+                        </td>
+                    <td>
+                     
+                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" onsubmit="return confirmDelete()" style="display: inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
                         </form>
+                    
                     </td>
+
                 </tr>
             @empty
                 <tr>
@@ -60,12 +55,53 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 </div>
 
-<!-- Script para confirmar eliminación -->
-<script>
-    function confirmDelete() {
-        return confirm('¿Estás seguro de que deseas eliminar esta categoría?');
-    }
+   
+
+
+     <!-- Scripts -->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.0/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.0/js/dataTables.bootstrap5.min.js"></script>
+
+    
+    <!-- Script para inicializar DataTables -->
+    <script>
+    $(document).ready(function() {
+        $('#my-table').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "lengthChange": true,
+            "pageLength": 10,
+            "language": {
+                "processing": "Procesando...",
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "No se encontraron resultados",
+                "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+                "infoEmpty": "Mostrando 0 registros",
+                "infoFiltered": "(filtrado de _MAX_ registros)",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "search": "Buscar:"
+            }
+        });
+    });
 </script>
+
+<script>
+
+        // Script para confirmar eliminación
+        function confirmDelete() {
+            return confirm('¿Estás seguro de que deseas eliminar esta categoría?');
+        }
+    </script>
+</div>
 @endsection

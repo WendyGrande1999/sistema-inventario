@@ -11,8 +11,8 @@ class ProductoController extends Controller
     // Listar productos con sus categorías
     public function index()
     {
-        // Asegúrate de usar la relación correcta 'category'
-        $productos = Producto::with('category')->get();
+        $productos = Producto::with('category')->paginate(10);
+
         return view('productos.index', compact('productos'));
     }
 
