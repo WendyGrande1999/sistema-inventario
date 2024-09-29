@@ -17,7 +17,9 @@
         </div>
     @endif
 
-    <table class="table table-bordered">
+    <div class="card-body">
+        <div class="table-responsive">
+        <table id="my-table"  class="table table-bordered" width="100%" cellspacing="0">
         <thead>
             <tr>
               
@@ -69,5 +71,43 @@
             @endforeach
         </tbody>
     </table>
+        </div>
+    </div>
+   
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.0/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.0/js/dataTables.bootstrap5.min.js"></script>
+
+    
+    <!-- Script para inicializar DataTables -->
+    <script>
+    $(document).ready(function() {
+        $('#my-table').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "lengthChange": true,
+            "pageLength": 4,
+            "language": {
+                "processing": "Procesando...",
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "No se encontraron resultados",
+                "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+                "infoEmpty": "Mostrando 0 registros",
+                "infoFiltered": "(filtrado de _MAX_ registros)",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "search": "Buscar:"
+            }
+        });
+    });
+</script>
+
 </div>
 @endsection
