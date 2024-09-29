@@ -10,52 +10,81 @@
         
         <tbody>
             <tr>
-                <td>
-                <div class="card" style="width: 18rem;">
-                   <img  src="{{ asset('assets/playa.png')}}" class="card-img-top" alt="150px">
-
-                    <div class="card-body">
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                     </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-xl-3 col-md-6">
+                      <div class="card bg-primary text-white mb-4">
+                          <div class="card-body">Categorias</div>
+                          <div class="card-footer d-flex align-items-center justify-content-between">
+                              <a class="small text-white stretched-link" href="{{ route('categories.index') }}">Detalle de categorias</a>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                          </div>
                       </div>
+                  </div>
+                  <div class="col-xl-3 col-md-6">
+                      <div class="card bg-warning text-white mb-4">
+                          <div class="card-body">Proveedores</div>
+                          <div class="card-footer d-flex align-items-center justify-content-between">
+                              <a class="small text-white stretched-link" href="{{ route('suppliers.index') }}">Detalles de proveedores</a>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-xl-3 col-md-6">
+                      <div class="card bg-success text-white mb-4">
+                          <div class="card-body">Productos</div >
+                          <div class="card-footer d-flex align-items-center justify-content-between">
+                              <a class="small text-white stretched-link" href="{{ route('productos.index') }}">Detalles de productos</a>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-xl-3 col-md-6">
+                      <div class="card bg-danger text-white mb-4">
+                          <div class="card-body">Usuarios</div>
+                          <div class="card-footer d-flex align-items-center justify-content-between">
+                              <a class="small text-white stretched-link" href="#">Detalles de usuarios</a>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </tr>
+            <tr>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-xl-3 col-md-6">
+                      <div class="card bg-primary text-white mb-4">
+                          <div class="card-body">Inventario</div>
+                          <div class="card-footer d-flex align-items-center justify-content-between">
 
-                </td>
-                <td>
-                <div class="card" style="width: 18rem;">
-                <img  src="{{ asset('assets/playa.png')}}" class="card-img-top" alt="150px">
-
-                  <div class="card-body">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-
-
-                
-                <div class="card-body">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-               </div>
-
-                </td>
-
-                <td>
-                <div class="card" style="width: 18rem;">
-                <img  src="{{ asset('assets/playa.png')}}" class="card-img-top" alt="150px">
-
-                  <div class="card-body">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-               </div>
-
-                </td>
+                              <a class="small text-white stretched-link" href="{{ route('categories.index') }}">Detalle de inventario</a>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-xl-3 col-md-6">
+                      <div class="card bg-warning text-white mb-4">
+                          <div class="card-body">Entradas</div>
+                          <div class="card-footer d-flex align-items-center justify-content-between">
+                              <a class="small text-white stretched-link" href="{{ route('suppliers.index') }}">Detalles de entradas</a>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-xl-3 col-md-6">
+                      <div class="card bg-success text-white mb-4">
+                          <div class="card-body">Salidas</div>
+                          <div class="card-footer d-flex align-items-center justify-content-between">
+                              <a class="small text-white stretched-link" href="{{ route('productos.index') }}">Detalles de salidas</a>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
             </tr>
          
         </tbody>
     </table>
-
-    <!-- Botón para cerrar sesión -->
-    <form action="{{ route('logout') }}" method="POST" class="mt-4">
-        @csrf
-        <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
-    </form>
 </div>
 @endsection

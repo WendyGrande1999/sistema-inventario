@@ -3,7 +3,7 @@
     <ul class="nav flex-column">
         <br>
         <li class="nav-item">
-            <a href="/inventory/products" class="nav-link text-white d-flex">
+            <a href="#" class="nav-link text-white d-flex">
                 <i class="bi bi-list me-2"></i>
                 <span>MENÚ</span>
             </a>

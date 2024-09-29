@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+Prueba de subir cambios a git
 @section('content')
 <div class="container">
     <h1>Agregar usuario</h1>
