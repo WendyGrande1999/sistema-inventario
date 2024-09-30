@@ -18,9 +18,13 @@
 
         </div>
     </div>
+    
 
 <br>
-    <a href="{{ route('entradas.index') }}" class="btn btn-secondary mb-3">Volver a la Lista</a>
+<div class="mt-3">
+    <a href="{{ route('entradas.index') }}" class="btn btn-secondary">Volver a la Lista</a>
+    <a href="{{ route('entradas.pdf', $entrada->id) }}" class="btn btn-primary">Descargar PDF</a>
+</div>
 
 
 </div>

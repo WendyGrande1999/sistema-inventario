@@ -28,7 +28,7 @@
             <div class="col-md-9 col-lg-10 p-0">
                 <!-- Encabezado -->
 
-                <header class="bg-light p-3">
+                <header class="bg-bg-dark p-0">
                 @include('partials.nav')
                 </header>
 

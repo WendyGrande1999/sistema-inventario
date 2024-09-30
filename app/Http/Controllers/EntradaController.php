@@ -1,13 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Models\Entrada;
 use App\Models\Producto;
 use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+
+
+
 
 class EntradaController extends Controller
 {
@@ -112,6 +115,18 @@ class EntradaController extends Controller
         }
 
     }
+
+
+
+    public function generarPdf($id)
+    {
+    $entrada = Entrada::with(['producto', 'proveedor', 'usuario'])->findOrFail($id);
+    $pdf = PDF::loadView('entradas.show_pdf', compact('entrada'));
+    return $pdf->download('entrada_' . $id . '.pdf');
+    }
+
+
+   
 
     public function destroy(Entrada $entrada)
     {

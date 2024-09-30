@@ -1,5 +1,6 @@
 <?php
 
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
@@ -9,6 +10,8 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\EntradaController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +24,7 @@ use App\Http\Controllers\ResetPasswordController;
 */
 
 Route::get('/', function () {
+   
     return view('auth.login'); // Redirige al formulario de inicio de sesión
 });
 
@@ -78,6 +82,10 @@ Route::get('password/reset/{token}', [ResetPasswordController::class, 'showReset
 // Ruta para manejar la solicitud de restablecimiento de contraseña
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])
     ->name('password.update');
+
+
+Route::get('/entradas/{id}', [EntradaController::class, 'generarPdf'])->name('entradas.pdf');
+
 
 
 
