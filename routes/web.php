@@ -31,6 +31,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
@@ -42,6 +44,8 @@ Route::resource('categories', CategoryController::class);
 Route::resource('suppliers', SupplierController::class);
 Route::resource('productos', ProductoController::class);
 Route::resource('entradas', EntradaController::class);
+Route::get('productos/categoria/{category_id}', [EntradaController::class, 'getProductosByCategoria'])->name('productos.categoria');
+
 
 Route::get('/categories/search', [CategoryController::class, 'search'])->name('categories.search');
 Route::post('/admin/users', [UserController::class, 'store'])->name('users.store');
@@ -84,7 +88,8 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])
     ->name('password.update');
 
 
-Route::get('/entradas/{id}', [EntradaController::class, 'generarPdf'])->name('entradas.pdf');
+Route::get('/entradas/{id}/pdf', [EntradaController::class, 'generarPdf'])->name('entradas.pdf');
+
 
 
 

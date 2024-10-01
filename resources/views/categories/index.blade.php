@@ -38,12 +38,12 @@
 
                         </td>
                     <td>
-                     
-                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" onsubmit="return confirmDelete()" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                        </form>
+
+                        <form id="delete-entry-form" action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display: inline;">
+                         @csrf
+                        @method('DELETE')
+                        <button onclick="eliminarEntrada(event)" type="button" class="btn btn-danger btn-sm">Eliminar</button>
+                       </form>
                     
                     </td>
 
@@ -65,6 +65,28 @@
      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.0/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.0/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+function eliminarEntrada(event) {
+    event.preventDefault(); // Evitar el envío automático del formulario
+
+    Swal.fire({
+        title: '¿Estás seguro que deseas eliminar este registro?',
+        text: '¡No podrás revertir esta acción!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Enviar el formulario de eliminación
+            document.getElementById('delete-entry-form').submit();
+        }
+    });
+}
+</script>
 
     
     <!-- Script para inicializar DataTables -->

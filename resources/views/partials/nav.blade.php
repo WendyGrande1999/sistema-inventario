@@ -23,8 +23,7 @@
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li>
                     <a class="dropdown-item" href="{{ route('profile.show') }}">
-                    <img class="img-profile rounded-circle"
-                    src="img/undraw_profile.svg"></i> Mi Perfil
+                    </i> Mi Perfil
                     </a>
                 </li>
                 <li><hr class="dropdown-divider"></li>

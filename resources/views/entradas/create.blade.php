@@ -20,13 +20,24 @@
 
         <div class="form-group">
           <strong>
+          <label for="category_id">Categoría</label>
+          </strong>
+          <select name="category_id" id="category_id" class="form-control" required>
+              <option value="">Seleccione una categoria</option>
+              @foreach ($categorias as $categoria)
+               <option value="{{ $categoria->id }}">{{ $categoria->name }}</option>
+            @endforeach
+            </select>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <strong>
           <label for="idproducto">Producto</label>
           </strong>
           <select name="idproducto" id="idproducto" class="form-control" required>
               <option value="">Seleccione un producto</option>
-              @foreach ($productos as $producto)
-                <option value="{{ $producto->id }}">{{ $producto->nombre }}</option>
-              @endforeach
+          
             </select>
         </div>
         <br>
@@ -99,6 +110,8 @@
     <button type="submit" class="btn btn-primary">Guardar Entrada</button>
   </form>
 
+
+
   <script>
       document.addEventListener('DOMContentLoaded', function() {
           const cantidadInput = document.getElementById('cantidad');
@@ -115,5 +128,30 @@
           precioUnidadInput.addEventListener('input', calcularSaldoCompra);
       });
   </script>
+  <script>
+    document.getElementById('category_id').addEventListener('change', function () {
+        const categoryId = this.value;
+
+        if (categoryId) {
+            fetch(`/productos/categoria/${categoryId}`)
+                .then(response => response.json())
+                .then(data => {
+                    let productSelect = document.getElementById('idproducto');
+                    productSelect.innerHTML = '<option value="">Seleccione un producto</option>';
+                // Verificamos si el arreglo de productos está vacío
+               if (data.length === 0) {
+                // Agregamos una opción indicando que no hay productos
+                   productSelect.innerHTML += '<option value="">No hay productos disponibles para esta categoría</option>';
+                 } else {
+                // Si hay productos, los agregamos normalmente
+                data.forEach(product => {
+                    productSelect.innerHTML += `<option value="${product.id}">${product.nombre}</option>`;
+                    });
+                   }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    });
+</script>
 </div>
 @endsection

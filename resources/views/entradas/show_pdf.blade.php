@@ -33,7 +33,7 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Fecha de Ingreso: {{ $entrada->fecha_ingreso }}</h5>
+                <h3 class="card-title">Fecha de Ingreso: {{ $entrada->fecha_ingreso }}</h3>
                 <p class="card-text"><strong>Producto:</strong> {{ $entrada->producto->nombre }}</p>
                 <p class="card-text"><strong>Proveedor:</strong> {{ $entrada->proveedor->name }}</p>
                 <p class="card-text"><strong>Usuario:</strong> {{ $entrada->usuario->name }}</p>

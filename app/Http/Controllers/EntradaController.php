@@ -5,6 +5,7 @@ use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Models\Entrada;
 use App\Models\Producto;
 use App\Models\Supplier;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -21,12 +22,14 @@ class EntradaController extends Controller
     }
 
     public function create()
+
     {
         $productos = Producto::all();
+        $categorias = Category::all();
         $proveedores = Supplier::all();
         $usuarios = User::all();
         $user = auth()->user();
-        return view('entradas.create', compact('productos', 'proveedores', 'user'));
+        return view('entradas.create', compact('productos', 'proveedores', 'user', 'categorias' ));
     }
 
     public function store(Request $request)
@@ -122,6 +125,7 @@ class EntradaController extends Controller
     {
     $entrada = Entrada::with(['producto', 'proveedor', 'usuario'])->findOrFail($id);
     $pdf = PDF::loadView('entradas.show_pdf', compact('entrada'));
+    
     return $pdf->download('entrada_' . $id . '.pdf');
     }
 
@@ -137,4 +141,10 @@ class EntradaController extends Controller
             return redirect()->route('entradas.index')->with('error', 'No se puede eliminar esta entrada.');
         }
     }
+
+    public function getProductosByCategoria($category_id)
+   {
+    $productos = Producto::where('category_id', $category_id)->get();
+    return response()->json($productos);
+   }
 }
