@@ -1,12 +1,9 @@
 <!-- resources/views/layouts/navbar.blade.php -->
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark menu-horizontal" >
+<nav class=" navbar navbar-expand-sm navbar-dark bg-dark menu-horizontal col-md-6 col-sm-12" >
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3 alinear-texto" href="/home" >Sistema de Inventario Hojas Eco Villas</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    <a class="navbar-brand ps-5 alinear-texto" href="/home" >SI Hojas Eco Villas</a>
     <!-- Sidebar Toggle-->
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto">
         <!-- Otras opciones de navegación -->

@@ -15,7 +15,6 @@
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
-<div class="card-body">
     <div class="table-responsive">
     <table id="my-table"  class="table table-bordered" width="100%" cellspacing="0">
         <thead>
@@ -39,13 +38,13 @@
                         </td>
                     <td>
 
-                       
+
                        <form id="delete-entry-form-{{ $category->id }}" action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display: inline;">
                  @csrf
                @method('DELETE')
                <button onclick="eliminarEntrada(event, {{ $category->id }})" type="button" class="btn btn-danger btn-sm">Eliminar</button>
                </form>
-                    
+
                     </td>
 
                 </tr>
@@ -57,9 +56,8 @@
         </tbody>
     </table>
     </div>
-</div>
 
-   
+
 
 
      <!-- Scripts -->
@@ -89,7 +87,7 @@ function eliminarEntrada(event, categoryId) {
 }
 </script>
 
-    
+
     <!-- Script para inicializar DataTables -->
     <script>
     $(document).ready(function() {

@@ -1,5 +1,5 @@
 <!-- resources/views/partials/sidebar.blade.php -->
-<aside id="sidebar" class="col-lg-2 bg-dark p-0 vh-100">
+<aside id="sidebar" class="col-md-6 col-sm-12 bg-dark p-0 vh-100">
     <div class="d-flex">
         <button class="toggle-btn" type="button">
             <i class="lni lni-grid-alt"></i>
