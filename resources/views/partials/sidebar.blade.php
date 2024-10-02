@@ -1,146 +1,128 @@
 <!-- resources/views/partials/sidebar.blade.php -->
-<nav class="sidebar bg-dark vh-100">
-    <ul class="nav flex-column">
-        <br>
-        <li class="nav-item">
-            <a href="#" class="nav-link text-white d-flex">
-                <i class="bi bi-list me-2"></i>
-                <span>MENÚ</span>
-            </a>
-        </li>
-        <br>
-        <br>
-
-        <li class="nav-item">
-            <a href="/home" class="nav-link text-white d-flex">
-                <i class="bi bi-house me-2"></i>
+<aside id="sidebar" class="col-lg-2 bg-dark p-0 vh-100">
+    <div class="d-flex">
+        <button class="toggle-btn" type="button">
+            <i class="lni lni-grid-alt"></i>
+        </button>
+        <div class="sidebar-logo">
+            <a href="#">Hojas Eco Villas</a>
+        </div>
+    </div>
+    <ul class="sidebar-nav">
+        <li class="sidebar-item">
+            <a href="/home" class="sidebar-link">
+                <i class="lni lni-agenda"></i>
                 <span>Inicio</span>
             </a>
         </li>
         @role('admin')
-      
-      
-        <li class="nav-item">
-            <a href="/admin/users" class="nav-link text-white d-flex align-items-center">
-                <i class="bi bi-person me-2"></i>
-                <span>Gestión de usuarios</span>
-            </a>
-        </li>
-       
-        <li class="nav-item">
-            <a href="/categories" class="nav-link text-white d-flex align-items-center">
-                <i class="bi bi-tags me-2"></i>
-                <span>Categorías</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('suppliers.index') }}" class="nav-link text-white d-flex align-items-center">
-                <i class="bi bi-truck me-2"></i>
-                <span>Proveedores</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('productos.index') }}" class="nav-link text-white d-flex">
-                <i class="bi bi-box-seam me-2"></i>
-                <span>Productos</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="/inventory/stock" class="nav-link text-white d-flex align-items-center">
-                <i class="bi bi-boxes me-2"></i>
-                <span>Stock</span>
-            </a>
-        </li>
+            <li class="sidebar-item">
+                <a href="/admin/users" class="sidebar-link">
+                    <i class="bi bi-person me-2"></i>
+                    <span>Gestión de usuarios</span>
+                </a>
+            </li>
 
-        <!-- Gestión de existencias con submenú -->
-        <li class="nav-item">
-            <a class="nav-link text-white d-flex align-items-center" data-bs-toggle="collapse" href="#stockSubmenu" role="button" aria-expanded="false" aria-controls="stockSubmenu">
-                <i class="bi bi-cart-check me-2"></i>
-                <span>Gestión de existencias</span>
-                <i class="bi bi-chevron-down ms-auto"></i> <!-- Indicador de colapso -->
-            </a>
-            <ul class="collapse list-unstyled ps-3" id="stockSubmenu">
-                <li class="nav-item">
-                    <a href="{{ route('entradas.index') }}" class="nav-link text-white d-flex align-items-center">
-                        <i class="bi bi-box-arrow-in-right me-2"></i>
-                        <span>Entradas</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/inventory/stock/exits" class="nav-link text-white d-flex align-items-center">
-                        <i class="bi bi-box-arrow-right me-2"></i>
-                        <span>Salidas</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+            <li class="sidebar-item">
+                <a href="/categories" class="sidebar-link">
+                    <i class="bi bi-tags me-2"></i>
+                    <span>Categorías</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="{{ route('suppliers.index') }}" class="sidebar-link">
+                    <i class="bi bi-truck me-2"></i>
+                    <span>Proveedores</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="{{ route('productos.index') }}" class="sidebar-link">
+                    <i class="bi bi-box-seam me-2"></i>
+                    <span>Productos</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="/inventory/stock" class="sidebar-link">
+                    <i class="bi bi-boxes me-2"></i>
+                    <span>Stock</span>
+                </a>
+            </li>
 
-        <li class="nav-item">
-            <a href="/inventory/reports" class="nav-link text-white d-flex align-items-center">
-                <i class="bi bi-graph-up me-2"></i>
-                <span>Reportes</span>
-            </a>
-        </li>
+            <!-- Gestión de existencias con submenú -->
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                    data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
+                    <i class="bi bi-cart-check me-2"></i>
+                    <span>Gestion de existencias</span>
+                </a>
+                <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item" class="bi bi-box-arrow-in-right me-2">
+                        <a href="{{ route('entradas.index') }}" class="sidebar-link">Entradas</a>
+                    </li>
+                    <li class="sidebar-item" class="bi bi-box-arrow-right me-2">
+                        <a href="/inventory/stock/exits" class="sidebar-link">Salidas</a>
+                    </li>
+                </ul>
+            </li>
 
+
+            <li class="sidebar-item">
+                <a href="/inventory/reports" Class="sidebar-link">
+                    <i class="bi bi-graph-up me-2"></i>
+                    <span>Reportes</span>
+                </a>
+            </li>
         @endrole
 
         @role('escritor')
-       
-        <li class="nav-item">
-            <a href="/categories" class="nav-link text-white d-flex align-items-center">
-                <i class="bi bi-tags me-2"></i>
-                <span>Categorías</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('suppliers.index') }}" class="nav-link text-white d-flex align-items-center">
-                <i class="bi bi-truck me-2"></i>
-                <span>Proveedores</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('productos.index') }}" class="nav-link text-white d-flex">
-                <i class="bi bi-box-seam me-2"></i>
-                <span>Productos</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="/inventory/stock" class="nav-link text-white d-flex align-items-center">
-                <i class="bi bi-boxes me-2"></i>
-                <span>Stock</span>
-            </a>
-        </li>
+            <li class="sidebar-item">
+                <a href="/categories" class="sidebar-link">
+                    <i class="bi bi-tags me-2"></i>
+                    <span>Categorías</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="{{ route('suppliers.index') }}" class="sidebar-link">
+                    <i class="bi bi-truck me-2"></i>
+                    <span>Proveedores</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('productos.index') }}" class="nav-link text-white d-flex">
+                    <i class="bi bi-box-seam me-2"></i>
+                    <span>Productos</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="/inventory/stock" class="sidebar-link">
+                    <i class="bi bi-boxes me-2"></i>
+                    <span>Stock</span>
+                </a>
+            </li>
 
-        <!-- Gestión de existencias con submenú -->
-        <li class="nav-item">
-            <a class="nav-link text-white d-flex align-items-center" data-bs-toggle="collapse" href="#stockSubmenu" role="button" aria-expanded="false" aria-controls="stockSubmenu">
-                <i class="bi bi-cart-check me-2"></i>
-                <span>Gestión de existencias</span>
-                <i class="bi bi-chevron-down ms-auto"></i> <!-- Indicador de colapso -->
-            </a>
-            <ul class="collapse list-unstyled ps-3" id="stockSubmenu">
-                <li class="nav-item">
-                    <a href="{{ route('entradas.index') }}" class="nav-link text-white d-flex align-items-center">
-                        <i class="bi bi-box-arrow-in-right me-2"></i>
-                        <span>Entradas</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/inventory/stock/exits" class="nav-link text-white d-flex align-items-center">
-                        <i class="bi bi-box-arrow-right me-2"></i>
-                        <span>Salidas</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+            <!-- Gestión de existencias con submenú -->
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                    data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
+                    <i class="lni lni-protection"></i>
+                    <span>Gestion de existencias</span>
+                </a>
+                <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item" class="bi bi-box-arrow-in-right me-2">
+                        <a href="{{ route('entradas.index') }}" class="sidebar-link">Entradas</a>
+                    </li>
+                    <li class="sidebar-item" class="bi bi-box-arrow-right me-2">
+                        <a href="/inventory/stock/exits" class="sidebar-link">Salidas</a>
+                    </li>
+                </ul>
+            </li>
 
-        <li class="nav-item">
-            <a href="/inventory/reports" class="nav-link text-white d-flex align-items-center">
-                <i class="bi bi-graph-up me-2"></i>
-                <span>Reportes</span>
-            </a>
-        </li>
-
+            <li class="sidebar-item">
+                <a href="/inventory/reports" Class="sidebar-link">
+                    <i class="bi bi-graph-up me-2"></i>
+                    <span>Reportes</span>
+                </a>
+            </li>
         @endrole
         <br>
         <br>
@@ -148,23 +130,42 @@
         <br>
 
         @role('admin')
-        <li class="nav-item">
-            <a href="/inventory/reports" class="nav-link text-white d-flex align-items-center">
-              
+        <div class="sidebar-footer">
+            <a href="#" class="sidebar-link">
+                <i class="bi bi-person me-2"></i>
                 <span>ADMIN</span>
             </a>
-        </li>
+        </div>
         @endrole
 
         @role('escritor')
-        <li class="nav-item">
-            <a href="/inventory/reports" class="nav-link text-white d-flex align-items-center">
-              
-                <span>EDITOR</span>
-            </a>
-        </li>
+            <div class="sidebar-footer">
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-person me-2"></i>
+                    <span>EDITOR</span>
+                </a>
+            </div>
         @endrole
 
 
     </ul>
-</nav>
+</aside>
+<script>
+    // Código JavaScript para expandir y contraer el menú
+    document.addEventListener("DOMContentLoaded", function() {
+        const hamBurger = document.querySelector(".toggle-btn");
+
+        // Verifica si el botón existe antes de añadir el evento
+        if (hamBurger) {
+            hamBurger.addEventListener("click", toggleSidebar);
+        }
+
+        function toggleSidebar() {
+            // Cambia la clase del sidebar para expandir o contraer
+            const sidebar = document.querySelector("#sidebar");
+            if (sidebar) {
+                sidebar.classList.toggle("expand");
+            }
+        }
+    });
+</script>
