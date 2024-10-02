@@ -39,11 +39,12 @@
                         </td>
                     <td>
 
-                        <form id="delete-entry-form" action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display: inline;">
-                         @csrf
-                        @method('DELETE')
-                        <button onclick="eliminarEntrada(event)" type="button" class="btn btn-danger btn-sm">Eliminar</button>
-                       </form>
+                       
+                       <form id="delete-entry-form-{{ $category->id }}" action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display: inline;">
+                 @csrf
+               @method('DELETE')
+               <button onclick="eliminarEntrada(event, {{ $category->id }})" type="button" class="btn btn-danger btn-sm">Eliminar</button>
+               </form>
                     
                     </td>
 
@@ -68,7 +69,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-function eliminarEntrada(event) {
+function eliminarEntrada(event, categoryId) {
     event.preventDefault(); // Evitar el envío automático del formulario
 
     Swal.fire({
@@ -82,7 +83,7 @@ function eliminarEntrada(event) {
     }).then((result) => {
         if (result.isConfirmed) {
             // Enviar el formulario de eliminación
-            document.getElementById('delete-entry-form').submit();
+            document.getElementById(`delete-entry-form-${categoryId}`).submit();
         }
     });
 }
