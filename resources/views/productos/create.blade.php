@@ -4,7 +4,7 @@
 <div class="container">
     <h1>Crear Producto</h1>
 
-    <form action="{{ route('productos.store') }}" method="POST">
+    <form action="{{ route('productos.store') }}" enctype="multipart/form-data" method="POST">
         @csrf
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
@@ -36,6 +36,13 @@
             @enderror
         </div>
 
+        <div class="form-group">
+        <label for="imagen">Imagen</label>
+        <input type="file" class="form-control" name="imagen" id="imagen" accept="image/*">
+        </div>
+
+<br>
+<br>
         <button type="submit" class="btn btn-success">Guardar</button>
         <a href="{{ route('productos.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
