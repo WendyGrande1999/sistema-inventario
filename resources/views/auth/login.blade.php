@@ -28,7 +28,7 @@
     <section class="login_section d-flex align-items-center justify-content-center">
         <div class="login_Box shadow rounded-1">
             <div class="logo text-center mb-4">
-                <img src="{{ asset('images/logoo.png')}}"  style="width: 70px; height: auto;" class="img-fluid" />
+                <img src="{{ asset('images/logoo.png')}}"  style="width: 90px; height: auto;" class="img-fluid" />
                 <h1 class="h3 pt-2 mt-1">Bienvenido</h1>
                 <p class="small_text">Por favor ingresa tus datos para iniciar sesión</p>
             </div>
