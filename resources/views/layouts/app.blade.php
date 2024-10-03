@@ -22,7 +22,7 @@
 
     <!-- Incluir la navbar -->
 
-    <div class="container-fluid p-0">
+    <div class="container-fluid p-0 ">
         <div class="row">
             <div class="wrapper">
                 <!-- Menú lateral -->

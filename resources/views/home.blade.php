@@ -4,13 +4,13 @@
 @section('title', 'Inicio')
 
 @section('content')
-<div class="container my-4">
+<div class="container my-4" col-md-6 col-sm-12>
     <!-- Tabla para organizar los elementos con imágenes -->
     <table class="table table-bordered-none table-responsive">
-        
+
         <tbody>
             <tr>
-              <div class="card-body">
+              <div class="card-body" >
                 <div class="row">
                   <div class="col-xl-3 col-md-6">
                       <div class="card bg-primary text-white mb-4">
@@ -83,7 +83,7 @@
                   </div>
               </div>
             </tr>
-         
+
         </tbody>
     </table>
 </div>
