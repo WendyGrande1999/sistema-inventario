@@ -1,7 +1,7 @@
 <!-- resources/views/layouts/navbar.blade.php -->
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark menu-horizontal" >
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="index.html">Hostal Hojas Eco Villa</a>
+    <a class="navbar-brand ps-3 alinear-texto" href="/home" >Sistema de Inventario Hojas Eco Villas</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -15,7 +15,7 @@
         @auth
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-               
+
             <i class="bi bi-person me-2"></i>
 
                 {{ Auth::user()->name }}
