@@ -10,7 +10,7 @@
             {{ session('success') }}
         </div>
     @endif
-    
+
     @if (session('error'))
         <div class="alert alert-danger">
             {{ session('error') }}
@@ -90,7 +90,7 @@ function eliminarEntrada(event, productoId) {
 }
 
 </script>
-    
+
     <!-- Script para inicializar DataTables -->
     <script>
     $(document).ready(function() {
@@ -120,16 +120,16 @@ function eliminarEntrada(event, productoId) {
     });
 </script>
 
-    
+
     </div>
     </div>
-   
-    
 
 
-   
 
-        
+
+
+
+
 
 
 </div>

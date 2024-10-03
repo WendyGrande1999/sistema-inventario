@@ -1,0 +1,354 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root {
+    --primaryClr: #0d6efd;
+    --secondaryClr: #f8f9fa;
+    --textClr: #212529;
+    --white: #ffffff;
+    --textFont: 16px;
+    --smallFont: 14px;
+    --fontFamily: "Roboto", sans-serif;
+}
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    font-family: var(--fontFamily);
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: "";
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+header .navbar {
+    background: var(--primaryClr);
+}
+
+/* logo image color change */
+
+header .navbar .navbar-brand img {
+    -webkit-filter: brightness() invert(1);
+    filter: brightness() invert(1);
+}
+
+header .navbar .navbar-collapse .navbar-nav .nav-item .nav-link {
+    padding: 25px 10px;
+    font-size: var(--textFont);
+    text-transform: uppercase;
+}
+
+header .navbar .navbar-collapse .navbar-nav .dropdown:hover .dropdown-menu li:hover .dropdown-item {
+    padding-left: 20px;
+    background: var(--primaryClr);
+    color: var(--white);
+}
+
+header .navbar .navbar-collapse .navbar-nav .dropdown .dropdown-menu li .dropdown-item {
+    font-size: var(--textFont);
+    color: var(--textClr);
+    font-family: var(--fontFamily);
+    transition: all 0.3s ease-in-out;
+    text-transform: capitalize;
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+header .header_action .avatar {
+    border: none;
+    background: none;
+}
+
+header .header_action .avatar img {
+    width: 2.48rem;
+    border-radius: 50%;
+}
+
+header .header_action .dropdown-toggle::after {
+    display: none;
+}
+
+header .header_action .btn-group .dropdown-menu::before {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 14px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--white);
+    transform: translateY(-50%) rotate(45deg);
+    z-index: -1;
+}
+
+header .navbar .navbar-collapse .navbar-nav .nav-item .nav-link {
+    color: var(--white);
+}
+
+header .navbar .navbar-collapse .navbar-nav .nav-item:hover .nav-link {
+    background: #fca72a;
+    color: black;
+}
+
+/* mobile responsive css */
+
+@media only screen and (min-width: 991px) {
+
+    header .navbar .navbar-collapse .navbar-nav .dropdown:hover .dropdown-menu,
+    header .navbar .navbar-collapse .navbar-nav .dropdown .dropdown-menu.show {
+        display: block;
+        margin-top: 0;
+        min-width: 220px;
+        padding: 0;
+        left: unset !important;
+        border: none;
+        transition: all 0.5s ease;
+    }
+
+    header .navbar .navbar-collapse .navbar-nav .dropdown .dropdown-menu::before {
+        content: "";
+        position: absolute;
+        display: block;
+        top: 0;
+        right: 14px;
+        width: 10px;
+        height: 10px;
+        background-color: var(--white);
+        transform: translateY(-50%) rotate(45deg);
+        z-index: -1;
+    }
+
+}
+
+@media only screen and (max-width: 991px) {
+    header .navbar-collapse {
+        position: absolute;
+        background: var(--secondaryClr);
+        width: 98%;
+        top: 100%;
+        z-index: 999;
+        border-top: 1px solid gainsboro;
+    }
+
+    header .navbar .navbar-collapse .navbar-nav .nav-item .nav-link,
+    header .navbar .navbar-collapse .navbar-nav .dropdown .dropdown-menu li .dropdown-item {
+        color: var(--textClr);
+        font-size: var(--smallFont);
+        padding: 12px 10pz;
+    }
+
+    header .header_action .navbar-toggler {
+        border: 1px solid var(--white);
+        border-radius: 0 !important;
+        padding: 8px 10px;
+        color: var(--white)
+    }
+
+    header .header_action .navbar-toggler:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    header .header_action .navbar-toggler .fa-times,
+    header .header_action .navbar-toggler:not(.collapsed) .fa-bars {
+        display: none;
+    }
+
+    header .header_action .navbar-toggler:not(.collapsed) .fa-times {
+        display: block
+    }
+}
+
+
+
+@media only screen and (max-width: 480px) {
+    .navbar-brand img {
+        width: 150px !important;
+    }
+
+    .login_section .login_Box {
+        width: 25em;
+    }
+}
+
+a {
+    text-decoration: none;
+}
+
+.login_section {
+    height: 100vh;
+    background: url("../images/imagen de fondo.jpg");
+    opacity: 30px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-size: 100% 100%;
+}
+
+.login_section .login_Box {
+    background-color: #fffcfc8b;
+    width: 28em;
+    padding: 40px 30px;
+
+
+}
+
+.login_Box #eye-icon {
+    top: 18px;
+    right: 18px;
+    font-size: 20px;
+}
+
+.login_Box .small_text {
+    font-size: var(--smallFont);
+}
+
+.login_Box .form-control:focus {
+    outline: 0;
+    border: 5px solid var(--primaryClr);
+    box-shadow: none;
+}
+
+.login_Box .btn:focus {
+    outline: 0;
+
+    box-shadow: none;
+    opacity: 0.5;
+}
+
+
+.line {
+    height: 1px;
+    width: 31%;
+    background-color: #E0E0E0;
+    margin-top: 10px;
+}
+
+.or {
+    font-size: small;
+}

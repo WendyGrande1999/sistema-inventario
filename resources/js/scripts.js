@@ -1,18 +1,39 @@
+const eyeButton = document.querySelector("#eye-icon");
+const inputPass = document.querySelector("#password");
+const inputEmail = document.querySelector("#email");
 
-window.addEventListener('DOMContentLoaded', event => {
 
-    // Toggle the side navigation
-    const sidebarToggle = document.body.querySelector('#sidebarToggle');
-    if (sidebarToggle) {
-        // Uncomment Below to persist sidebar toggle between refreshes
-        // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
-        //     document.body.classList.toggle('sb-sidenav-toggled');
-        // }
-        sidebarToggle.addEventListener('click', event => {
-            event.preventDefault();
-            document.body.classList.toggle('sb-sidenav-toggled');
-            localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
-        });
+eyeButton.addEventListener("click", (e) => {
+    if (eyeButton.classList.contains("fa-eye")) {
+        eyeButton.classList.remove("fa-eye");
+        eyeButton.classList.add("fa-eye-slash");
+        inputPass.setAttribute("type", "text")
     }
+    else {
+        eyeButton.classList.remove("fa-eye-slash");
+        eyeButton.classList.add("fa-eye");
+        inputPass.setAttribute("type", "password")
+    }
+});
 
+
+const forms = document.querySelectorAll('.needs-validation');
+
+forms.forEach(form => {
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+        }
+        else {
+            console.log("email", inputEmail.value)
+            console.log("password", inputPass.value)
+
+
+
+        }
+
+
+    });
 });

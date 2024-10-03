@@ -1,137 +1,137 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <title>Title</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
 
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-        />
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-        <link rel="stylesheet" href="{{ asset('assets/estilos.css')}}">
-    </head>
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 
 
-    
- 
+    <link rel="stylesheet" href="{{ asset('assets/estilos.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/estilo_login.css') }}">
 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 
-    <body>
-    <section class="h-100 gradient-form" style="background-color: #eee;">
-  <div class="container py-5 h-100">
+    <!-- font-awesome icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
+</head>
 
+<body>
+    <section class="login_section d-flex align-items-center justify-content-center">
+        <div class="login_Box shadow rounded-1">
+            <div class="logo text-center mb-4">
+                <img src="{{ asset('images/logoo.png')}}"  style="width: 70px; height: auto;" class="img-fluid" />
+                <h1 class="h3 pt-2 mt-1">Bienvenido</h1>
+                <p class="small_text">Por favor ingresa tus datos para iniciar sesión</p>
+            </div>
 
-  <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+            <div class="d-flex justify-content-between mb-4">
+
+            </div>
+
+            <div </div>
+
+            </div>
+
+            <div class=" mb-4 d-flex">
+                <div class="line"></div>
+                <small class="or text-center px-2">Agrege la informacion corespondiente</small>
+                <div class="line"></div>
+            </div>
+
+            <form action="{{ route('login') }}" method="post"class="needs-validation" novalidate>
+                @csrf
+
+                <!-- Mostrar mensajes de error -->
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <div class="login_form">
+                    <div class="form-floating mb-4">
+                        <input type="email" class="form-control"  name="email" ="form2Example11" placeholder="nombre@gmail.com"
+                            required />
+                        <label for="email " class="small_text">
+                            Correo</label>
+                        <div class="invalid-feedback">
+                            Porfavor agrege un correo valido
                         </div>
-                    @endif
-    </div>
+                    </div>
 
-    
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-xl-10">
-        <div class="card rounded-3 text-black">
-          <div class="row g-0">
-            <div class="col-lg-6">
-              <div class="card-body p-md-5 mx-md-4">
+                    <div class="form-floating position-relative">
+                        <input type="password" name="password" class="form-control" id="form2Example22" placeholder="Password" required />
+                        <label for="password" class="small_text">Contraseña</label>
+                        <i id="eye-icon" class="fa fa-eye  position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;" aria-hidden="true"></i>
+                        <div class="invalid-feedback">
+                            Porfavor agrege la contraseña
+                        </div>
+                    </div>
 
-                <div class="text-center">
-                <h4 class="">SISTEMA DE INVENTARIO</h4>
-                <br>
-                  <img src="{{ asset('assets/imghostaleco villa.png')}}"
-                    style="width: 350px;" alt="logo">
-
-                    <br>
-                 
                 </div>
-                <br>
-                <br>
-                <br>
-                <form action="{{route('login')}}" method="post">
-                    @csrf
 
+                <div class="text-end mb-4 mt-2">
+                    <a class="text-end small_text link-primary" href="{{ route('password.request') }}">¿Olvidaste tu
+                        contraseña?</a>
 
+                </div>
 
-                                  <!-- Mostrar mensajes de error -->
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+                <button class="btn btn-primary w-100" type="submit">Iniciar Sesion</button>
+
+            </form>
         </div>
-    @endif
-                 
-                  
+    </section>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+    </script>
 
-                  <div data-mdb-input-init class="form-outline mb-4">
-                <strong>
-                <label class="form-label" for="form2Example11">Correo</label>
-                </strong>  
-                    <input type="email" name="email" id="form2Example11" class="form-control"
-                      placeholder="Correo electrónico" />
-                    
-                  </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
+    </script>
 
-                  <div data-mdb-input-init class="form-outline mb-4">
-                    <strong>
-                    <label class="form-label" for="form2Example22">Contraseña</label>
-                    </strong>
-                  
-                    <input type="password" name="password" id="form2Example22" class="form-control" />
-                   
-                  </div>
 
-                  <div class="text-center pt-1 mb-5 pb-1">
-                    <button  class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">Ingresar</button>
-                    
-                  </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous" defer>
+    </script>
 
-                  <div class="text-center pt-1 mb-5 pb-1">
-                  
-                    <a class="text-muted" href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
-                  </div>
+    <script src="{{ asset('js/scripts.js')}}"></script>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const eyeButton = document.getElementById('eye-icon'); // Cambia el ID si es necesario
+        const inputPass = document.getElementById('form2Example22'); // Cambia el ID si es necesario
 
-                </form>
+        // Función para alternar la visibilidad de la contraseña
+        const togglePasswordVisibility = () => {
+            if (eyeButton.classList.contains("fa-eye")) {
+                eyeButton.classList.remove("fa-eye");
+                eyeButton.classList.add("fa-eye-slash");
+                inputPass.setAttribute("type", "text");
+            } else {
+                eyeButton.classList.remove("fa-eye-slash");
+                eyeButton.classList.add("fa-eye");
+                inputPass.setAttribute("type", "password");
+            }
+        };
 
-              </div>
-            </div>
-            <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
-              <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-              <img src="{{ asset('assets/playa.png')}}"
-              style="width: 350px;" alt="logo">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
+        // Agregar evento de clic al botón de ojo
+        eyeButton.addEventListener("click", togglePasswordVisibility);
+    });
+</script>
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
-    </body>
+
+
 </html>

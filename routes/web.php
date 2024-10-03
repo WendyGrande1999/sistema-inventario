@@ -10,8 +10,6 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\EntradaController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,7 +22,7 @@ use App\Http\Controllers\ResetPasswordController;
 */
 
 Route::get('/', function () {
-   
+
     return view('auth.login'); // Redirige al formulario de inicio de sesión
 });
 
