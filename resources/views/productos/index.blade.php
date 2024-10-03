@@ -22,9 +22,10 @@
     <table id="my-table"  class="table table-bordered" width="100%" cellspacing="0">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>Código</th>
                 <th>Nombre</th>
                 <th>Descripción</th>
+                <th>Unidad medida</th>
                 <th>Categoría</th>
                 <th>Imagen</th>
                 <th>Acciones</th>
@@ -33,9 +34,10 @@
         <tbody>
             @foreach ($productos as $producto)
             <tr>
-                <td>{{ $producto->id }}</td>
+                <td>{{ $producto->codigo }}</td>
                 <td>{{ $producto->nombre }}</td>
                 <td>{{ $producto->descripcion }}</td>
+                <td>{{ $producto->unidad_medida }}</td>
                 <td>{{ $producto->category->name }}</td>
                 <td>
                     @if($producto->imagen)

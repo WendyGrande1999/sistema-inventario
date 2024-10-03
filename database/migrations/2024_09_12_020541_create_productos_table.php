@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
+            $table->string('codigo')->unique(); // Nuevo campo único
+            $table->string('unidad_medida'); // Nuevo campo para unidad de medida
             $table->string('nombre'); // Nombre del producto
             $table->text('descripcion')->nullable(); // Descripción del producto
             $table->unsignedBigInteger('category_id'); // Llave foránea

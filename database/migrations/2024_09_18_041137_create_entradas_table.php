@@ -14,7 +14,6 @@ return new class extends Migration
             $table->unsignedBigInteger('idproducto');
             $table->unsignedBigInteger('idproveedor');
             $table->unsignedBigInteger('idusuario');
-            $table->string('unidad_medida');
             $table->integer('cantidad');
             $table->decimal('precio_unidad', 10, 2);
             $table->decimal('saldo_compra', 10, 2);
