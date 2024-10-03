@@ -2,10 +2,17 @@
 
 @section('content')
 <div class="container">
-    <h1>Crear Producto</h1>
-
+ 
     <form action="{{ route('productos.store') }}" enctype="multipart/form-data" method="POST">
         @csrf
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Código</label>
+            <input type="number" name="codigo" class="form-control" id="codigo">
+            @error('codigo')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+      
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
             <input type="text" name="nombre" class="form-control" id="nombre" value="{{ old('nombre') }}">
@@ -22,7 +29,20 @@
             @enderror
         </div>
 
-
+        
+      <div class="col-md-6">
+        <div class="form-group">
+            <strong>
+            <label for="unidad_medida">Unidad de Medida</label>
+            </strong>
+            <select name="unidad_medida" id="unidad_medida" class="form-control" required>
+              <option value="">Seleccione unidad de medida</option>
+              <option value="Libra">Libra</option>
+              <option value="Onza">Onza</option>
+              <option value="Unidad">Unidad</option>
+              <option value="Cajas">Cajas</option>
+            </select>
+        </div>
 
         <div class="mb-3">
             <label for="category_id" class="form-label">Categoría</label>
@@ -41,8 +61,6 @@
         <input type="file" class="form-control" name="imagen" id="imagen" accept="image/*">
         </div>
 
-<br>
-<br>
         <button type="submit" class="btn btn-success">Guardar</button>
         <a href="{{ route('productos.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>

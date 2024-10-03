@@ -26,41 +26,40 @@ class ProductoController extends Controller
     }
 
     // Guardar un nuevo producto
-public function store(Request $request)
-{
-    // Validación de datos
-    $request->validate([
-        'nombre' => 'required|string|max:255',
-        'descripcion' => 'nullable|string',
-        'category_id' => 'required|exists:categories,id',
-        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    public function store(Request $request)
+    {
+        // Validación de datos
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'category_id' => 'required|exists:categories,id',
+            'codigo' => 'required|string|unique:productos,codigo|max:255',
+            'unidad_medida' => 'required|string|max:255',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    // Inicializa el nombre de la imagen
-    $imageName = null;
+        // Inicializa el nombre de la imagen
+        $imageName = null;
 
-    // Manejo de la subida de imagen
-    if ($request->hasFile('imagen')) {
-        $imageName = time() . '.' . $request->imagen->extension();  
-        $request->imagen->move(public_path('images'), $imageName); // Mueve la imagen a la carpeta 'images'
+        // Manejo de la subida de imagen
+        if ($request->hasFile('imagen')) {
+            $imageName = time() . '.' . $request->imagen->extension();  
+            $request->imagen->move(public_path('images'), $imageName); // Mueve la imagen a la carpeta 'images'
+        }
+
+        // Crear el producto
+        Producto::create([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'category_id' => $request->category_id,
+            'codigo' => $request->codigo,
+            'unidad_medida' => $request->unidad_medida,
+            'imagen' => $imageName ? 'images/' . $imageName : null, // Guarda la ruta relativa o null si no se subió una imagen
+        ]);
+
+        // Redirigir a la lista de productos
+        return redirect()->route('productos.index')->with('success', 'Producto creado exitosamente.');
     }
-
-    // Crear el producto
-    Producto::create([
-        'nombre' => $request->nombre,
-        'descripcion' => $request->descripcion,
-        'category_id' => $request->category_id,
-        'imagen' => $imageName ? 'images/' . $imageName : null // Guarda la ruta relativa o null si no se subió una imagen
-    ]);
-
-    // Redirigir a la lista de productos
-    return redirect()->route('productos.index')->with('success', 'Producto creado exitosamente.');
-}
-
-
-
-
-
 
     // Mostrar un producto específico
     public function show(Producto $producto)
@@ -85,37 +84,47 @@ public function store(Request $request)
             'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' // Validación para la imagen
+            'codigo' => 'required|string|unique:productos,codigo,' . $producto->id . '|max:255', // Asegurar que sea único, excepto el propio registro
+            'unidad_medida' => 'required|string|max:255',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validación para la imagen
         ]);
 
-         // Manejo de la subida de imagen
-    if ($request->hasFile('imagen')) {
-        $imageName = time().'.'.$request->imagen->extension();  
-        $request->imagen->move(public_path('images'), $imageName);
-    } else {
-        $imageName = $producto->imagen; // Mantener la imagen actual si no se subió una nueva
-    }
+        // Manejo de la subida de imagen
+        if ($request->hasFile('imagen')) {
+            $imageName = time() . '.' . $request->imagen->extension();
+            $request->imagen->move(public_path('images'), $imageName);
+        } else {
+            $imageName = $producto->imagen; // Mantener la imagen actual si no se subió una nueva
+        }
 
-    // Actualizar el producto
-    $producto->update($request->all() + ['imagen' => $imageName]);
+        // Actualizar el producto
+        $producto->update([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'category_id' => $request->category_id,
+            'codigo' => $request->codigo,
+            'unidad_medida' => $request->unidad_medida,
+            'imagen' => $imageName,
+        ]);
 
         // Redirigir a la lista de productos
         return redirect()->route('productos.index')->with('success', 'Producto actualizado exitosamente.');
     }
 
+    // Eliminar un producto existente
     public function destroy(Producto $producto)
     {
         // Verificar si el producto está asociado a alguna entrada
         $entradasCount = $producto->entradas()->count();
-    
+
         if ($entradasCount > 0) {
             return redirect()->route('productos.index')->with('error', 'No se puede eliminar este producto porque está asociado a una o más entradas.');
         }
-    
+
         try {
             // Eliminar el producto
             $producto->delete();
-    
+
             // Redirigir a la lista de productos
             return redirect()->route('productos.index')->with('success', 'Producto eliminado exitosamente.');
         } catch (\Exception $e) {
@@ -123,5 +132,4 @@ public function store(Request $request)
             return redirect()->route('productos.index')->with('error', 'Error al intentar eliminar el producto: ' . $e->getMessage());
         }
     }
-
 }

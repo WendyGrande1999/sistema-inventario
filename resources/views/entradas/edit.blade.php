@@ -48,17 +48,7 @@
                 </div>
                 <br>
 
-                <div class="form-group">
-                    <strong>
-                    <label for="unidad_medida">Unidad de Medida</label>
-                    </strong>
-                    <select name="unidad_medida" id="unidad_medida" class="form-control" required>
-                        <option value="Libra" {{ $entrada->unidad_medida == 'Libra' ? 'selected' : '' }}>Libra</option>
-                        <option value="Onza" {{ $entrada->unidad_medida == 'Onza' ? 'selected' : '' }}>Onza</option>
-                        <option value="Unidad" {{ $entrada->unidad_medida == 'Unidad' ? 'selected' : '' }}>Unidad</option>
-                        <option value="Cajas" {{ $entrada->unidad_medida == 'Cajas' ? 'selected' : '' }}>Cajas</option>
-                    </select>
-                </div>
+                
             </div>
 
             <div class="col-md-6">

@@ -40,7 +40,6 @@ class EntradaController extends Controller
                 'idproducto' => 'required|exists:productos,id',
                 'idproveedor' => 'required|exists:suppliers,id',
                 'idusuario' => 'required|exists:users,id',
-                'unidad_medida' => 'required|string|max:255',
                 'cantidad' => 'required|integer|min:1',
                 'precio_unidad' => 'required|numeric|min:0',
                 
@@ -56,7 +55,6 @@ class EntradaController extends Controller
             'idproducto' => $request->input('idproducto'),
             'idproveedor' => $request->input('idproveedor'),
             'idusuario' => $request->input('idusuario'),
-            'unidad_medida' => $request->input('unidad_medida'),
             'cantidad' => $request->input('cantidad'),
             'precio_unidad' => $request->input('precio_unidad'),
             'saldo_compra' => $saldo_compra, // Guardar el saldo calculado
@@ -90,7 +88,6 @@ class EntradaController extends Controller
             'fecha_ingreso' => 'required|date',
             'idproducto' => 'required|exists:productos,id',
             'idproveedor' => 'required|exists:suppliers,id',
-            'unidad_medida' => 'required|string|max:255',
             'cantidad' => 'required|integer|min:1',
             'precio_unidad' => 'required|numeric|min:0',
           
@@ -106,7 +103,6 @@ class EntradaController extends Controller
                 'fecha_ingreso' => $request->input('fecha_ingreso'),
                 'idproducto' => $request->input('idproducto'),
                 'idproveedor' => $request->input('idproveedor'),
-                'unidad_medida' => $request->input('unidad_medida'),
                 'cantidad' => $request->input('cantidad'),
                 'precio_unidad' => $request->input('precio_unidad'),
                 'saldo_compra' => $saldo_compra, // Guardar el nuevo saldo calculado
