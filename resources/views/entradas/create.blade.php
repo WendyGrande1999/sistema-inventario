@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container">
- 
   <h1>Agregar Nueva Entrada</h1>
   <br>
 
@@ -61,15 +60,20 @@
             <label for="idusuario">Usuario</label>
           </strong>
           <div class="form-group">
-            <input type="text" name="usuario_mostrar" id="usuario_mostrar" class="form-control" value="{{ $user->name }}" disabled>
+            <input type="text" name="idusuario" id="idusuario" class="form-control" value="{{ $user->name }}" disabled>
             <input type="hidden" name="idusuario" value="{{ $user->id }}">
           </div>
         </div>
-        
       </div>
 
       <!-- Segunda columna -->
       <div class="col-md-6">
+        <div class="form-group">
+        <label for="unidad_medida"><strong>Unidad de Medida</strong></label>
+        <input type="text" name="unidad_medida" id="unidad_medida" class="form-control" readonly>
+        </div>
+        <br>
+
         <div class="form-group">
           <strong>
             <label for="cantidad">Cantidad</label>
@@ -96,11 +100,15 @@
     </div>
 
     <br>
-    
-
-    <br>
     <button type="submit" class="btn btn-primary">Guardar Entrada</button>
   </form>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.0/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.0/js/dataTables.bootstrap5.min.js"></script>
+    
+
 
   <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -117,6 +125,27 @@
           cantidadInput.addEventListener('input', calcularSaldoCompra);
           precioUnidadInput.addEventListener('input', calcularSaldoCompra);
       });
+  </script>
+  <script>
+    document.getElementById('idproducto').addEventListener('change', function () {
+      const productoId = this.value;
+
+      if (productoId) {
+          fetch(`/api/productos/${productoId}`)
+              .then(response => response.json())
+              .then(data => {
+                  if (data) {
+                      document.getElementById('unidad_medida').value = data.unidad_medida;
+                  } else {
+                      document.getElementById('unidad_medida').value = '';
+                  }
+              })
+
+              .catch(error => console.error('Error:', error));
+      } else {
+          document.getElementById('unidad_medida').value = '';
+      }
+    });
   </script>
   <script>
     document.getElementById('category_id').addEventListener('change', function () {

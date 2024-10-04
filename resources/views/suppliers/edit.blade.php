@@ -21,6 +21,11 @@
         </div>
 
         <div class="mb-3">
+            <label for="contacto" class="form-label">Nombre contacto</label>
+            <input type="text" name="contacto" class="form-control" value="{{ $supplier->contacto }}" required>
+        </div>
+
+        <div class="mb-3">
             <label for="phone" class="form-label">Teléfono</label>
             <input type="text" name="phone" class="form-control" value="{{ $supplier->phone }}">
         </div>

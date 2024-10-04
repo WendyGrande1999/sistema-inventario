@@ -11,5 +11,5 @@ class Supplier extends Model
 
 
     // Permitir la asignación masiva para estos campos
-    protected $fillable = ['name', 'email', 'phone', 'address'];
+    protected $fillable = ['name', 'email', 'contacto', 'phone', 'address'];
 }

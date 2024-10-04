@@ -23,6 +23,7 @@ class SupplierController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:suppliers',
+            
         ]);
 
         Supplier::create($request->all());

@@ -16,6 +16,7 @@ class Entrada extends Model
         'idproducto',
         'idproveedor',
         'idusuario',
+        'unidad_medida',
         'cantidad',
         'precio_unidad',
         'saldo_compra'
