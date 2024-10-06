@@ -199,7 +199,7 @@
                                     <li class="dropdown-header text-start">
                                         <h6>Filter</h6>
                                     </li>
-                                    <li><a class="dropdown-item" href="{{ route('productos.stock') }}">Stock</a></li>
+                                    <li><a class="dropdown-item" href="#">Stock</a></li>
                                 </ul>
                             </div>
 

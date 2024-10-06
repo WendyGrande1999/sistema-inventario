@@ -47,8 +47,6 @@
         <span>Stock</span>
 
          </a>
-
-
             <!-- Gestión de existencias con submenú -->
             <li class="sidebar-item">
                 <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
