@@ -132,4 +132,13 @@ class ProductoController extends Controller
             return redirect()->route('productos.index')->with('error', 'Error al intentar eliminar el producto: ' . $e->getMessage());
         }
     }
+    public function getProducto($id)
+{
+    $producto = Producto::find($id);
+    if ($producto) {
+        return response()->json($producto);
+    }
+    return response()->json(null, 404);
+}
+
 }

@@ -10,13 +10,17 @@
     <form action="{{ route('suppliers.store') }}" method="POST">
         @csrf
         <div class="mb-3">
-            <label for="name" class="form-label">Nombre</label>
+            <label for="name" class="form-label">Nombre empresa</label>
             <input type="text" name="name" class="form-control" required>
         </div>
 
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input type="email" name="email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="contacto" class="form-label">Nombre contacto</label>
+            <input type="text" name="contacto" class="form-control" required>
         </div>
 
         <div class="mb-3">

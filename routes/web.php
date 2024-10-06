@@ -44,6 +44,10 @@ Route::resource('productos', ProductoController::class);
 Route::resource('entradas', EntradaController::class);
 Route::get('productos/categoria/{category_id}', [EntradaController::class, 'getProductosByCategoria'])->name('productos.categoria');
 
+Route::get('/api/productos/{id}', [ProductoController::class, 'getProducto']);
+
+
+
 
 Route::get('/categories/search', [CategoryController::class, 'search'])->name('categories.search');
 Route::post('/admin/users', [UserController::class, 'store'])->name('users.store');
