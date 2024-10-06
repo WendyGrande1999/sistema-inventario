@@ -170,11 +170,12 @@ public function stockReport()
             'nombre_producto' => $producto->nombre,
             'cantidad_entradas' => $cantidadEntradas,
             'cantidad_salidas' => $cantidadSalidas,
+            'unidad_medida' => $producto->unidad_medida,
             'stock' => $stock,
         ];
     });
 
-    return view('productos.stock', compact('data'));
+    return view('inventario.stock', compact('data'));
 }
 
 

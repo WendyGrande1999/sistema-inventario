@@ -52,7 +52,7 @@ Route::get('productos/categoria/{category_id}', [EntradaController::class, 'getP
 
 Route::get('/api/productos/{id}', [ProductoController::class, 'getProducto']);
 
-Route::get('/productos/stock', [ProductoController::class, 'stockReport'])->name('productos.stock');
+Route::get('/inventario/stock', [ProductoController::class, 'stockReport']);
 
 
 Route::get('/productos/{id}/existencia', [ProductoController::class, 'getExistencia'])->name('productos.existencia');
