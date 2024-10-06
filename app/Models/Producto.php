@@ -19,6 +19,13 @@ class Producto extends Model
 
     public function entradas()
 {
-    return $this->hasMany(Entrada::class, 'idproducto');
+    return $this->hasMany(Entrada::class, 'idproducto', 'id');
 }
+
+
+
+    public function salidas()
+    {
+        return $this->hasMany(Salida::class, 'idproducto', 'id'); // Ajusta el nombre de la clave foránea según tu esquema
+    }
 }
