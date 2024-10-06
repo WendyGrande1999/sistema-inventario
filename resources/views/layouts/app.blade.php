@@ -14,12 +14,12 @@
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="{{ asset('assets/estilos.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/estilos_menu.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/estilos_dasboard.css') }}">
 
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+
 </head>
-
 <body>
-
     <!-- Incluir la navbar -->
 
     <div class="container-fluid p-0 ">
@@ -39,7 +39,7 @@
                     </header>
 
 
-                    <main class="p-5">
+                    <main class="p-5 main" id="main">
                         @yield('content')
                     </main>
 
