@@ -60,7 +60,7 @@
                         <a href="{{ route('entradas.index') }}" class="sidebar-link">Entradas</a>
                     </li>
                     <li class="sidebar-item" class="bi bi-box-arrow-right me-2">
-                        <a href="/inventory/stock/exits" class="sidebar-link">Salidas</a>
+                        <a href="/inventory/stock/" class="sidebar-link">Salidas</a>
                     </li>
                 </ul>
             </li>
