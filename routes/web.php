@@ -10,6 +10,8 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\EntradaController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\SalidaController;
+
 
 
 /*
@@ -44,9 +46,24 @@ Route::resource('categories', CategoryController::class);
 Route::resource('suppliers', SupplierController::class);
 Route::resource('productos', ProductoController::class);
 Route::resource('entradas', EntradaController::class);
+Route::resource('salidas', SalidaController::class);
+
 Route::get('productos/categoria/{category_id}', [EntradaController::class, 'getProductosByCategoria'])->name('productos.categoria');
 
 Route::get('/api/productos/{id}', [ProductoController::class, 'getProducto']);
+
+Route::get('/productos/stock', [ProductoController::class, 'stockReport']);
+
+
+Route::get('/productos/{id}/existencia', [ProductoController::class, 'getExistencia'])->name('productos.existencia');
+
+
+Route::get('/productos/test', function () {
+    return view('productos.test');
+})->name('productos.test')->middleware('auth');
+
+
+
 
 
 

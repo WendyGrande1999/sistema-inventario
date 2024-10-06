@@ -42,11 +42,18 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="/inventory/stock" class="sidebar-link">
-                    <i class="bi bi-boxes me-2"></i>
-                    <span>Stock</span>
-                </a>
-            </li>
+        <a href="/productos/stock"  class="sidebar-link"> <!-- Aquí corriges -->
+        <i class="bi bi-boxes me-2"></i>
+        <span>Stock</span>
+        
+         </a>
+         </li>
+         <li class="sidebar-item">
+        <a href="{{ route('productos.test') }}" class="sidebar-link">
+        <i class="bi bi-boxes me-2"></i>
+        <span>Vista de Prueba</span>
+        </a>
+       </li>
 
             <!-- Gestión de existencias con submenú -->
             <li class="sidebar-item">
@@ -60,7 +67,7 @@
                         <a href="{{ route('entradas.index') }}" class="sidebar-link">Entradas</a>
                     </li>
                     <li class="sidebar-item" class="bi bi-box-arrow-right me-2">
-                        <a href="/inventory/stock/exits" class="sidebar-link">Salidas</a>
+                        <a href="{{ route('salidas.index') }}" class="sidebar-link">Salidas</a>
                     </li>
                 </ul>
             </li>
@@ -69,7 +76,7 @@
             <li class="sidebar-item">
                 <a href="/inventory/reports" Class="sidebar-link">
                     <i class="bi bi-graph-up me-2"></i>
-                    <span>Reportes</span>
+                    <span>Reportess</span>
                 </a>
             </li>
         @endrole
@@ -120,7 +127,7 @@
             <li class="sidebar-item">
                 <a href="/inventory/reports" Class="sidebar-link">
                     <i class="bi bi-graph-up me-2"></i>
-                    <span>Reportes</span>
+                    <span>Reportessss</span>
                 </a>
             </li>
         @endrole

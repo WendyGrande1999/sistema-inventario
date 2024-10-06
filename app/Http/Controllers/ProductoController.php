@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Producto;
 use App\Models\Category;
 use App\Models\Entrada;
+use App\Models\Salida;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -140,5 +141,41 @@ class ProductoController extends Controller
     }
     return response()->json(null, 404);
 }
+
+public function getExistencia($id)
+{
+    // Sumar todas las entradas del producto
+    $totalEntradas = Entrada::where('idproducto', $id)->sum('cantidad');
+
+    // Sumar todas las salidas del producto
+    $totalSalidas = Salida::where('idproducto', $id)->sum('cantidad');
+
+    // Calcular la existencia actual
+    $existenciaActual = $totalEntradas - $totalSalidas;
+
+    return response()->json(['existencia' => $existenciaActual]);
+}
+
+public function stockReport()
+{
+    $productos = Producto::with(['entradas', 'salidas'])->get();
+
+    $data = $productos->map(function ($producto) {
+        $cantidadEntradas = $producto->entradas->sum('cantidad');
+        $cantidadSalidas = $producto->salidas->sum('cantidad');
+        $stock = $cantidadEntradas - $cantidadSalidas;
+
+        return [
+            'codigo' => $producto->codigo,
+            'nombre_producto' => $producto->nombre,
+            'cantidad_entradas' => $cantidadEntradas,
+            'cantidad_salidas' => $cantidadSalidas,
+            'stock' => $stock,
+        ];
+    });
+
+    return view('productos.stock', compact('data'));
+}
+
 
 }
