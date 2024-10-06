@@ -52,20 +52,10 @@ Route::get('productos/categoria/{category_id}', [EntradaController::class, 'getP
 
 Route::get('/api/productos/{id}', [ProductoController::class, 'getProducto']);
 
-Route::get('/productos/stock', [ProductoController::class, 'stockReport']);
+Route::get('/productos/stock', [ProductoController::class, 'stockReport'])->name('productos.stock');
 
 
 Route::get('/productos/{id}/existencia', [ProductoController::class, 'getExistencia'])->name('productos.existencia');
-
-
-Route::get('/productos/test', function () {
-    return view('productos.test');
-})->name('productos.test')->middleware('auth');
-
-
-
-
-
 
 
 Route::get('/categories/search', [CategoryController::class, 'search'])->name('categories.search');

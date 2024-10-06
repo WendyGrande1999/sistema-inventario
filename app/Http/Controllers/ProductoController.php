@@ -44,7 +44,7 @@ class ProductoController extends Controller
 
         // Manejo de la subida de imagen
         if ($request->hasFile('imagen')) {
-            $imageName = time() . '.' . $request->imagen->extension();  
+            $imageName = time() . '.' . $request->imagen->extension();
             $request->imagen->move(public_path('images'), $imageName); // Mueve la imagen a la carpeta 'images'
         }
 
