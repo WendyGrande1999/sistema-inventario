@@ -42,18 +42,12 @@
                 </a>
             </li>
             <li class="sidebar-item">
-        <a href="/productos/stock"  class="sidebar-link"> <!-- Aquí corriges -->
+        <a href="/inventario/stock"  class="sidebar-link"> <!-- Aquí corriges -->
         <i class="bi bi-boxes me-2"></i>
         <span>Stock</span>
-        
+
          </a>
-         </li>
-         <li class="sidebar-item">
-        <a href="{{ route('productos.test') }}" class="sidebar-link">
-        <i class="bi bi-boxes me-2"></i>
-        <span>Vista de Prueba</span>
-        </a>
-       </li>
+       
 
             <!-- Gestión de existencias con submenú -->
             <li class="sidebar-item">
