@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Categorías</h1>
+    <h1>Usuarios</h1>
 
     <a href="{{ route('admin.users.create') }}" class="btn btn-primary justify-content-end mt-3">Agregar Usuario</a>
     <br>

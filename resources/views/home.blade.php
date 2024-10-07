@@ -26,7 +26,7 @@
                     <div class="col-xxl-4 col-md-6">
                         <div class="card info-card sales-card"  >
                             <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown" ><i
+                                <a class="icon" href="{{ route('productos.index') }}" data-bs-toggle="dropdown" ><i
                                         class="bi bi-three-dots"></i></a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                     <li class="dropdown-header text-start">
@@ -97,7 +97,7 @@
                                     <li class="dropdown-header text-start">
                                         <h6>Filter</h6>
                                     </li>
-                                    <li><a class="dropdown-item" href="{{ route('suppliers.index') }}">Proveedores</a></li>
+                                    <li><a class="dropdown-item" href="#">Proveedores</a></li>
                                 </ul>
                             </div>
 
@@ -132,7 +132,7 @@
                                     <li class="dropdown-header text-start">
                                         <h6>Filter</h6>
                                     </li>
-                                    <li><a class="dropdown-item" href="{{ route('entradas.index') }}">Existencias</a></li>
+                                    <li><a class="dropdown-item" href="#">Existencias</a></li>
                                 </ul>
                             </div>
 
@@ -166,7 +166,7 @@
                                         <h6>Filter</h6>
                                     </li>
 
-                                    <li><a class="dropdown-item" href="{{ route('salidas.index') }}">Salidas</a></li>
+                                    <li><a class="dropdown-item" href="#">Salidas</a></li>
                                 </ul>
                             </div>
 
