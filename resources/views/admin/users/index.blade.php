@@ -124,7 +124,7 @@
     <script>
         // Script para confirmar eliminación
         function confirmDelete() {
-            return confirm('¿Estás seguro de que deseas eliminar esta categoría?');
+            return confirm('¿Estás seguro de que deseas eliminar este usuario?');
         }
     </script>
 </div>
