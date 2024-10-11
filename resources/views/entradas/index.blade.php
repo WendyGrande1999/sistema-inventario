@@ -22,7 +22,7 @@
         <table id="my-table"  class="table table-bordered" width="100%" cellspacing="0">
         <thead>
             <tr>
-              
+
                 <th>Fecha Ingreso</th>
                 <th>Producto</th>
                 <th>Proveedor</th>
@@ -39,20 +39,20 @@
         <tbody>
             @foreach ($entradas as $entrada)
             <tr>
-              
+
                 <td>{{ $entrada->fecha_ingreso }}</td>
                 <td>{{ $entrada->producto->nombre }}</td>
                 <td>{{ $entrada->proveedor->name }}</td>
                 <td>{{ $entrada->usuario->name }}</td>
                 <td>{{ $entrada->unidad_medida }}</td>
                 <td>{{ $entrada->cantidad }}</td>
-                <td>$<span>{{ $entrada->precio_unidad }}</span> 
-                
+                <td>$<span>{{ $entrada->precio_unidad }}</span>
+
                 <td>$<span>{{ $entrada->saldo_compra }}</span></td>
-                
+
                 <td>
                     <a href="{{ route('entradas.show', $entrada->id) }}" class="btn btn-info btn-sm">Ver</a>
-              
+
                 </td>
 
                 <td>
@@ -73,12 +73,12 @@
     </table>
         </div>
     </div>
-   
+
 <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.0/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.0/js/dataTables.bootstrap5.min.js"></script>
-    
+
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
  <script>

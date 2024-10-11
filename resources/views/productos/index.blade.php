@@ -4,7 +4,7 @@
 <div class="container">
     <h1>Productos</h1>
 
-    <a href="{{ route('productos.create') }}" class="btn btn-primary justify-content-end mt-3">Agregar Categoría</a>
+    <a href="{{ route('productos.create') }}" class="btn btn-primary justify-content-end mt-3">Agregar Producto</a>
     <br>
     <br>
     @if (session('success'))
@@ -53,7 +53,7 @@
                         </td>
                         <td>
                             <form id="delete-entry-form-{{ $producto->id }}"
-                                action="{{ route('categories.destroy', $producto->id) }}" method="POST"
+                                action="{{ route('productos.destroy', $producto->id) }}" method="POST"
                                 style="display: inline;">
                                 @csrf
                                 @method('DELETE')
@@ -83,7 +83,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        function eliminarEntrada(event, categoryId) {
+        function eliminarEntrada(event, productoId) {
             event.preventDefault(); // Evitar el envío automático del formulario
 
             Swal.fire({
