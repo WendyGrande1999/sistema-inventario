@@ -6,7 +6,11 @@ use App\Models\Producto;
 use App\Models\Category;
 use App\Models\Entrada;
 use App\Models\Salida;
+use App\Models\CierreInventario;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
+
 
 class ProductoController extends Controller
 {
@@ -156,27 +160,134 @@ public function getExistencia($id)
     return response()->json(['existencia' => $existenciaActual]);
 }
 
-public function stockReport()
+public function stockReport(Request $request)
 {
-    $productos = Producto::with(['entradas', 'salidas'])->get();
+    // Establecer el idioma español en Carbon
+    Carbon::setLocale('es');
+    // Obtener todos los productos con sus entradas, salidas y cierres de inventario
+    $productos = Producto::with(['entradas', 'salidas', 'cierresInventario'])->get();
 
+    // Obtener el último cierre realizado
+    $ultimoCierree = CierreInventario::latest('fecha_cierre')->first();
+    
+    // Formatear la fecha del último cierre (puedes cambiar el formato según lo que necesites)
+    
+    $fechaUltimoCierre = $ultimoCierree ? Carbon::parse($ultimoCierree->fecha_cierre)->translatedFormat('l d F Y') : 'No hay cierres anteriores';
+
+    // Mapear la data de cada producto
+    
     $data = $productos->map(function ($producto) {
-        $cantidadEntradas = $producto->entradas->sum('cantidad');
-        $cantidadSalidas = $producto->salidas->sum('cantidad');
-        $stock = $cantidadEntradas - $cantidadSalidas;
+        // Obtener el último cierre manual
+        $ultimoCierre = $producto->cierresInventario()->latest('fecha_cierre')->first();
 
+        // Calcular las cantidades de las entradas posteriores al último cierre
+        $cantidadEntradasDesdeCierre = $producto->entradas()
+            ->whereDate('fecha_ingreso', '>', $ultimoCierre ? $ultimoCierre->fecha_cierre : Carbon::now()->startOfYear())
+            ->sum('cantidad_entrante');
+
+        // Calcular las cantidades de las salidas posteriores al último cierre
+        $cantidadSalidasDesdeCierre = $producto->entradas()
+            ->whereDate('fecha_ingreso', '>', $ultimoCierre ? $ultimoCierre->fecha_cierre : Carbon::now()->startOfYear())
+            ->sum('salida');
+
+        // Si no hay cierre, consideramos que el stock es el total de todas las entradas antes de este año
+        $stockUltimoCierre = $ultimoCierre ? $ultimoCierre->cantidad_total : 0;
+
+        // Stock total = stock del último cierre + entradas - salidas desde el último cierre
+       
+
+          // Calcular el stock total sumando el campo 'cantidad' de las entradas activas después del último cierre
+        $stockTotalActual = $producto->entradas()
+        ->where('estado', 'activo')
+        ->whereDate('fecha_ingreso', '>', $ultimoCierre ? $ultimoCierre->fecha_cierre : Carbon::now()->startOfYear())
+        ->sum('cantidad'); // Sumamos el campo 'cantidad' que se actualiza en función de las salidas// Solo las entradas activas
+
+         $stockTotal = $stockUltimoCierre + $stockTotalActual;
         return [
             'codigo' => $producto->codigo,
             'nombre_producto' => $producto->nombre,
-            'cantidad_entradas' => $cantidadEntradas,
-            'cantidad_salidas' => $cantidadSalidas,
+            'stock_ultimo_cierre' => $stockUltimoCierre,
+            'cantidad_entradas_desde_cierre' => $cantidadEntradasDesdeCierre,
+            'cantidad_salidas_desde_cierre' => $cantidadSalidasDesdeCierre,
+            'stockTotalActual' => $stockTotalActual,
+            'stock_total' => $stockTotal,
             'unidad_medida' => $producto->unidad_medida,
-            'stock' => $stock,
         ];
     });
 
-    return view('inventario.stock', compact('data'));
+    // Retornar la vista con los datos del reporte de stock
+    return view('inventario.stock', [
+        'data' => $data,
+        'fechaUltimoCierre' => $fechaUltimoCierre // Pasar la variable correctamente
+    ]);
 }
+
+// Método para mostrar el formulario de selección de producto
+public function seleccionarProducto()
+{
+    // Obtener todos los productos
+    $productos = Producto::all();
+
+    return view('reportes.select', compact('productos'));
+}
+
+// Método para mostrar el detalle del producto
+public function mostrarDetalleProducto(Request $request)
+{
+    // Verificar si se seleccionó un producto
+    $productoSeleccionado = $request->input('idproducto');
+
+    if ($productoSeleccionado) {
+        // Cargar el producto seleccionado con sus entradas y salidas
+        $producto = Producto::with(['entradas', 'entradas.proveedor', 'entradas.salidas'])->findOrFail($productoSeleccionado);
+
+        $entradas = [];
+        $totalEntradas = 0;
+        $totalSalidas = 0;
+        $totalStock = 0;
+        $totalSaldoCompra = 0;
+        $precioCompraSum = 0;
+        $cantidadEntradas = 0;
+
+        // Obtener las entradas del producto
+        $entradas = $producto->entradas->map(function($entrada) use (&$totalEntradas, &$totalSalidas, &$totalStock, &$totalSaldoCompra, &$precioCompraSum, &$cantidadEntradas) {
+            $salidas = $entrada->salidas->sum('cantidad'); // Sumar todas las salidas de esa entrada
+            $stock = $entrada->cantidad; // El stock es el campo que se actualiza automáticamente
+
+            // Acumular los totales
+            $totalEntradas += $entrada->cantidad_entrante;
+            $totalSalidas += $salidas;
+            $totalStock += $stock;
+            $totalSaldoCompra += $entrada->saldo_compra;
+            $precioCompraSum += $entrada->precio_unidad; // Sumar los precios para calcular el promedio
+            $cantidadEntradas++; // Para contar el número de entradas y calcular el promedio
+
+            return [
+                'fecha_ingreso' => $entrada->fecha_ingreso,
+                'descripcion' => $entrada->producto->descripcion,
+                'proveedor' => $entrada->proveedor->name,
+                'entradas' => $entrada->cantidad_entrante,
+                'salidas' => $salidas,
+                'stock' => $stock,
+                'unidad_medida' => $entrada->unidad_medida,
+                'precio_compra' => $entrada->precio_unidad,
+                'saldo_compra' => $entrada->saldo_compra,
+            ];
+        });
+
+        // Calcular el promedio del precio de compra
+        $promedioPrecioCompra = $cantidadEntradas > 0 ? $precioCompraSum / $cantidadEntradas : 0;
+
+        return view('reportes.detalle', compact('producto', 'entradas', 'totalEntradas', 'totalSalidas', 'totalStock', 'promedioPrecioCompra', 'totalSaldoCompra'));
+    }
+
+    // Redirigir de vuelta si no se seleccionó un producto
+    return redirect()->route('reportes.seleccionar')->with('error', 'Debe seleccionar un producto.');
+}
+
+
+
+
 
 
 }

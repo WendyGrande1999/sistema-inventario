@@ -27,6 +27,14 @@
                 <br>
 
                 <div class="form-group">
+                    <label for="identrada"><strong>Entrada</strong></label>
+                    <select name="identrada" id="identrada" class="form-control" required>
+                        <option value="">Seleccione una entrada</option>
+                    </select>
+                </div>
+                <br>
+
+                <div class="form-group">
                     <label for="unidad_medida"><strong>Unidad de Medida</strong></label>
                     <input type="text" name="unidad_medida" id="unidad_medida" class="form-control" readonly required>
                 </div>
@@ -48,7 +56,8 @@
             <div class="col-md-6">
                 <div class="card bg-warning text-dark mb-3">
                     <div class="card-body">
-                        <h5 class="card-title"><strong>Existencia Actual</strong></h5>
+                        <h5 class="card-title"><strong>Cantidad disponible</strong></h5>
+
                         <input type="text" name="existencia" id="existencia" class="form-control" readonly>
                     </div>
                 </div>
@@ -65,6 +74,7 @@
 <script src="https://cdn.datatables.net/1.13.0/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.0/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     document.getElementById('idproducto').addEventListener('change', function () {
         const productoId = this.value;
@@ -73,6 +83,7 @@
         const unidadMedidaInput = document.getElementById('unidad_medida');
         const existenciaInput = document.getElementById('existencia');
         const cantidadInput = document.getElementById('cantidad');
+        const entradaSelect = document.getElementById('identrada'); // Select de entradas
 
         if (productoId) {
             // Habilitar el campo cantidad al seleccionar un producto
@@ -88,22 +99,46 @@
 
             // Obtener la existencia actual del producto
             fetch(`/productos/${productoId}/existencia`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Error al obtener la existencia del producto');
-                    }
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
-                    existenciaInput.value = data ? data.existencia : '';
+                    existenciaInput.value = ''; // Limpiar el valor actual antes de asignar uno nuevo
+                })
+                .catch(error => console.error('Error:', error));
+
+            // Obtener las entradas asociadas al producto
+            fetch(`/salida/entrada/${productoId}`)
+                .then(response => response.json())
+                .then(data => {
+                    entradaSelect.innerHTML = '<option value="">Seleccione una entrada</option>';
+                    if (data.length === 0) {
+                        entradaSelect.innerHTML += '<option value="">No hay entradas disponibles para este producto</option>';
+                    } else {
+                        data.forEach(entrada => {
+                            entradaSelect.innerHTML += `<option value="${entrada.id}" data-cantidad="${entrada.cantidad}">Fecha: ${entrada.fecha_ingreso} - Cantidad: ${entrada.cantidad}</option>`;
+                        });
+                    }
                 })
                 .catch(error => console.error('Error:', error));
         } else {
-            // Limpiar campos y deshabilitar el campo cantidad si no hay producto seleccionado
+            // Limpiar campos si no hay producto seleccionado
             unidadMedidaInput.value = '';
             existenciaInput.value = '';
+            entradaSelect.innerHTML = '<option value="">Seleccione una entrada</option>';
             cantidadInput.disabled = true;
             cantidadInput.value = '';
+        }
+    });
+
+    // Escuchar cambios en el select de entradas para actualizar el input de existencia
+    document.getElementById('identrada').addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const cantidad = selectedOption.getAttribute('data-cantidad'); // Obtener la cantidad desde el atributo data-cantidad
+        const existenciaInput = document.getElementById('existencia'); // Input de existencias
+
+        if (cantidad) {
+            existenciaInput.value = cantidad; // Asignar la cantidad al input de existencias
+        } else {
+            existenciaInput.value = ''; // Limpiar el campo si no hay entrada seleccionada
         }
     });
 
@@ -112,7 +147,6 @@
         const cantidadSalida = parseInt(this.value);
         const existenciaActual = parseInt(document.getElementById('existencia').value);
 
-        // Validar si la cantidad es igual a 0
         if (cantidadSalida === 0) {
             Swal.fire({
                 title: 'Cantidad inválida',
@@ -125,7 +159,6 @@
             });
         }
 
-        // Validar si la cantidad es mayor que la existencia actual
         if (cantidadSalida > existenciaActual) {
             Swal.fire({
                 title: 'Error',
@@ -139,5 +172,6 @@
         }
     });
 </script>
+
 
 @endsection

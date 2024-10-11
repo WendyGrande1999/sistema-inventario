@@ -11,7 +11,7 @@ use App\Http\Controllers\EntradaController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SalidaController;
-
+use App\Http\Controllers\InventarioController;
 
 
 /*
@@ -50,9 +50,22 @@ Route::resource('salidas', SalidaController::class);
 
 Route::get('productos/categoria/{category_id}', [EntradaController::class, 'getProductosByCategoria'])->name('productos.categoria');
 
+Route::get('/salida/entrada/{productoId}', [EntradaController::class, 'getEntradaByProduct']);
+
 Route::get('/api/productos/{id}', [ProductoController::class, 'getProducto']);
 
 Route::get('/inventario/stock', [ProductoController::class, 'stockReport']);
+// Ruta para mostrar el botón de generar cierre manual
+Route::get('/inventario/cierre-manual', [InventarioController::class, 'mostrarCierreManual'])->name('inventario.cierre-manual');
+
+// Ruta para procesar el cierre manual
+Route::post('/inventario/generar-cierre', [InventarioController::class, 'generarCierreManual'])->name('inventario.generar-cierre');
+
+// Mostrar el formulario para seleccionar una fecha de cierre
+Route::get('/inventario/cierres', [InventarioController::class, 'mostrarCierres'])->name('inventario.cierres');
+
+// Obtener los productos del cierre seleccionado
+Route::post('/inventario/cierre-detalle', [InventarioController::class, 'obtenerCierrePorFecha'])->name('inventario.cierre-detalle');
 
 
 Route::get('/productos/{id}/existencia', [ProductoController::class, 'getExistencia'])->name('productos.existencia');
@@ -101,7 +114,15 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])
 
 Route::get('/entradas/{id}/pdf', [EntradaController::class, 'generarPdf'])->name('entradas.pdf');
 
+// Ruta para mostrar el formulario y los detalles del producto seleccionado
 
+
+// Ruta para mostrar el formulario de selección de producto
+Route::get('/reportes/seleccionar', [ProductoController::class, 'seleccionarProducto'])->name('reportes.seleccionar');
+
+// Ruta para mostrar los detalles del producto seleccionado
+Route::get('/reportes/detalle', [ProductoController::class, 'mostrarDetalleProducto'])->name('reportes.detalle');
+Route::get('/reportes/pdf/{id}', [ProductoController::class, 'generarPDF'])->name('reportes.pdf');
 
 
 

@@ -15,6 +15,8 @@ class Salida extends Model
         'idusuario',
         'unidad_medida',
         'cantidad',
+        'identrada',
+
     ];
 
     protected $dates = ['fecha_salida']; // Define el atributo como una instancia de Carbon
@@ -27,6 +29,11 @@ class Salida extends Model
     public function usuario()
     {
         return $this->belongsTo(User::class, 'idusuario');
+    }
+
+    public function entrada()
+    {
+        return $this->belongsTo(Entrada::class, 'identrada');
     }
 }
 

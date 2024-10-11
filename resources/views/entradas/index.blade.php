@@ -17,8 +17,12 @@
         </div>
     @endif
 
+    <!-- Tabla para las entradas desde el ultimo cierre a la fecha  -->  
+<br>
     <div class="card-body">
         <div class="table-responsive">
+       <strong> <h3> Entradas activas desde el ultimo cierre a la fecha.</h3></strong>
+        <br>
         <table id="my-table"  class="table table-bordered" width="100%" cellspacing="0">
         <thead>
             <tr>
@@ -28,7 +32,10 @@
                 <th>Proveedor</th>
                 <th>Usuario</th>
                 <th>Unidad de Medida</th>
-                <th>Cantidad</th>
+                <th>Cantidad entrante</th>
+                <th>Cantidad disponible</th>
+              
+                <th>Salida</th>
                 <th>Precio por Unidad</th>
                 <th>Saldo Compra</th>
                 <th>Ver</th>
@@ -37,18 +44,23 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($entradas as $entrada)
+        @foreach ($entradasDesdeUltimoCierre as $entrada)
             <tr>
               
                 <td>{{ $entrada->fecha_ingreso }}</td>
                 <td>{{ $entrada->producto->nombre }}</td>
                 <td>{{ $entrada->proveedor->name }}</td>
+                
                 <td>{{ $entrada->usuario->name }}</td>
                 <td>{{ $entrada->unidad_medida }}</td>
+                <td>{{ $entrada->cantidad_entrante }}</td>
                 <td>{{ $entrada->cantidad }}</td>
+                <td>{{ $entrada->salida }}</td>
                 <td>$<span>{{ $entrada->precio_unidad }}</span> 
                 
                 <td>$<span>{{ $entrada->saldo_compra }}</span></td>
+
+                
                 
                 <td>
                     <a href="{{ route('entradas.show', $entrada->id) }}" class="btn btn-info btn-sm">Ver</a>
@@ -61,6 +73,8 @@
 
                 <td>
 
+                
+
                 <form id="delete-entry-form" action="{{ route('entradas.destroy', $entrada->id) }}" method="POST" style="display: inline;">
                @csrf
              @method('DELETE')
@@ -71,6 +85,17 @@
             @endforeach
         </tbody>
     </table>
+        </div>
+    </div>
+
+  <!-- Tabla para las entradas del ultimo cierre  -->  
+<br>
+<br>
+
+  <div class="card-body">
+        <div class="table-responsive">
+
+        
         </div>
     </div>
    
