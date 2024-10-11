@@ -4,6 +4,14 @@
 <div class="container">
     <h1>Listado de Salidas</h1>
     <a href="{{ route('salidas.create') }}" class="btn btn-primary mb-3">Agregar Nueva Salida</a>
+    @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+    
     <table class="table table-bordered">
         <thead>
             <tr>

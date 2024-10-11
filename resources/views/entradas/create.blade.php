@@ -74,6 +74,16 @@
         </div>
         <br>
 
+        <br>
+
+       <div class="form-group">
+        <strong>
+        <label for="cantidad_entrante">Cantidad entrante</label>
+        </strong>
+        <input type="number" name="cantidad_entrante" id="cantidad_entrante" class="form-control" step="0.01" required>
+        </div>
+        <br>
+
         <div class="form-group">
           <strong>
             <label for="cantidad">Cantidad</label>

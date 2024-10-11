@@ -60,8 +60,33 @@
                 </li>
             </ul>
         </li><!-- End Forms Nav -->
+
+
+
+
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-cart-check me-2"></i><span>Cierres de invetario</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="/inventario/cierre-manual">
+                        <i class="bi bi-circle"></i><span>Crear cierre</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('inventario.cierres') }}">
+                        <i class="bi bi-circle"></i><span>Historial de cierres</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Forms Nav -->
+
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/reportes/seleccionar">
                 <i class="bi bi-graph-up me-2"></i>
                 <span>Reportes</span>
             </a>

@@ -6,6 +6,7 @@ use App\Models\Entrada;
 use App\Models\Producto;
 use App\Models\Supplier;
 use App\Models\Category;
+use App\Models\CierreInventario;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -17,8 +18,33 @@ class EntradaController extends Controller
 {
     public function index()
     {
+
+        Carbon::setLocale('es');
+        $ultimoCierree = CierreInventario::latest('fecha_cierre')->first();
+        $fechaUltimoCierree = $ultimoCierree ? Carbon::parse($ultimoCierree->fecha_cierre)->translatedFormat('l d F Y') : 'No hay cierres anteriores';
+
         $entradas = Entrada::with(['producto', 'proveedor', 'usuario'])->get();
-        return view('entradas.index', compact('entradas'));
+
+
+        // Obtener el último cierre de inventario
+    $ultimoCierre = CierreInventario::latest('fecha_cierre')->first();
+
+    // Si existe un cierre anterior, obtener la fecha
+    $fechaUltimoCierre = $ultimoCierre ? $ultimoCierre->fecha_cierre : Carbon::now()->startOfYear();
+
+    // Obtener las entradas activas (cantidad > 0) desde el último cierre
+    $entradasDesdeUltimoCierre = Entrada::where('estado', 'activo')
+        ->where('cantidad', '>', 0)
+        ->whereDate('fecha_ingreso', '>', $fechaUltimoCierre)
+        ->get();
+
+    // Obtener las entradas activas (cantidad > 0) anteriores al último cierre
+    $entradasAntesUltimoCierre = Entrada::where('estado', 'activo')
+        ->where('cantidad', '>', 0)
+        ->whereDate('fecha_ingreso', '<=', $fechaUltimoCierre)
+        ->get();
+
+        return view('entradas.index', compact('entradas', 'entradasDesdeUltimoCierre', 'entradasAntesUltimoCierre', 'fechaUltimoCierree' ));
     }
 
     public function create()
@@ -41,6 +67,7 @@ class EntradaController extends Controller
                 'idusuario' => 'required|exists:users,id',
                 'unidad_medida' => 'required|string|max:255',
                 'cantidad' => 'required|integer|min:1',
+                'cantidad_entrante' => 'required|integer|min:1',
                 'precio_unidad' => 'required|numeric|min:0',
                 
             ]);
@@ -57,6 +84,7 @@ class EntradaController extends Controller
             'idusuario' => $request->input('idusuario'),
             'unidad_medida' => $request->input('unidad_medida'), // Corregido aquí
             'cantidad' => $request->input('cantidad'),
+            'cantidad_entrante' => $request->input('cantidad_entrante'),
             'precio_unidad' => $request->input('precio_unidad'),
             'saldo_compra' => $saldo_compra, // Guardar el saldo calculado
         ]);
@@ -70,7 +98,15 @@ class EntradaController extends Controller
 
     public function show(Entrada $entrada)
     {
-        return view('entradas.show', compact('entrada'));
+        // Cargar la relación de salidas para esta entrada
+        // Cargar la entrada con sus salidas asociadas
+       $entrada = Entrada::with('salidas')->findOrFail($entrada->id);
+
+     // Sumar la cantidad de las salidas asociadas a esta entrada
+       $sumSalida = $entrada->salidas->sum('cantidad');
+
+
+        return view('entradas.show', compact('entrada', 'sumSalida' ));
     }
 
     public function edit(Entrada $entrada)
@@ -143,5 +179,16 @@ class EntradaController extends Controller
    {
     $productos = Producto::where('category_id', $category_id)->get();
     return response()->json($productos);
+   }
+
+   public function getEntradaByProduct($idproducto)
+   {
+   // Filtrar entradas por producto que estén activas (por ejemplo, estado = 'activo' y cantidad > 0)
+   $entradas = Entrada::where('idproducto', $idproducto)
+   ->where('estado', 'activo')  // Solo entradas con estado 'activo'
+   ->where('cantidad', '>', 0)  // Solo entradas con cantidad mayor a 0
+   ->get();
+
+return response()->json($entradas);
    }
 }

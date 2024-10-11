@@ -18,6 +18,8 @@ class Entrada extends Model
         'idusuario',
         'unidad_medida',
         'cantidad',
+        'cantidad_entrante',
+        'estado',
         'precio_unidad',
         'saldo_compra'
     ];
@@ -43,4 +45,10 @@ class Entrada extends Model
     {
         return $this->belongsTo(User::class, 'idusuario');
     }
+
+    public function salidas()
+    {
+    return $this->hasMany(Salida::class, 'identrada');
+    }
+
 }
