@@ -104,5 +104,67 @@ public function obtenerCierrePorFecha(Request $request)
     return view('inventario.cierre-detalle', compact('productosCierre'));
 }
 
+public function mostrarEntradasPorCierre(Request $request)
+{
+    // Establecer el idioma español en Carbon
+    Carbon::setLocale('es');
+    // Obtener la fecha de cierre seleccionada por el usuario
+    $fechaCierre = $request->input('fecha_cierre');
+
+    if (!$fechaCierre) {
+        return redirect()->back()->with('error', 'No se encontró el cierre seleccionado.');
+    }
+
+    // Obtener los productos que tienen un registro de cierre en la fecha seleccionada
+    $productosCierre = CierreInventario::with('producto')
+        ->where('fecha_cierre', $fechaCierre)
+        ->get();
+
+    // Obtener el último cierre antes del seleccionado
+    $ultimoCierre = CierreInventario::where('fecha_cierre', '<', $fechaCierre)
+        ->orderBy('fecha_cierre', 'desc')
+        ->first();
+
+    // Obtener el siguiente cierre después del seleccionado (si existe)
+    $siguienteCierre = CierreInventario::where('fecha_cierre', '>', $fechaCierre)
+        ->orderBy('fecha_cierre', 'asc')
+        ->first();
+
+    // Fecha del siguiente cierre o la fecha actual si no hay siguiente cierre
+    $fechaSiguienteCierre = $siguienteCierre ? $siguienteCierre->fecha_cierre : Carbon::now();
+
+    // Agrupar la información de cada producto con sus entradas, salidas y stock en la fecha del cierre
+    $productosDetalle = $productosCierre->map(function ($cierre) use ($ultimoCierre, $fechaSiguienteCierre) {
+        // Si no hay un último cierre, es la primera vez que se cierra, sumamos todas las entradas hasta la fecha de cierre
+        if (!$ultimoCierre) {
+            $entradas = $cierre->producto->entradas->where('fecha_ingreso', '<=', $cierre->fecha_cierre)->sum('cantidad_entrante');
+            $salidas = $cierre->producto->entradas->where('fecha_ingreso', '<=', $cierre->fecha_cierre)->sum('salida');
+        } else {
+            // Si hay un último cierre, sumamos las entradas y salidas entre el último cierre y el cierre actual
+            $entradas = $cierre->producto->entradas->whereBetween('fecha_ingreso', [$ultimoCierre->fecha_cierre, $cierre->fecha_cierre])->sum('cantidad_entrante');
+            $salidas = $cierre->producto->entradas->whereBetween('fecha_ingreso', [$ultimoCierre->fecha_cierre, $cierre->fecha_cierre])->sum('salida');
+        }
+
+        // El stock se basa en la cantidad que quedó después de las salidas (actualizado)
+        $stockSaliente = $cierre->cantidad_total; // Tomamos el stock del cierre de la tabla cierre_inventario
+
+        return [
+            'codigo' => $cierre->producto->codigo,
+            'nombre' => $cierre->producto->nombre,
+            'entradas' => $entradas,
+            'salidas' => $salidas,
+            'stock_saliente' => $stockSaliente,
+        ];
+    });
+
+    // Formato de las fechas en letras para la vista
+    $fechaInicioTexto = $ultimoCierre ? \Carbon\Carbon::parse($ultimoCierre->fecha_cierre)->translatedFormat('d F Y') : 'Primer Cierre';
+    $fechaCierreTexto = \Carbon\Carbon::parse($fechaCierre)->translatedFormat('d F Y');
+    // Retornar la vista con los productos y su información relacionada al cierre seleccionado
+    return view('inventario.cierre-detalle', compact('productosDetalle', 'fechaCierre', 'fechaInicioTexto', 'fechaCierreTexto'));
+}
+
+
+
     
 }

@@ -65,7 +65,7 @@ Route::post('/inventario/generar-cierre', [InventarioController::class, 'generar
 Route::get('/inventario/cierres', [InventarioController::class, 'mostrarCierres'])->name('inventario.cierres');
 
 // Obtener los productos del cierre seleccionado
-Route::post('/inventario/cierre-detalle', [InventarioController::class, 'obtenerCierrePorFecha'])->name('inventario.cierre-detalle');
+Route::get('/inventario/cierre-detalle', [InventarioController::class, 'mostrarEntradasPorCierre'])->name('inventario.cierre-detalle');
 
 
 Route::get('/productos/{id}/existencia', [ProductoController::class, 'getExistencia'])->name('productos.existencia');

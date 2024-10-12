@@ -4,9 +4,7 @@
 <div class="container">
     <h1>Seleccionar Cierre de Inventario</h1>
 
-    <!-- Formulario para seleccionar la fecha de cierre -->
-    <form action="{{ route('inventario.cierre-detalle') }}" method="POST">
-        @csrf
+    <form action="{{ route('inventario.cierre-detalle') }}" method="GET">
         <div class="form-group">
             <label for="fecha_cierre">Seleccione una fecha de cierre:</label>
             <select name="fecha_cierre" id="fecha_cierre" class="form-control" required>
