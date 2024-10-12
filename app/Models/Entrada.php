@@ -51,4 +51,15 @@ class Entrada extends Model
     return $this->hasMany(Salida::class, 'identrada');
     }
 
+     // Evento deleting para eliminar las salidas asociadas
+     protected static function boot()
+     {
+         parent::boot();
+ 
+         static::deleting(function ($entrada) {
+             // Eliminar las salidas relacionadas con esta entrada
+             $entrada->salidas()->delete();
+         });
+     }
+
 }

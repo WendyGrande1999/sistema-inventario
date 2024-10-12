@@ -4,11 +4,12 @@
 <div class="container">
     <h1>Detalle del Cierre de Inventario</h1>
 
-    @if($productosCierre->isEmpty())
+    @if($productosDetalle->isEmpty())
         <p>No hay datos disponibles para el cierre seleccionado.</p>
     @else
-        <p><strong>Fecha de cierre: </strong>{{ \Carbon\Carbon::parse($productosCierre->first()->fecha_cierre)->format('d-m-Y') }}</p>
-
+        
+       <!-- Mostrar el rango de fechas entre el último cierre y el cierre seleccionado -->
+       <p><strong>Rango de Cierre:</strong> Desde {{ $fechaInicioTexto }} hasta {{ $fechaCierreTexto }}</p>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -16,19 +17,17 @@
                     <th>Producto</th>
                     <th>Entradas</th>
                     <th>Salidas</th>
-                    <th>Stock saliente</th>
-                    <th>Fecha de Cierre</th>
+                    <th>Stock Saliente</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($productosCierre as $cierre)
+                @foreach($productosDetalle as $producto)
                     <tr>
-                        <td>{{ $cierre->producto->codigo }}</td>
-                        <td>{{ $cierre->producto->nombre }}</td>
-                        <td>{{ $cierre->producto->entradas->sum('cantidad_entrante') }}</td>
-                        <td>{{ $cierre->producto->salidas->sum('cantidad') }}</td>
-                        <td>{{ $cierre->cantidad_total }}</td>
-                        <td>{{ \Carbon\Carbon::parse($cierre->fecha_cierre)->format('d-m-Y') }}</td>
+                        <td>{{ $producto['codigo'] }}</td>
+                        <td>{{ $producto['nombre'] }}</td>
+                        <td>{{ $producto['entradas'] }}</td>
+                        <td>{{ $producto['salidas'] }}</td>
+                        <td>{{ $producto['stock_saliente'] }}</td>
                     </tr>
                 @endforeach
             </tbody>

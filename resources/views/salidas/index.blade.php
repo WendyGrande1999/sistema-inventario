@@ -25,7 +25,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($salidas as $salida)
+            @foreach($salidasActivas as $salida)
                 <tr>
                   
                     <td>{{ $salida->fecha_salida }}</td>

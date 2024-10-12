@@ -15,10 +15,12 @@ class SalidaController extends Controller
 {
     public function index()
     {
-        $salidas = Salida::with('producto', 'usuario')->get();
-        return view('salidas.index', compact('salidas'));
+        // Obtener solo las salidas con estado 'activo'
+        $salidasActivas = Salida::where('estado', 'activo')->get();
+    
+        // Pasar las salidas activas a la vista
+        return view('salidas.index', compact('salidasActivas'));
     }
-
     public function create()
     {
         $entradas = Entrada::all();
@@ -51,33 +53,35 @@ class SalidaController extends Controller
         // Convertir la fecha a formato Carbon
         $fecha_salida = Carbon::parse($request->input('fecha_salida'));
     
-        // Registrar la nueva salida en la tabla 'salida'
-        Salida::create([
+        // Registrar la nueva salida en la tabla 'salida' y almacenar la salida creada
+        $salida = Salida::create([
             'fecha_salida' => $fecha_salida,
             'idproducto' => $request->input('idproducto'),
             'identrada' => $request->input('identrada'), // Aquí estás guardando el identrada
             'idusuario' => $request->input('idusuario'),
             'unidad_medida' => $request->input('unidad_medida'),
             'cantidad' => $request->input('cantidad'),
+            'estado' => 'activo', // Estado inicial de la salida como 'activo'
         ]);
     
-        // Actualizar el campo 'cantidad' en la tabla 'entrada'
-        $entrada->cantidad -= $request->cantidad;
+        // Actualizar los campos 'cantidad' y 'salida' en la tabla 'entrada'
+        $entrada->cantidad -= $request->cantidad; // Reducir la cantidad de la entrada
+        $entrada->salida += $request->cantidad;   // Sumar la cantidad de salida al campo 'salida'
     
-        // Actualizar el campo 'salida' en la tabla 'entrada' sumando la nueva salida
-        $entrada->salida += $request->cantidad;
-    
-        // Verificar si la cantidad llega a 0, y cambiar el estado a "inactivo"
+        // Verificar si la cantidad llega a 0, y cambiar el estado de la entrada a "inactivo"
         if ($entrada->cantidad == 0) {
-            $entrada->estado = 'inactivo';
+            $entrada->estado = 'inactivo';  // Cambiar el estado de la entrada a inactivo
+            $salida->estado = 'inactivo';   // Cambiar el estado de la salida a inactivo
+            $salida->save();                // Guardar el estado actualizado de la salida
         }
     
-        // Guardar la entrada actualizada
+        // Guardar la entrada actualizada (siempre se guarda, independientemente de la cantidad)
         $entrada->save();
     
         // Redirigir con mensaje de éxito
         return redirect()->route('salidas.index')->with('success', 'Salida registrada exitosamente. La entrada ha sido actualizada.');
     }
+    
     
 
     public function show(Salida $salida)
