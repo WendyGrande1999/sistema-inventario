@@ -78,20 +78,13 @@
 
        <div class="form-group">
         <strong>
-        <label for="cantidad_entrante">Cantidad entrante</label>
+        <label for="cantidad_entrante">Cantidad</label>
         </strong>
         <input type="number" name="cantidad_entrante" id="cantidad_entrante" class="form-control" step="0.01" required>
         </div>
         <br>
 
-        <div class="form-group">
-          <strong>
-            <label for="cantidad">Cantidad</label>
-          </strong>
-          <input type="number" name="cantidad" id="cantidad" class="form-control" step="0.01" required>
-        </div>
-        <br>
-
+       
         <div class="form-group">
           <strong>
             <label for="precio_unidad">Precio por Unidad</label>
@@ -122,7 +115,7 @@
 
   <script>
       document.addEventListener('DOMContentLoaded', function() {
-          const cantidadInput = document.getElementById('cantidad');
+          const cantidadInput = document.getElementById('cantidad_entrante');
           const precioUnidadInput = document.getElementById('precio_unidad');
           const saldoCompraInput = document.getElementById('saldo_compra');
 

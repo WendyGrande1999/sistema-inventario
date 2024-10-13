@@ -4,6 +4,9 @@
 <div class="container">
     <h1>Editar Entrada</h1>
 
+     <!-- Contenedor para mensajes de error con JavaScript -->
+     <div id="error-message" class="alert alert-danger d-none"></div>
+
     <form action="{{ route('entradas.update', $entrada->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -54,9 +57,9 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <strong>
-                    <label for="cantidad">Cantidad</label>
+                    <label for="cantidad_entrante">Cantidad</label>
                     </strong>
-                    <input type="number" name="cantidad" id="cantidad" class="form-control" value="{{ $entrada->cantidad }}" step="0.01" required>
+                    <input type="number" name="cantidad_entrante" id="cantidad_entrante" class="form-control" value="{{ $entrada->cantidad_entrante }}" step="0.01" required>
                 </div>
                 <br>
 
@@ -87,6 +90,18 @@
 
    
     </form>
+
+    <script>
+    // Comprobar si existen errores en la sesión
+    @if ($errors->any())
+        let errorMessage = @json($errors->first()); // Obtener el primer mensaje de error
+        let errorContainer = document.getElementById('error-message');
+        
+        // Mostrar el mensaje de error
+        errorContainer.textContent = errorMessage;
+        errorContainer.classList.remove('d-none'); // Hacer visible la alerta
+    @endif
+</script>
 
 
     <script>

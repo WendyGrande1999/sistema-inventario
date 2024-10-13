@@ -44,9 +44,17 @@ class InventarioController extends Controller
     // Generar el cierre manual
     public function generarCierreManual(Request $request)
     {
-        // Definir la fecha del cierre (fecha actual)
-        $fechaCierre = Carbon::now();
-        $fechaSiguiente = $fechaCierre->copy()->addDay(); // Fecha del día siguiente al cierre
+
+        $request->validate([
+            'fecha_cierre' => 'required|date',
+        ]);
+    
+        $fechaCierre = $request->input('fecha_cierre');
+      
+       // Convertir la fecha de cierre a un objeto Carbon
+       $fechaCierre = Carbon::createFromFormat('Y-m-d', $request->input('fecha_cierre'));
+       $fechaSiguiente = $fechaCierre->copy()->addDay(); // Fecha del día siguiente
+       
     
         // Obtener todos los productos
         $productos = Producto::all();
@@ -81,6 +89,8 @@ class InventarioController extends Controller
 
     public function mostrarCierres()
 {
+
+    
     // Obtener todas las fechas de los cierres
     $fechasCierres = CierreInventario::select('fecha_cierre')->distinct()->get();
 
@@ -88,21 +98,6 @@ class InventarioController extends Controller
     return view('inventario.cierres', compact('fechasCierres'));
 }
 
-public function obtenerCierrePorFecha(Request $request)
-{
-    // Validar la fecha seleccionada
-    $request->validate([
-        'fecha_cierre' => 'required|date',
-    ]);
-
-    // Obtener todos los productos del cierre seleccionado
-    $productosCierre = CierreInventario::where('fecha_cierre', $request->fecha_cierre)
-        ->with('producto') // Relación con la tabla de productos
-        ->get();
-
-    // Retornar la vista con los productos del cierre
-    return view('inventario.cierre-detalle', compact('productosCierre'));
-}
 
 public function mostrarEntradasPorCierre(Request $request)
 {
@@ -162,6 +157,26 @@ public function mostrarEntradasPorCierre(Request $request)
     $fechaCierreTexto = \Carbon\Carbon::parse($fechaCierre)->translatedFormat('d F Y');
     // Retornar la vista con los productos y su información relacionada al cierre seleccionado
     return view('inventario.cierre-detalle', compact('productosDetalle', 'fechaCierre', 'fechaInicioTexto', 'fechaCierreTexto'));
+}
+
+public function mostrarCierreGrafico()
+{
+    // Obtener todos los cierres de inventario
+    $cierres = CierreInventario::with('producto')->get();
+
+    // Preparar datos para la gráfica
+    $dataCierres = $cierres->groupBy('fecha_cierre')->map(function($cierre) {
+        return [
+            'fecha' => $cierre->first()->fecha_cierre,
+            'total_entradas' => $cierre->sum('producto.entradas.sum.cantidad_entrante'),
+            'total_salidas' => $cierre->sum('producto.entradas.sum.salida')
+        ];
+    });
+
+    // Debug para ver el contenido de dataCierres
+    // <- Esto mostrará los datos en el navegador
+
+    return view('inventario.grafico-cierres', compact('dataCierres'));
 }
 
 

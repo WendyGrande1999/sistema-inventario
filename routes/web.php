@@ -66,7 +66,8 @@ Route::get('/inventario/cierres', [InventarioController::class, 'mostrarCierres'
 
 // Obtener los productos del cierre seleccionado
 Route::get('/inventario/cierre-detalle', [InventarioController::class, 'mostrarEntradasPorCierre'])->name('inventario.cierre-detalle');
-
+// Ruta para mostrar el gráfico de cierres de inventario
+Route::get('/grafico-cierres', [InventarioController::class, 'mostrarCierreGrafico'])->name('grafico.cierres');
 
 Route::get('/productos/{id}/existencia', [ProductoController::class, 'getExistencia'])->name('productos.existencia');
 
