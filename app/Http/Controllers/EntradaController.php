@@ -212,4 +212,27 @@ class EntradaController extends Controller
 
 return response()->json($entradas);
    }
+
+   public function mostrarEntradasPorProductoCierre($fecha_cierre, $productoId)
+   {
+       // Obtener el último cierre antes del seleccionado
+       $ultimoCierre = \App\Models\CierreInventario::where('fecha_cierre', '<', $fecha_cierre)
+           ->orderBy('fecha_cierre', 'desc')
+           ->first();
+
+       $fechaIniciooo = $ultimoCierre ? $ultimoCierre->fecha_cierre : '1970-01-01';
+       $fechaInicio = $ultimoCierre ? \Carbon\Carbon::parse($ultimoCierre->fecha_cierre)->translatedFormat('d F Y') : 'Primer Cierre';
+
+       // Obtener las entradas del producto en el rango de fechas del cierre
+       $entradas = Entrada::where('idproducto', $productoId)
+           ->whereBetween('fecha_ingreso', [$fechaInicio, $fecha_cierre])
+           ->with(['producto', 'proveedor', 'usuario'])
+           ->get();
+
+       // Obtener los datos del producto
+       $producto = Producto::findOrFail($productoId);
+
+       // Retornar la vista con las entradas del producto
+       return view('entradas.productoCierre', compact('entradas', 'producto', 'fecha_cierre', 'fechaInicio'));
+   }
 }

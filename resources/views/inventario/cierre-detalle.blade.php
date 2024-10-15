@@ -28,13 +28,17 @@
                         <td>{{ $producto['entradas'] }}</td>
                         <td>{{ $producto['salidas'] }}</td>
                         <td>
-                    <a href="" class="btn btn-info btn-sm">Ver</a>
-              
-                </td>
+                        <a href="{{ route('entradas.productoCierre', ['fecha_cierre' => $fechaCierre, 'producto' => $producto['id']]) }}" 
+                         class="btn btn-info btn-sm">Ver</a>
+                        </td>
+
+
                     </tr>
                 @endforeach
             </tbody>
         </table>
+
+
     @endif
 </div>
 @endsection

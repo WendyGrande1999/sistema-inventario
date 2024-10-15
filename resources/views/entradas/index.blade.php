@@ -21,8 +21,14 @@
 <br>
     <div class="card-body">
         <div class="table-responsive">
-       <strong> <h3> Entradas activas desde el ultimo cierre a la fecha.</h3></strong>
-        <br>
+       
+
+        {{-- Sección de Entradas Activas --}}
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h3 class="mb-0">Entradas Activas desde el Último Cierre</h3>
+        </div>
+        <div class="card-body">
         <table id="my-table"  class="table table-bordered" width="100%" cellspacing="0">
         <thead>
             <tr>
@@ -63,7 +69,8 @@
                 
                 
                 <td>
-                    <a href="{{ route('entradas.show', $entrada->id) }}" class="btn btn-info btn-sm">Ver</a>
+                    <a href="{{ route('entradas.show', $entrada->id) }}" class="btn btn-info btn-sm">
+                        Ver</a>
               
                 </td>
 
@@ -85,6 +92,8 @@
             @endforeach
         </tbody>
     </table>
+    </div>
+    </div>
         </div>
     </div>
 
@@ -221,3 +230,5 @@ function eliminarEntrada(event) {
 
 </div>
 @endsection
+
+

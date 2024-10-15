@@ -144,6 +144,7 @@ public function mostrarEntradasPorCierre(Request $request)
         $stockSaliente = $cierre->cantidad_total; // Tomamos el stock del cierre de la tabla cierre_inventario
 
         return [
+            'id' => $cierre->producto->id,  // Incluye el ID del producto
             'codigo' => $cierre->producto->codigo,
             'nombre' => $cierre->producto->nombre,
             'entradas' => $entradas,
