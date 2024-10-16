@@ -7,14 +7,14 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Código</th>
-                <th>Producto</th>
-                <th>Entradas</th>
-                <th>Salidas</th>
-                <th>Stock</th>
-                <th>Unit de medida</th>
-                <th>Costo total entradas</th>
-                <th>Total Egreso</th>
+                <th class="bg-success">Código</th>
+                <th class="bg-success">Producto</th>
+                <th class="bg-success">Entradas</th>
+                <th class="bg-success">Salidas</th>
+                <th class="bg-success">Stock</th>
+                <th class="bg-success">Unit de medida</th>
+                <th class="bg-success">Costo total entradas</th>
+                <th class="bg-success">Total Egreso</th>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +36,7 @@
                 <th colspan="2">Totales</th>
                 <th>{{ $totalEntradas }}</th>
                 <th>{{ $totalSalidas }}</th>
+                <th></th>
                 <th></th>
                 <th>${{ number_format($totalCosto, 2) }}</th>
                 <th>${{ number_format($totalEgresos, 2) }}</th>

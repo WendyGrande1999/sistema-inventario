@@ -19,20 +19,22 @@
 
     <!-- Tabla para las entradas desde el ultimo cierre a la fecha  -->  
 <br>
+
+{{-- Sección de Entradas Activas --}}
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h3 class="mb-0">Entradas Activas</h3>
+        </div>
+        <div class="card-body">
     <div class="card-body">
         <div class="table-responsive">
        
 
-        {{-- Sección de Entradas Activas --}}
-    <div class="card mb-4">
-        <div class="card-header bg-success text-white">
-            <h3 class="mb-0">Entradas Activas desde el Último Cierre</h3>
-        </div>
-        <div class="card-body">
+    
         <table id="my-table"  class="table table-bordered" width="100%" cellspacing="0">
         <thead>
             <tr>
-              
+                
                 <th>Fecha Ingreso</th>
                 <th>Producto</th>
                 <th>Proveedor</th>
@@ -40,7 +42,6 @@
                 <th>Unidad de Medida</th>
                 <th>Cantidad entrante</th>
                 <th>Cantidad disponible</th>
-              
                 <th>Salida</th>
                 <th>Precio por Unidad</th>
                 <th>Saldo Compra</th>
@@ -100,10 +101,15 @@
   <!-- Tabla para las entradas del ultimo cierre  -->  
 <br>
 <br>
-
+{{-- Sección de Entradas Activas --}}
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            <h3 class="mb-0">Entradas inactivas</h3>
+        </div>
+        <div class="card-body">
   <div class="card-body">
         <div class="table-responsive">
-        <strong> <h3> Entradas inactivas desde el ultimo cierre a la fecha.</h3></strong>
+       
         <br>
         <table id="my-table"  class="table table-bordered" width="100%" cellspacing="0">
         <thead>

@@ -31,15 +31,15 @@
         <table class="table table-bordered mt-4">
             <thead>
                 <tr>
-                    <th>Fecha Entrada</th>
-                    <th>Descripción</th>
-                    <th>Proveedor</th>
-                    <th>Entradas</th>
-                    <th>Salidas</th>
-                    <th>Stock</th>
-                    <th>Unidad medida</th>
-                    <th>Precio de Compra</th>
-                    <th>Saldo Compra</th>
+                    <th class="bg-success">Fecha Entrada</th>
+                    <th class="bg-success">Descripción</th>
+                    <th class="bg-success">Proveedor</th>
+                    <th class="bg-success">Entradas</th>
+                    <th class="bg-success">Salidas</th>
+                    <th class="bg-success">Stock</th>
+                    <th class="bg-success">Unidad medida</th>
+                    <th class="bg-success">Precio de Compra</th>
+                    <th class="bg-success">Saldo Compra</th>
                 </tr>
             </thead>
             <tbody>
@@ -64,6 +64,7 @@
                     <td><strong>{{ $totalSalidas }}</strong></td>
                     <td><strong>{{ $totalStock }}</strong></td>
                     <td><strong> </strong></td>
+                   
                     <td><strong>${{ number_format($promedioPrecioCompra, 2) }}</strong></td>
                     <td><strong>${{ $totalSaldoCompra }}</strong></td>
                 </tr>
