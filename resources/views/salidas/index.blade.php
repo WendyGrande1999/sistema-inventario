@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@role('admin')
 <div class="container">
     <h1>Listado de Salidas</h1>
     <a href="{{ route('salidas.create') }}" class="btn btn-primary mb-3">Agregar Nueva Salida</a>
@@ -11,11 +12,11 @@
         @if (session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
-    
+
     <table class="table table-bordered">
         <thead>
             <tr>
-           
+
                 <th>Fecha Salida</th>
                 <th>Producto</th>
                 <th>Unidad de Medida</th>
@@ -27,10 +28,10 @@
         <tbody>
             @foreach($salidasActivas as $salida)
                 <tr>
-                  
+
                     <td>{{ $salida->fecha_salida }}</td>
                     <td>{{ $salida->producto->nombre }}</td>
-                   
+
                     <td>{{ $salida->unidad_medida }}</td>
                     <td>{{ $salida->cantidad }}</td>
                     <td>{{ $salida->usuario->name }}</td>
@@ -47,4 +48,45 @@
         </tbody>
     </table>
 </div>
+@endrole
+
+@role('editor')
+<div class="container">
+    <h1>Listado de Salidas</h1>
+    <a href="{{ route('salidas.create') }}" class="btn btn-primary mb-3">Agregar Nueva Salida</a>
+    @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+
+                <th>Fecha Salida</th>
+                <th>Producto</th>
+                <th>Unidad de Medida</th>
+                <th>Cantidad</th>
+                <th>Usuario</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($salidasActivas as $salida)
+                <tr>
+
+                    <td>{{ $salida->fecha_salida }}</td>
+                    <td>{{ $salida->producto->nombre }}</td>
+
+                    <td>{{ $salida->unidad_medida }}</td>
+                    <td>{{ $salida->cantidad }}</td>
+                    <td>{{ $salida->usuario->name }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@endrole
 @endsection

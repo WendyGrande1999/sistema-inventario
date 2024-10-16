@@ -241,7 +241,7 @@
 
         </div>
     @endrole
-    @role('escritor')
+    @role('editor')
         <div class="container">
 
             <h1>Lista de Entradas</h1>
