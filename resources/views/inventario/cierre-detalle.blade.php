@@ -17,7 +17,7 @@
                     <th>Producto</th>
                     <th>Entradas</th>
                     <th>Salidas</th>
-                    <th>Stock Saliente</th>
+                    <th>Ver detalles</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,11 +27,18 @@
                         <td>{{ $producto['nombre'] }}</td>
                         <td>{{ $producto['entradas'] }}</td>
                         <td>{{ $producto['salidas'] }}</td>
-                        <td>{{ $producto['stock_saliente'] }}</td>
+                        <td>
+                        <a href="{{ route('entradas.productoCierre', ['fecha_cierre' => $fechaCierre, 'producto' => $producto['id']]) }}" 
+                         class="btn btn-info btn-sm">Ver</a>
+                        </td>
+
+
                     </tr>
                 @endforeach
             </tbody>
         </table>
+
+
     @endif
 </div>
 @endsection

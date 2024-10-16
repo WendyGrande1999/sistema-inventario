@@ -12,7 +12,8 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SalidaController;
 use App\Http\Controllers\InventarioController;
-
+use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\ChartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,7 @@ Route::get('/inventario/cierres', [InventarioController::class, 'mostrarCierres'
 
 // Obtener los productos del cierre seleccionado
 Route::get('/inventario/cierre-detalle', [InventarioController::class, 'mostrarEntradasPorCierre'])->name('inventario.cierre-detalle');
+// Ruta para mostrar el gráfico de cierres de inventario
 
 
 Route::get('/productos/{id}/existencia', [ProductoController::class, 'getExistencia'])->name('productos.existencia');
@@ -123,6 +125,11 @@ Route::get('/reportes/seleccionar', [ProductoController::class, 'seleccionarProd
 // Ruta para mostrar los detalles del producto seleccionado
 Route::get('/reportes/detalle', [ProductoController::class, 'mostrarDetalleProducto'])->name('reportes.detalle');
 Route::get('/reportes/pdf/{id}', [ProductoController::class, 'generarPDF'])->name('reportes.pdf');
+Route::get('/reporte-diario/mostrar', [ReporteController::class, 'mostrarReporteDiario'])->name('reporte-diario.mostrar');
+Route::post('/reporte-diario/generar', [ReporteController::class, 'generarReporteDiario'])->name('reporte-diario.generar');
 
+Route::get('/grafico', [ChartController::class, 'index'])->name('grafico.index');
 
+Route::get('/cierre/{fecha_cierre}/entradas/{producto}', [EntradaController::class, 'mostrarEntradasPorProductoCierre'])
+    ->name('entradas.productoCierre');
 

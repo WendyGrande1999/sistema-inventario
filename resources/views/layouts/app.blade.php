@@ -8,7 +8,8 @@
     <title>Dashboard - Sistema de Inventario Hojas Eco Villas</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
-
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Favicons -->
     <link href="assets/img/favicon.png" rel="icon">
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">

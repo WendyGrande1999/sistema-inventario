@@ -101,21 +101,44 @@ class SalidaController extends Controller
             'fecha_salida' => 'required|date',
             'cantidad' => 'required|integer|min:1',
         ]);
-
+    
         try {
-            
+            // Obtener la entrada relacionada a esta salida
+            $entrada = Entrada::findOrFail($salida->identrada);
+    
+            // Calcular la diferencia entre la nueva cantidad y la cantidad original de la salida
+            $diferencia = $request->cantidad - $salida->cantidad;
+    
+            // Verificar si la diferencia es válida (que no exceda la cantidad disponible en la entrada)
+            if ($diferencia > $entrada->cantidad) {
+                return redirect()->back()->withErrors('La nueva cantidad de salida excede la cantidad disponible en la entrada.');
+            }
+    
+            // Actualizar los campos en la entrada
+            $entrada->cantidad -= $diferencia; // Reducir la cantidad disponible según la diferencia
+            $entrada->salida += $diferencia;   // Ajustar el total del campo 'salida'
+    
+            // Verificar si la cantidad llega a 0, y cambiar el estado de la entrada a "inactivo"
+            if ($entrada->cantidad == 0) {
+                $entrada->estado = 'inactivo'; // Marcar la entrada como inactiva
+                $salida->estado = 'inactivo';  // Marcar también la salida como inactiva
+            }
+    
+            // Guardar los cambios en la entrada
+            $entrada->save();
+    
+            // Actualizar los datos de la salida
             $salida->update([
-               'fecha_salida' => $request->input('fecha_salida'),
+                'fecha_salida' => $request->input('fecha_salida'),
                 'cantidad' => $request->input('cantidad'),
-                
             ]);
-
-            return redirect()->route('salidas.index')->with('success', 'Salida actualizada exitosamente.');
+    
+            return redirect()->route('salidas.index')->with('success', 'Salida actualizada exitosamente. La entrada ha sido actualizada.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error al actualizar la salida: ' . $e->getMessage());
         }
-
     }
+    
 
     public function destroy(Salida $salida)
     {

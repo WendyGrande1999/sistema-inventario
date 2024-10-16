@@ -20,6 +20,8 @@ class CierreInventario extends Model
     // Relación con el producto
     public function producto()
     {
-        return $this->belongsTo(Producto::class);
+        return $this->belongsTo(Producto::class, 'producto_id');
     }
+
+    
 }
