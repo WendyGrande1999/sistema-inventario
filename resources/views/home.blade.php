@@ -24,9 +24,9 @@
 
                     <!-- Card de productos-->
                     <div class="col-xxl-4 col-md-6">
-                        <div class="card info-card sales-card"  >
+                        <div class="card info-card sales-card">
                             <div class="filter">
-                                <a class="icon" href="{{ route('productos.index') }}" data-bs-toggle="dropdown" ><i
+                                <a class="icon" href="{{ route('productos.index') }}" data-bs-toggle="dropdown"><i
                                         class="bi bi-three-dots"></i></a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                     <li class="dropdown-header text-start">
@@ -44,7 +44,10 @@
                                         <i class="bi bi-cart"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>145</h6>
+                                        @php
+                                            $cantidaddeproductos = DB::table('productos')->count();
+                                        @endphp
+                                        <h6>{{ $cantidaddeproductos }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +79,10 @@
                                         <i class="bi bi-tags me-2"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>6</h6>
+                                        @php
+                                            $cantidaddecategories = DB::table('categories')->count();
+                                        @endphp
+                                        <h6>{{ $cantidaddecategories }}</h6>
 
                                     </div>
                                 </div>
@@ -109,7 +115,10 @@
                                         <i class="bi bi-people"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>12</h6>
+                                        @php
+                                        $cantidaddeproveedores = DB::table('proveedors')->count();
+                                    @endphp
+                                    <h6>{{ $cantidaddeproveedores }}</h6>
                                     </div>
                                 </div>
 
@@ -144,7 +153,10 @@
                                         <i class="bi bi-cart-check me-2"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>20</h6>
+                                        @php
+                                            $cantidaddeentradas = DB::table('entradas')->count();
+                                        @endphp
+                                        <h6>{{ $cantidaddeentradas }}</h6>
 
 
                                     </div>
@@ -178,7 +190,10 @@
                                         <i class="bi bi-cart-check me-2"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>10</h6>
+                                        @php
+                                        $cantidaddesalida = DB::table('salidas')->count();
+                                    @endphp
+                                    <h6>{{ $cantidaddesalida }}</h6>
 
                                     </div>
                                 </div>
@@ -211,8 +226,8 @@
                                         <i class="bi bi-boxes me-2"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>35</h6>
 
+                                    <h6>35</h6>
                                     </div>
                                 </div>
 
