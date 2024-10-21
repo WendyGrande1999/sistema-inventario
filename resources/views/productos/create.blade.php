@@ -37,9 +37,9 @@
                     </strong>
                     <select name="unidad_medida" id="unidad_medida" class="form-control" required>
                         <option value="">Seleccione unidad de medida</option>
-                        <option value="Libra">Libra</option>
-                        <option value="Onza">Onza</option>
-                        <option value="Unidad">Unidad</option>
+                        <option value="Libra">Libras</option>
+                        <option value="Onza">Onzas</option>
+                        <option value="Unidad">Unidades</option>
                         <option value="Cajas">Cajas</option>
                     </select>
                 </div>

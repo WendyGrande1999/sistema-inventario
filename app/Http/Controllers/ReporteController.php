@@ -16,6 +16,84 @@ class ReporteController extends Controller
         return view('reportes.diario');
     }
 
+    public function seleccionarFechas()
+    {
+        return view('reportes.seleccionar-fechas');
+    }
+
+    // Método para generar el reporte basado en el rango de fechas
+    public function generarReportePorFechas(Request $request)
+    {
+        // Validar las fechas
+        $request->validate([
+            'fecha_inicio' => 'required|date',
+            'fecha_cierre' => 'required|date',
+        ]);
+
+        // Obtener las fechas
+        $fechaInicio = Carbon::createFromFormat('Y-m-d', $request->input('fecha_inicio'));
+        $fechaCierre = Carbon::createFromFormat('Y-m-d', $request->input('fecha_cierre'));
+
+        // Obtener los productos
+        $productos = Producto::all();
+
+        // Crear el arreglo para el reporte
+        $reporte = [];
+
+        foreach ($productos as $producto) {
+            // Obtener las entradas y salidas en el rango de fechas
+            $entradasProducto = Entrada::where('idproducto', $producto->id)
+                ->whereBetween('fecha_ingreso', [$fechaInicio, $fechaCierre])
+                ->get();
+
+             
+
+         
+
+            // Calcular totales
+            $cantidadEntradas = $entradasProducto->sum('cantidad_entrante');
+            $cantidadSalidas = $entradasProducto->sum('salida');
+            $stockActual = $entradasProducto->sum('cantidad');
+
+            $stockActualll = $cantidadEntradas - $cantidadSalidas;
+
+            // Calcular costo total de entradas
+            $costoPorProducto = $entradasProducto->sum(function ($entrada) {
+                return $entrada->cantidad_entrante * $entrada->precio_unidad;
+            });
+
+            // Calcular total egreso
+            $totalEgreso = $entradasProducto->sum(function ($entrada) use ($producto) {
+              
+                return $entrada->salida * $entrada->precio_unidad;
+            });
+
+            // Agregar los datos al reporte
+            $reporte[] = [
+                'codigo' => $producto->codigo,
+                'producto' => $producto->nombre,
+                'entradas' => $cantidadEntradas,
+                'salidas' => $cantidadSalidas,
+                'stock' => $stockActual,
+                'unidad_medida' => $producto->unidad_medida,
+                'costo_por_producto' => $costoPorProducto,
+                'total_egreso' => $totalEgreso,
+            ];
+        }
+
+        // Calcular los totales
+        $totalEntradas = array_sum(array_column($reporte, 'entradas'));
+        $totalSalidas = array_sum(array_column($reporte, 'salidas'));
+        $totalCosto = array_sum(array_column($reporte, 'costo_por_producto'));
+        $totalEgresos = array_sum(array_column($reporte, 'total_egreso'));
+
+        // Pasar los datos a la vista
+        $fechaInicioTexto = $fechaInicio->format('d-m-Y');
+        $fechaCierreTexto = $fechaCierre->format('d-m-Y');
+
+        return view('reportes.reporte-por-fechas', compact('reporte', 'fechaInicioTexto', 'fechaCierreTexto', 'totalEntradas', 'totalSalidas', 'totalCosto', 'totalEgresos'));
+    }
+
     public function generarReporteDiario(Request $request)
     {
 

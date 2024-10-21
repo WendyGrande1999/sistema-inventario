@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-<h3>Reporte Diario de Inventario - {{ $fechaTexto }}</h3>
+    <h3>Reporte de Inventario del {{ $fechaInicioTexto }} al {{ $fechaCierreTexto }}</h3>
 
     <table class="table table-bordered">
         <thead>
@@ -12,8 +12,8 @@
                 <th class="bg-success">Entradas</th>
                 <th class="bg-success">Salidas</th>
                 <th class="bg-success">Stock</th>
-                <th class="bg-success">Unit de medida</th>
-                <th class="bg-success">Costo total entradas</th>
+                <th class="bg-success">Unidad de Medida</th>
+                <th class="bg-success">Costo Total Entradas</th>
                 <th class="bg-success">Total Egreso</th>
             </tr>
         </thead>

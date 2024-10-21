@@ -19,62 +19,59 @@
                 </div>
             @endif
 
-            <!-- Tabla para las entradas desde el ultimo cierre a la fecha  -->
-            <br>
-            <div class="card-body">
-                <div class="table-responsive">
+    <!-- Tabla para las entradas desde el ultimo cierre a la fecha  -->  
+<br>
 
+ <!-- Tabla para las entradas desde el último cierre a la fecha -->
+ <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0">Entradas Activas desde el Último Cierre</h3>
+            </div>
+    <div class="card-body">
+        <div class="table-responsive">
+    
+        <div class="card-body">
+        <table id="my-table"  class="table table-bordered" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+              
+                <th>Fecha Ingreso</th>
+                <th>Producto</th>
+                <th>Proveedor</th>
+                <th>Usuario</th>
+                <th>Cantidad entrante</th>
+                <th>Cantidad disponible</th>
+                <th>Salida</th>
+                <th>Precio por Unidad</th>
+                <th>Saldo Compra</th>
+                <th>Ver</th>
+                <th>Edit</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach ($entradasDesdeUltimoCierre as $entrada)
+            <tr>
+              
+                <td>{{ $entrada->fecha_ingreso }}</td>
+                <td>{{ $entrada->producto->nombre }}</td>
+                <td>{{ $entrada->proveedor->name }}</td>
+                <td>{{ $entrada->usuario->name }}</td>
+                
+                <td>{{ $entrada->cantidad_entrante }}</td>
+                <td>{{ $entrada->cantidad }} {{ $entrada->unidad_medida }}</td>
+                <td>{{ $entrada->salida }}</td>
+                <td>$<span>{{ $entrada->precio_unidad }}</span> 
+                
+                <td>$<span>{{ $entrada->saldo_compra }}</span></td>
 
-                    {{-- Sección de Entradas Activas --}}
-                    <div class="card mb-4">
-                        <div class="card-header bg-success text-white">
-                            <h3 class="mb-0">Entradas Activas desde el Último Cierre</h3>
-                        </div>
-                        <div class="card-body">
-                            <table id="my-table" class="table table-bordered" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-
-                                        <th>Fecha Ingreso</th>
-                                        <th>Producto</th>
-                                        <th>Proveedor</th>
-                                        <th>Usuario</th>
-                                        <th>Unidad de Medida</th>
-                                        <th>Cantidad entrante</th>
-                                        <th>Cantidad disponible</th>
-
-                                        <th>Salida</th>
-                                        <th>Precio por Unidad</th>
-                                        <th>Saldo Compra</th>
-                                        <th>Ver</th>
-
-                                        <th>Edit</th>
-                                        <th>Eliminar</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($entradasDesdeUltimoCierre as $entrada)
-                                        <tr>
-
-                                            <td>{{ $entrada->fecha_ingreso }}</td>
-                                            <td>{{ $entrada->producto->nombre }}</td>
-                                            <td>{{ $entrada->proveedor->name }}</td>
-
-                                            <td>{{ $entrada->usuario->name }}</td>
-                                            <td>{{ $entrada->unidad_medida }}</td>
-                                            <td>{{ $entrada->cantidad_entrante }}</td>
-                                            <td>{{ $entrada->cantidad }}</td>
-                                            <td>{{ $entrada->salida }}</td>
-                                            <td>$<span>{{ $entrada->precio_unidad }}</span>
-
-                                            <td>$<span>{{ $entrada->saldo_compra }}</span></td>
-
-                                            <td>
-                                                <a href="{{ route('entradas.show', $entrada->id) }}"
-                                                    class="btn btn-info btn-sm">
-                                                    Ver</a>
-
-                                            </td>
+                
+                
+                <td>
+                    <a href="{{ route('entradas.show', $entrada->id) }}" class="btn btn-info btn-sm">
+                        Ver</a>
+              
+                </td>
 
                                             <td>
                                                 <a href="{{ route('entradas.edit', $entrada->id) }}"
@@ -103,84 +100,92 @@
                 </div>
             </div>
 
-            <!-- Tabla para las entradas del ultimo cierre  -->
-            <br>
-            <br>
+  <!-- Tabla para las entradas del ultimo cierre  -->  
+<br>
+<br>
 
-            <div class="card-body">
-                <div class="table-responsive">
-                    <strong>
-                        <h3> Entradas inactivas desde el ultimo cierre a la fecha.</h3>
-                    </strong>
-                    <br>
-                    <table id="my-table" class="table table-bordered" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
+<div class="card mb-4">
+            <div class="card-header bg-secondary text-white">
+               <strong> <h3> Entradas inactivas desde el ultimo cierre a la fecha.</h3></strong>
+            </div>
+    <div class="card-body">
+        <div class="table-responsive">
+    
+        <div class="card-body">
+        <table id="my-table"  class="table table-bordered" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+              
+                <th>Fecha Ingreso</th>
+                <th>Producto</th>
+                <th>Proveedor</th>
+                <th>Usuario</th>
+               
+                <th>Cantidad entrante</th>
+                <th>Cantidad disponible</th>
+              
+                <th>Salida</th>
+                <th>Precio por Unidad</th>
+                <th>Saldo Compra</th>
+                <th>Ver</th>
+                <th>Edit</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach ($entradasDesdeUltimoCierreInactivas as $entrada)
+            <tr>
+              
+                <td>{{ $entrada->fecha_ingreso }}</td>
+                <td>{{ $entrada->producto->nombre }}</td>
+                <td>{{ $entrada->proveedor->name }}</td>
+                
+                <td>{{ $entrada->usuario->name }}</td>
+               
+                <td>{{ $entrada->cantidad_entrante }}</td>
+                <td>{{ $entrada->cantidad }} {{ $entrada->unidad_medida }}</td>
+                <td>{{ $entrada->salida }}</td>
+                <td>$<span>{{ $entrada->precio_unidad }}</span> 
+                
+                <td>$<span>{{ $entrada->saldo_compra }}</span></td>
 
-                                <th>Fecha Ingreso</th>
-                                <th>Producto</th>
-                                <th>Proveedor</th>
-                                <th>Usuario</th>
-                                <th>Unidad de Medida</th>
-                                <th>Cantidad entrante</th>
-                                <th>Cantidad disponible</th>
-
-                                <th>Salida</th>
-                                <th>Precio por Unidad</th>
-                                <th>Saldo Compra</th>
-                                <th>Ver</th>
-                                <th>Edit</th>
-                                <th>Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($entradasDesdeUltimoCierreInactivas as $entrada)
-                                <tr>
-
-                                    <td>{{ $entrada->fecha_ingreso }}</td>
-                                    <td>{{ $entrada->producto->nombre }}</td>
-                                    <td>{{ $entrada->proveedor->name }}</td>
-
-                                    <td>{{ $entrada->usuario->name }}</td>
-                                    <td>{{ $entrada->unidad_medida }}</td>
-                                    <td>{{ $entrada->cantidad_entrante }}</td>
-                                    <td>{{ $entrada->cantidad }}</td>
-                                    <td>{{ $entrada->salida }}</td>
-                                    <td>$<span>{{ $entrada->precio_unidad }}</span>
-
-                                    <td>$<span>{{ $entrada->saldo_compra }}</span></td>
-
-
-
+                
+                
                 <td>
                     <a href="{{ route('entradas.show', $entrada->id) }}" class="btn btn-info btn-sm">
                         Ver</a>
-
+              
                 </td>
 
-                                    <td>
-                                        <a href="{{ route('entradas.edit', $entrada->id) }}"
-                                            class="btn btn-warning btn-sm">Editar</a>
-                                    </td>
+                                            <td>
+                                                <a href="{{ route('entradas.edit', $entrada->id) }}"
+                                                    class="btn btn-warning btn-sm">Editar</a>
+                                            </td>
 
-                                    <td>
+                                            <td>
 
 
 
-                                        <form id="delete-entry-form" action="{{ route('entradas.destroy', $entrada->id) }}"
-                                            method="POST" style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button onclick="eliminarEntrada(event)" type="button"
-                                                class="btn btn-danger btn-sm">Eliminar</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                                <form id="delete-entry-form"
+                                                    action="{{ route('entradas.destroy', $entrada->id) }}" method="POST"
+                                                    style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button onclick="eliminarEntrada(event)" type="button"
+                                                        class="btn btn-danger btn-sm">Eliminar</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+
+ <br>
 
             <!-- Scripts -->
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

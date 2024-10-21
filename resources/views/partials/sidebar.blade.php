@@ -95,7 +95,14 @@
                         <i class="bi bi-circle"></i><span>Reporte diario</span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="/reportes/mes/seleccionar-fechas">
+                        <i class="bi bi-circle"></i><span>Reporte por periodo</span>
+                    </a>
+                </li>
             </ul>
+            
         </li><!-- End Forms Nav -->
 
 
