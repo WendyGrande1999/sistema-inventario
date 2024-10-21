@@ -48,41 +48,41 @@ class InventarioController extends Controller
         $request->validate([
             'fecha_cierre' => 'required|date',
         ]);
-    
+
         $fechaCierre = $request->input('fecha_cierre');
-      
+
        // Convertir la fecha de cierre a un objeto Carbon
        $fechaCierre = Carbon::createFromFormat('Y-m-d', $request->input('fecha_cierre'));
        $fechaSiguiente = $fechaCierre->copy()->addDay(); // Fecha del día siguiente
-       
-    
+
+
         // Obtener todos los productos
         $productos = Producto::all();
-    
+
         // Iterar sobre los productos para generar el cierre de inventario
         foreach ($productos as $producto) {
             // Calcular el stock actual del producto (sumando las cantidades de todas las entradas activas)
             $stockActual = $producto->entradas->sum('cantidad');
-    
+
             // Guardar el cierre de inventario en la tabla cierres_inventario
             CierreInventario::create([
                 'producto_id' => $producto->id,
                 'cantidad_total' => $stockActual, // Stock actual
                 'fecha_cierre' => $fechaCierre,   // Fecha de cierre
             ]);
-    
+
             // Obtener las entradas activas (cantidad > 0)
             $entradasActivas = Entrada::where('idproducto', $producto->id)
                 ->where('cantidad', '>', 0) // Solo las entradas que tienen cantidad disponible
                 ->get();
-    
+
             // Actualizar la fecha de las entradas activas al día siguiente
             foreach ($entradasActivas as $entrada) {
                 $entrada->fecha_ingreso = $fechaSiguiente;
                 $entrada->save();
             }
         }
-    
+
         // Redirigir al usuario con un mensaje de éxito
         return redirect()->route('inventario.cierre-manual')->with('success', 'Cierre de inventario generado correctamente. Las entradas activas se han actualizado.');
     }
@@ -90,7 +90,7 @@ class InventarioController extends Controller
     public function mostrarCierres()
 {
 
-    
+
     // Obtener todas las fechas de los cierres
     $fechasCierres = CierreInventario::select('fecha_cierre')->distinct()->get();
 
@@ -182,5 +182,5 @@ public function mostrarCierreGrafico()
 
 
 
-    
+
 }

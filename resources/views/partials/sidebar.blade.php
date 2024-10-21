@@ -58,7 +58,7 @@
                 </li>
             </ul>
         </li>
-        
+
         <!-- End Forms Nav -->
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#cierres-nav" data-bs-toggle="collapse" href="#">
@@ -95,13 +95,20 @@
                         <i class="bi bi-circle"></i><span>Reporte diario</span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="/reportes/mes/seleccionar-fechas">
+                        <i class="bi bi-circle"></i><span>Reporte por periodo</span>
+                    </a>
+                </li>
             </ul>
+            
         </li><!-- End Forms Nav -->
 
 
     @endrole
 
-    @role('escritor')
+    @role('editor')
     <li class="nav-item">
         <a class="nav-link " href="/home">
             <i class="bi bi-grid"></i>
@@ -155,13 +162,23 @@
             </li>
         </ul>
     </li><!-- End Forms Nav -->
-
-    
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-            <i class="bi bi-graph-up me-2"></i>
-            <span>Reportes</span>
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-bar-chart-line"></i></i><span>Reportes</span><i
+                class="bi bi-chevron-down ms-auto"></i>
         </a>
-    </li><!-- End Login Page Nav -->
+        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li>
+                <a href="/reportes/seleccionar">
+                    <i class="bi bi-circle"></i><span>Reporte producto</span>
+                </a>
+            </li>
+            <li>
+                <a href="/reporte-diario/mostrar">
+                    <i class="bi bi-circle"></i><span>Reporte diario</span>
+                </a>
+            </li>
+        </ul>
+    </li><!-- End Forms Nav -->
 @endrole
 </ul>

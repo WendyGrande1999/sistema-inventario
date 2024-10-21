@@ -71,7 +71,7 @@
                         <th>Cantidad Entrante</th>
                         <th>Salidas</th>
                         <th>Cantidad Disponible</th>
-                        <th>Unidad de Medida</th>
+                      
                         <th>Precio por Unidad</th>
                         <th>Saldo Compra</th>
                     </tr>
@@ -80,8 +80,8 @@
                     <tr>
                         <td>{{ $entrada->cantidad_entrante }}</td>
                         <td>{{ $entrada->salida }}</td>
-                        <td>{{ $entrada->cantidad }}</td>
-                        <td>{{ $entrada->unidad_medida }}</td>
+                        <td>{{ $entrada->cantidad }} {{ $entrada->unidad_medida }}</td>
+                     
                         <td>${{ $entrada->precio_unidad }}</td>
                         <td>${{ $entrada->saldo_compra }}</td>
                     </tr>

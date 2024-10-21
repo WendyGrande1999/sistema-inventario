@@ -133,3 +133,10 @@ Route::get('/grafico', [ChartController::class, 'index'])->name('grafico.index')
 Route::get('/cierre/{fecha_cierre}/entradas/{producto}', [EntradaController::class, 'mostrarEntradasPorProductoCierre'])
     ->name('entradas.productoCierre');
 
+// Ruta para mostrar el formulario de selección de fechas
+Route::get('/reportes/mes/seleccionar-fechas', [ReporteController::class, 'seleccionarFechas'])->name('reportes.seleccionarFechas');
+
+// Ruta para generar el reporte de inventario por fechas
+Route::post('/reportes/mes/reporte-por-fechas', [ReporteController::class, 'generarReportePorFechas'])->name('reportes.reportePorFechas');
+
+
