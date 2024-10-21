@@ -16,10 +16,10 @@ return new class extends Migration
     public function up(): void
     {
         $role1 = Role::firstOrCreate(['name' => 'admin']);
-        $role2 = Role::firstOrCreate(['name' => 'escritor']);
-    
+        $role2 = Role::firstOrCreate(['name' => 'editor']);
+
         $user = User::find(1);
-    
+
         if ($user) {
             $user->assignRole($role1);
         }
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-       
+
     }
 };

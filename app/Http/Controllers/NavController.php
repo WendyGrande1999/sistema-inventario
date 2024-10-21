@@ -1,79 +1,68 @@
 <?php
 
-namespace App\Providers;
-use Illuminate\Support\Facades\View;
-use App\Models\Producto;
+namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use App\Models\Producto;
 use App\Models\Entrada;
 use App\Models\CierreInventario;
 use Carbon\Carbon;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
-
-class EventServiceProvider extends ServiceProvider
+class NavController extends Controller
 {
-    /**
-     * The event to listener mappings for the application.
-     *
-     * @var array<class-string, array<int, class-string>>
-     */
-    protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
-        ],
-    ];
-
-    /**
-     * Register any events for your application.
-     */
-    public function boot(): void
+    public function index()
     {
-        View::composer('*', function ($view) {
-            $productos = \App\Models\Producto::with('entradas', 'cierresInventario')->get();
-            $umbral = 10;
-            $dataProductos = $productos->map(function ($producto) {
-                // Obtener el último cierre de este producto
-                $ultimoCierre = $producto->cierresInventario()->latest('fecha_cierre')->first();
+        // Obtener todos los productos
+        $productos = Producto::all();
 
-                // Si no hay un cierre, tomamos todas las entradas antes del inicio del año
-                $stockUltimoCierre = $ultimoCierre ? $ultimoCierre->cantidad_total : 0;
+        // Definir el umbral de agotamiento
+        $umbral = 10;
 
-                // Calcular el stock total actual desde el último cierre
-                $stockTotalActual = $producto->entradas()
-                    ->where('estado', 'activo')
-                    ->whereDate('fecha_ingreso', '>', $ultimoCierre ? $ultimoCierre->fecha_cierre : Carbon::now()->startOfYear())
-                    ->sum('cantidad');
-
-                return [
-                    'codigo' => $producto->codigo,
-                    'nombre' => $producto->nombre,
-                    'unidad_medida' => $producto->unidad_medida,
-                    'stockTotalActual' => $stockTotalActual,
-                    'stockUltimoCierre' => $stockUltimoCierre,
-                ];
-            });
-
-            // Filtrar productos por agotarse
-            $productosAgotandose = $dataProductos->filter(function($producto) use ($umbral) {
-                return ($producto['stockTotalActual']) < $umbral;
-            });
-
-            // Contar productos por agotarse
-            if ($productosPorAgotarse = $productosAgotandose->count()< $umbral)
-            $stockRestantePorAgotarse = $productosAgotandose->sum(function($producto) {
-                return $producto['stockTotalActual'];
-            });
-
-            // Pasar datos al 'nav'
-            $view->with('productosPorAgotarse', $productosPorAgotarse)
-                 ->with('stockRestantePorAgotarse', $stockRestantePorAgotarse)
-                 ->with('producto', $productos)
-                 ->with('umbral', $umbral)
-                 ->with('dataProductos', $dataProductos);
+        // Filtrar los productos que están por agotarse
+        $productosAgotandose = $productos->filter(function ($producto) use ($umbral) {
+            $stockActual = $producto->stock_ultimo_cierre + $producto->cantidad_entradas_desde_cierre - $producto->cantidad_salidas_desde_cierre;
+            return $stockActual <= $umbral;
         });
+
+        // Pasar los datos a la vista
+        return view('partials.nav', [
+            'productosPorAgotarse' => $productosAgotandose,
+            'totalUnidadesPorAgotarse' => $productosAgotandose->sum(function ($producto) {
+                return $producto->stock_ultimo_cierre + $producto->cantidad_entradas_desde_cierre - $producto->cantidad_salidas_desde_cierre;
+            }),
+        ]);
     }
+    // Mostrar la vista del cierre manual con el stock desde el último cierre
+    public function mostrarCierreManual()
+    {
+        // Obtener todos los productos
+        $productos = Producto::with('entradas', 'cierresInventario')->get();
+
+        // Crear un arreglo para almacenar los productos con el stock desde el último cierre
+        $dataProductos = $productos->map(function ($producto) {
+            // Obtener el último cierre de este producto
+            $ultimoCierre = $producto->cierresInventario()->latest('fecha_cierre')->first();
+
+            // Si no hay un cierre, tomamos todas las entradas antes del inicio del año
+            $stockUltimoCierre = $ultimoCierre ? $ultimoCierre->cantidad_total : 0;
+
+            // Calcular el stock total actual desde el último cierre
+            $stockTotalActual = $producto->entradas()
+                ->where('estado', 'activo')
+                ->whereDate('fecha_ingreso', '>', $ultimoCierre ? $ultimoCierre->fecha_cierre : Carbon::now()->startOfYear())
+                ->sum('cantidad');
+
+            return [
+                'codigo' => $producto->codigo,
+                'nombre' => $producto->nombre,
+                'stockTotalActual' => $stockTotalActual,
+                'stockUltimoCierre' => $stockUltimoCierre,
+            ];
+        });
+
+        // Pasar los datos a la vista
+        return view('partials.nav', ['dataProductos' => $dataProductos]);
+    }
+
     // Generar el cierre manual
     public function generarCierreManual(Request $request)
     {
@@ -211,12 +200,5 @@ class EventServiceProvider extends ServiceProvider
         // <- Esto mostrará los datos en el navegador
 
         return view('partials.nav', compact('dataCierres'));
-    }
-    /**
-     * Determine if events and listeners should be automatically discovered.
-     */
-    public function shouldDiscoverEvents(): bool
-    {
-        return false;
     }
 }
