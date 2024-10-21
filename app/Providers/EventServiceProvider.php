@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers;
+
 use Illuminate\Support\Facades\View;
 use App\Models\Producto;
 use Illuminate\Http\Request;
@@ -56,22 +57,23 @@ class EventServiceProvider extends ServiceProvider
             });
 
             // Filtrar productos por agotarse
-            $productosAgotandose = $dataProductos->filter(function($producto) use ($umbral) {
-                return ($producto['stockTotalActual']) < $umbral;
+            $productosAgotandose = $dataProductos->filter(function ($producto) use ($umbral) {
+                return $producto['stockTotalActual'] < $umbral;
             });
 
-            // Contar productos por agotarse
-            if ($productosPorAgotarse = $productosAgotandose->count()< $umbral)
-            $stockRestantePorAgotarse = $productosAgotandose->sum(function($producto) {
+            // Contar productos por agotarse correctamente
+            $productosPorAgotarse = $productosAgotandose->count();
+
+            // Calcular el stock restante de productos por agotarse
+            $stockRestantePorAgotarse = $productosAgotandose->sum(function ($producto) {
                 return $producto['stockTotalActual'];
             });
-
             // Pasar datos al 'nav'
             $view->with('productosPorAgotarse', $productosPorAgotarse)
-                 ->with('stockRestantePorAgotarse', $stockRestantePorAgotarse)
-                 ->with('producto', $productos)
-                 ->with('umbral', $umbral)
-                 ->with('dataProductos', $dataProductos);
+                ->with('stockRestantePorAgotarse', $stockRestantePorAgotarse)
+                ->with('producto', $productos)
+                ->with('umbral', $umbral)
+                ->with('dataProductos', $dataProductos);
         });
     }
     // Generar el cierre manual

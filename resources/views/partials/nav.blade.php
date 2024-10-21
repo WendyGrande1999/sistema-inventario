@@ -16,7 +16,6 @@
 
 
 <nav class="header-nav ms-auto">
-
     <ul class="d-flex align-items-center">
 
         <li class="nav-item d-block d-lg-none">
@@ -47,7 +46,7 @@
                     <div >
                         <h4> <td>{{ $producto['nombre'] }}</h4>
                         <p>{{ $producto['stockTotalActual'] }}</p>
-                        <p>{{ $producto['unidad_medida'] }}es</p>
+                        <p>{{ $producto['unidad_medida'] }}</p>
                     </div>
                 </li>
                 @endif
