@@ -33,17 +33,6 @@
                     </tr>
                 @else
                     @foreach ($data as $producto)
-
-                        <!-- Mostrar la cantidad de productos que están por agotarse -->
-                        @if ($producto['stockTotalActual'] <= 15 )
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <strong> El producto: {{ $producto['nombre_producto'] }} esta por agotarse solo queda un :
-                                    {{ $producto['stockTotalActual'] }}%
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                            </div>
-                        @endif
-
                         <tr>
                             <td>{{ $producto['codigo'] }}</td>
                             <td>{{ $producto['nombre_producto'] }}</td>

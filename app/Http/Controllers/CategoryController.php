@@ -159,7 +159,7 @@ class CategoryController extends Controller
             }
         }
 
-        // Redirigir al usuario con un mensaje de éxito
+        // Redirigir al usuario con un de éxito
         return redirect()->route('partials.nav')->with('success', 'Cierre de inventario generado correctamente. Las entradas activas se han actualizado.');
     }
 }

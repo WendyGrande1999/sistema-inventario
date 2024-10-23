@@ -5,7 +5,6 @@
     <h1>Registrar Nueva Salida</h1>
     <form action="{{ route('salidas.store') }}" method="POST">
         @csrf
-
         <br>
         <div class="row">
             <div class="col-md-6">
@@ -51,14 +50,15 @@
                     <input type="text" name="idusuario" id="idusuario" class="form-control" value="{{ $user->name }}" disabled>
                     <input type="hidden" name="idusuario" value="{{ $user->id }}">
                 </div>
-            </div>
+                <br />
 
-            <div class="col-md-6">
-                <div class="card bg-warning text-dark mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title"><strong>Cantidad disponible</strong></h5>
-
-                        <input type="text" name="existencia" id="existencia" class="form-control" readonly>
+                <!-- Tarjeta para mostrar la cantidad disponible con cambio de color -->
+                <div class="form-group">
+                    <div id="stock-card" class="card bg-warning text-dark mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>Cantidad disponible</strong></h5>
+                            <input type="text" name="existencia" id="existencia" class="form-control" readonly>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,7 +66,6 @@
 
         <button type="submit" class="btn btn-primary mt-3">Registrar Salida</button>
     </form>
-    
 </div>
 
 <!-- Scripts -->
@@ -83,7 +82,8 @@
         const unidadMedidaInput = document.getElementById('unidad_medida');
         const existenciaInput = document.getElementById('existencia');
         const cantidadInput = document.getElementById('cantidad');
-        const entradaSelect = document.getElementById('identrada'); // Select de entradas
+        const entradaSelect = document.getElementById('identrada');
+        const stockCard = document.getElementById('stock-card');
 
         if (productoId) {
             // Habilitar el campo cantidad al seleccionar un producto
@@ -132,13 +132,34 @@
     // Escuchar cambios en el select de entradas para actualizar el input de existencia
     document.getElementById('identrada').addEventListener('change', function () {
         const selectedOption = this.options[this.selectedIndex];
-        const cantidad = selectedOption.getAttribute('data-cantidad'); // Obtener la cantidad desde el atributo data-cantidad
-        const existenciaInput = document.getElementById('existencia'); // Input de existencias
+        const cantidad = selectedOption.getAttribute('data-cantidad');
+        const existenciaInput = document.getElementById('existencia');
+        const stockCard = document.getElementById('stock-card');
 
         if (cantidad) {
-            existenciaInput.value = cantidad; // Asignar la cantidad al input de existencias
+            existenciaInput.value = cantidad;
+
+            // Cambiar el color de la tarjeta según la cantidad
+            if (cantidad <= 15) {
+                stockCard.classList.remove('bg-warning', 'bg-success');
+                stockCard.classList.add('bg-danger');
+                // Mensaje que el inventario es poco al momento de sacarlo
+                Swal.fire({
+                    title: 'Queda poco producto en el inventario',
+                    text: 'La cantidad existente en el inventario es poca',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar',
+                    confirmButtonColor: '#3085d6',
+                }).then(() => {
+                });
+            } else {
+                stockCard.classList.remove('bg-danger', 'bg-warning');
+                stockCard.classList.add('bg-success');
+            }
         } else {
-            existenciaInput.value = ''; // Limpiar el campo si no hay entrada seleccionada
+            existenciaInput.value = '';
+            stockCard.classList.remove('bg-danger', 'bg-warning', 'bg-success');
+            stockCard.classList.add('bg-warning');
         }
     });
 
@@ -172,6 +193,5 @@
         }
     });
 </script>
-
 
 @endsection

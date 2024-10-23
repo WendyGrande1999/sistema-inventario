@@ -157,7 +157,9 @@ public function getExistencia($id)
     // Calcular la existencia actual
     $existenciaActual = $totalEntradas - $totalSalidas;
 
-    return response()->json(['existencia' => $existenciaActual]);
+
+    return view('salidas.create', ['existencia' => $existenciaActual]);
+
 }
 
 public function stockReport(Request $request)
@@ -169,13 +171,13 @@ public function stockReport(Request $request)
 
     // Obtener el último cierre realizado
     $ultimoCierree = CierreInventario::latest('fecha_cierre')->first();
-    
+
     // Formatear la fecha del último cierre (puedes cambiar el formato según lo que necesites)
-    
+
     $fechaUltimoCierre = $ultimoCierree ? Carbon::parse($ultimoCierree->fecha_cierre)->translatedFormat('l d F Y') : 'No hay cierres anteriores';
 
     // Mapear la data de cada producto
-    
+
     $data = $productos->map(function ($producto) {
         // Obtener el último cierre manual
         $ultimoCierre = $producto->cierresInventario()->latest('fecha_cierre')->first();
@@ -194,7 +196,7 @@ public function stockReport(Request $request)
         $stockUltimoCierre = $ultimoCierre ? $ultimoCierre->cantidad_total : 0;
 
         // Stock total = stock del último cierre + entradas - salidas desde el último cierre
-       
+
 
           // Calcular el stock total sumando el campo 'cantidad' de las entradas activas después del último cierre
         $stockTotalActual = $producto->entradas()

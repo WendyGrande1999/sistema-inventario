@@ -71,6 +71,8 @@ Route::get('/inventario/cierre-detalle', [InventarioController::class, 'mostrarE
 
 
 Route::get('/productos/{id}/existencia', [ProductoController::class, 'getExistencia'])->name('productos.existencia');
+Route::get('/salidas/create/{id}', [SalidaController::class, 'getExistencia'])->name('salidas.create');
+
 
 
 Route::get('/categories/search', [CategoryController::class, 'search'])->name('categories.search');

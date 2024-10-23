@@ -57,7 +57,7 @@
                 </li>
 
                 <li class="dropdown-footer">
-                    <a href="/inventario/stock">Ver mas notificaciones</a>
+                    <a href="/inventario/stock">Ver stock</a>
                 </li>
 
 
