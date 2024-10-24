@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Models\Producto;
 use App\Models\Category;
 use App\Models\Entrada;
@@ -66,6 +66,13 @@ class ProductoController extends Controller
         return redirect()->route('productos.index')->with('success', 'Producto creado exitosamente.');
     }
 
+    public function generarPdf($codigo)
+    {
+    $entrada = Entrada::with(['producto', 'proveedor', 'usuario'])->findOrFail($codigo);
+    $pdf = PDF::loadView('entradas.show_pdf', compact('entrada'));
+
+    return $pdf->download('reporte por producto_' . $codigo . '.pdf');
+    }
     // Mostrar un producto específico
     public function show(Producto $producto)
     {
@@ -255,7 +262,7 @@ public function mostrarDetalleProducto(Request $request)
         $nombre_producto = $producto->nombre;
         $codigo = $producto->codigo;
         // Obtener las entradas del producto
-        
+
            $entradas = $producto->entradas->map(function($entrada) use (&$totalEntradas, &$totalSalidas, &$totalStock, &$totalSaldoCompra, &$precioCompraSum, &$cantidadEntradas) {
             $salidas = $entrada->salidas->sum('cantidad'); // Sumar todas las salidas de esa entrada
             $stock = $entrada->cantidad; // El stock es el campo que se actualiza automáticamente
@@ -280,7 +287,7 @@ public function mostrarDetalleProducto(Request $request)
                 'saldo_compra' => $entrada->saldo_compra,
             ];
         });
-       
+
         // Calcular el promedio del precio de compra
         $promedioPrecioCompra = $cantidadEntradas > 0 ? $precioCompraSum / $cantidadEntradas : 0;
 

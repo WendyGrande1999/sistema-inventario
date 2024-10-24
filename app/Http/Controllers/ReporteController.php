@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Models\Producto;
 use App\Models\Entrada;
 use App\Models\Salida;
@@ -22,6 +22,7 @@ class ReporteController extends Controller
     }
 
     // Método para generar el reporte basado en el rango de fechas
+
     public function generarReportePorFechas(Request $request)
     {
         // Validar las fechas
@@ -46,9 +47,9 @@ class ReporteController extends Controller
                 ->whereBetween('fecha_ingreso', [$fechaInicio, $fechaCierre])
                 ->get();
 
-             
 
-         
+
+
 
             // Calcular totales
             $cantidadEntradas = $entradasProducto->sum('cantidad_entrante');
@@ -64,7 +65,7 @@ class ReporteController extends Controller
 
             // Calcular total egreso
             $totalEgreso = $entradasProducto->sum(function ($entrada) use ($producto) {
-              
+
                 return $entrada->salida * $entrada->precio_unidad;
             });
 

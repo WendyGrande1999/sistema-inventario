@@ -5,7 +5,7 @@
     <h1>Detalle de Producto</h1>
 
     <table class="table table-striped">
-       
+
         <tr>
             <td><strong>Producto:</strong></td>
             <td>{{ $nombre_producto }}</td>
@@ -65,7 +65,7 @@
                     <td><strong>{{ $totalSalidas }}</strong></td>
                     <td><strong>{{ $totalStock }}</strong></td>
                     <td><strong> </strong></td>
-                   
+
                     <td><strong>${{ number_format($promedioPrecioCompra, 2) }}</strong></td>
                     <td><strong>${{ $totalSaldoCompra }}</strong></td>
                 </tr>
@@ -75,8 +75,8 @@
 
     <br>
     <div class="mt-3">
-        <a href="{{ route('reportes.detalle') }}" class="btn btn-secondary">Volver</a>
-        <a href="#" class="btn btn-primary">Descargar PDF</a>
+        <a href="#"class="btn btn-secondary">Volver</a>
+        <a href="{{ route('reportes.pdf' , $codigo) }}" class="btn btn-primary">Descargar PDF</a>
     </div>
 
 </div>

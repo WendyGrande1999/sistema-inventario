@@ -5,7 +5,7 @@
     <h1>Reporte Diario de Inventario</h1>
 
     <!-- Formulario para seleccionar la fecha -->
-    <form action="{{ route('reporte-diario.generar') }}" method="POST">
+    <form action="{{ route('reporte-diario.generar') }}" method="GET">
         @csrf
         <div class="form-group">
             <label for="fecha">Seleccionar Fecha:</label>

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h1>Detalle de compra </h1>
-  
+
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Fecha de Ingreso: {{ $entrada->fecha_ingreso }}</h4>
@@ -11,7 +11,7 @@
             <p class="card-text"><strong>Producto:</strong> {{ $entrada->producto->nombre }}</p>
             <p class="card-text"><strong>Proveedor:</strong> {{ $entrada->proveedor->name }}</p>
             <p class="card-text"><strong>Usuario:</strong> {{ $entrada->usuario->name }}</p>
-           
+
             <table class="table table-bordered mt-4">
                 <thead>
                     <tr>
@@ -32,7 +32,7 @@
                         <td>${{ $entrada->precio_unidad }}</td>
                         <td>${{ $entrada->saldo_compra }}</td>
                     </tr>
-                    
+
                 </tbody>
             </table>
 
@@ -66,13 +66,13 @@
 
                     <tr>
                         <td>
-                        <p><strong>Total:</strong></p> 
-                        </td> 
+                        <p><strong>Total:</strong></p>
+                        </td>
                         <td>
                          {{ $sumSalida }}
-                        </td> 
+                        </td>
                     </tr>
-                    
+
                 </tbody>
             </table>
 

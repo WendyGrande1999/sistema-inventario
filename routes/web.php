@@ -128,7 +128,9 @@ Route::get('/reportes/seleccionar', [ProductoController::class, 'seleccionarProd
 Route::get('/reportes/detalle', [ProductoController::class, 'mostrarDetalleProducto'])->name('reportes.detalle');
 Route::get('/reportes/pdf/{id}', [ProductoController::class, 'generarPDF'])->name('reportes.pdf');
 Route::get('/reporte-diario/mostrar', [ReporteController::class, 'mostrarReporteDiario'])->name('reporte-diario.mostrar');
-Route::post('/reporte-diario/generar', [ReporteController::class, 'generarReporteDiario'])->name('reporte-diario.generar');
+Route::get('/reporte-diario/generar', [ReporteController::class, 'generarReporteDiario'])->name('reporte-diario.generar');
+Route::get('/reporte-diario/generar/pdf/{fechaTexto}', [ReporteController::class, 'generarReporteDiario'])->name('reporte-diario.detalle');
+
 
 Route::get('/grafico', [ChartController::class, 'index'])->name('grafico.index');
 

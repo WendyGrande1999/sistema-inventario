@@ -1,8 +1,30 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-<h3>Reporte Diario de Inventario - {{ $fechaTexto }}</h3>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte Diario de Inventario - {{ $fechaTexto }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Detalle de Reporte diario</h1>
 
     <table class="table table-bordered">
         <thead>
@@ -43,10 +65,5 @@
             </tr>
         </tfoot>
     </table>
-    <br>
-    <div class="mt-3">
-        <a href="{{ route('reporte-diario.mostrar') }}"class="btn btn-secondary">Volver</a>
-        <a href="{{ route('reporte-diario.generar' , $fechaTexto) }}" class="btn btn-primary">Descargar PDF</a>
-    </div>
-</div>
-@endsection
+</body>
+</html>
