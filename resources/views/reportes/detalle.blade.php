@@ -5,13 +5,14 @@
     <h1>Detalle de Producto</h1>
 
     <table class="table table-striped">
+       
         <tr>
             <td><strong>Producto:</strong></td>
-            <td>{{ $producto->nombre }}</td>
+            <td>{{ $nombre_producto }}</td>
         </tr>
         <tr>
-            <td><strong>Código:</strong></td>
-            <td>{{ $producto->codigo }}</td>
+            <td><strong>Codigo:</strong></td>
+            <td>{{ $codigo }}</td>
         </tr>
         <tr>
             <td><strong>Costo Promedio:</strong></td>

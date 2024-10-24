@@ -249,8 +249,12 @@ public function mostrarDetalleProducto(Request $request)
         $precioCompraSum = 0;
         $cantidadEntradas = 0;
 
+        // Obtener el nombre del producto
+        $nombre_producto = $producto->nombre;
+        $codigo = $producto->codigo;
         // Obtener las entradas del producto
-        $entradas = $producto->entradas->map(function($entrada) use (&$totalEntradas, &$totalSalidas, &$totalStock, &$totalSaldoCompra, &$precioCompraSum, &$cantidadEntradas) {
+        
+           $entradas = $producto->entradas->map(function($entrada) use (&$totalEntradas, &$totalSalidas, &$totalStock, &$totalSaldoCompra, &$precioCompraSum, &$cantidadEntradas) {
             $salidas = $entrada->salidas->sum('cantidad'); // Sumar todas las salidas de esa entrada
             $stock = $entrada->cantidad; // El stock es el campo que se actualiza automáticamente
 
@@ -274,11 +278,11 @@ public function mostrarDetalleProducto(Request $request)
                 'saldo_compra' => $entrada->saldo_compra,
             ];
         });
-
+       
         // Calcular el promedio del precio de compra
         $promedioPrecioCompra = $cantidadEntradas > 0 ? $precioCompraSum / $cantidadEntradas : 0;
 
-        return view('reportes.detalle', compact('producto', 'entradas', 'totalEntradas', 'totalSalidas', 'totalStock', 'promedioPrecioCompra', 'totalSaldoCompra'));
+        return view('reportes.detalle', compact('producto', 'entradas', 'totalEntradas', 'totalSalidas', 'totalStock', 'promedioPrecioCompra', 'totalSaldoCompra', 'nombre_producto', 'codigo'));
     }
 
     // Redirigir de vuelta si no se seleccionó un producto
