@@ -129,7 +129,8 @@ Route::get('/reportes/detalle', [ProductoController::class, 'mostrarDetalleProdu
 Route::get('/reportes/pdf/{id}', [ProductoController::class, 'generarPDF'])->name('reportes.pdf');
 Route::get('/reporte-diario/mostrar', [ReporteController::class, 'mostrarReporteDiario'])->name('reporte-diario.mostrar');
 Route::get('/reporte-diario/generar', [ReporteController::class, 'generarReporteDiario'])->name('reporte-diario.generar');
-Route::get('/reporte-diario/generar/pdf/{fechaTexto}', [ReporteController::class, 'generarReporteDiario'])->name('reporte-diario.detalle');
+Route::get('/reporte-diario/generar/{fechaTexto}', [ReporteController::class, 'generarPDF'])->name('reportes.pdf.diario');
+
 
 
 Route::get('/grafico', [ChartController::class, 'index'])->name('grafico.index');
@@ -141,6 +142,6 @@ Route::get('/cierre/{fecha_cierre}/entradas/{producto}', [EntradaController::cla
 Route::get('/reportes/mes/seleccionar-fechas', [ReporteController::class, 'seleccionarFechas'])->name('reportes.seleccionarFechas');
 
 // Ruta para generar el reporte de inventario por fechas
-Route::post('/reportes/mes/reporte-por-fechas', [ReporteController::class, 'generarReportePorFechas'])->name('reportes.reportePorFechas');
+Route::get('/reportes/mes/reporte-por-fechas', [ReporteController::class, 'generarReportePorFechas'])->name('reportes.reportePorFechas');
 
 

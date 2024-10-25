@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h3>Seleccionar Fechas para el Reporte de Inventario</h3>
-    <form action="{{ route('reportes.reportePorFechas') }}" method="POST">
+    <form action="{{ route('reportes.reportePorFechas') }}" method="GET">
         @csrf
         <div class="row">
             <div class="col-md-6">

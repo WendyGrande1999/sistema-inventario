@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Reporte Diario de Inventario - {{ $fechaTexto }}</title>
+    <title>Detalle de Producto {{ $fechaTexto }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,46 +24,70 @@
     </style>
 </head>
 <body>
-    <h1>Detalle de Reporte diario</h1>
+    <h1>Detalle de Producto</h1>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th class="bg-success">Código</th>
-                <th class="bg-success">Producto</th>
-                <th class="bg-success">Entradas</th>
-                <th class="bg-success">Salidas</th>
-                <th class="bg-success">Stock</th>
-                <th class="bg-success">Unit de medida</th>
-                <th class="bg-success">Costo total entradas</th>
-                <th class="bg-success">Total Egreso</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($reporte as $item)
-                <tr>
-                    <td>{{ $item['codigo'] }}</td>
-                    <td>{{ $item['producto'] }}</td>
-                    <td>{{ $item['entradas'] }}</td>
-                    <td>{{ $item['salidas'] }}</td>
-                    <td>{{ $item['stock'] }}</td>
-                    <td>{{ $item['unidad_medida'] }}</td>
-                    <td>${{ number_format($item['costo_por_producto'], 2) }}</td>
-                    <td>${{ number_format($item['total_egreso'], 2) }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-        <tfoot>
-            <tr>
-                <th colspan="2">Totales</th>
-                <th>{{ $totalEntradas }}</th>
-                <th>{{ $totalSalidas }}</th>
-                <th></th>
-                <th></th>
-                <th>${{ number_format($totalCosto, 2) }}</th>
-                <th>${{ number_format($totalEgresos, 2) }}</th>
-            </tr>
-        </tfoot>
+    <table>
+        <tr>
+            <td><strong>Producto:</strong></td>
+            <td>{{ $producto->nombre }}</td>
+        </tr>
+        <tr>
+            <td><strong>Código:</strong></td>
+            <td>{{ $producto->codigo }}</td>
+        </tr>
+        <tr>
+            <td><strong>Costo Promedio:</strong></td>
+            <td>${{ number_format($promedioPrecioCompra, 2) }}</td>
+        </tr>
+        <tr>
+            <td><strong>Saldo Monetario:</strong></td>
+            <td>${{ $totalSaldoCompra }}</td>
+        </tr>
+        <tr>
+            <td><strong>Stock:</strong></td>
+            <td>{{ $totalStock }}</td>
+        </tr>
     </table>
+
+    @if (!empty($entradas) && count($entradas) > 0)
+        <table>
+            <thead>
+                <tr>
+                    <th>Fecha Entrada</th>
+                    <th>Descripción</th>
+                    <th>Proveedor</th>
+                    <th>Entradas</th>
+                    <th>Salidas</th>
+                    <th>Stock</th>
+                    <th>Precio de Compra</th>
+                    <th>Saldo Compra</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($entradas as $entrada)
+                    <tr>
+                        <td>{{ $entrada['fecha_ingreso'] }}</td>
+                        <td>{{ $entrada['descripcion'] }}</td>
+                        <td>{{ $entrada['proveedor'] }}</td>
+                        <td>{{ $entrada['entradas'] }}</td>
+                        <td>{{ $entrada['salidas'] }}</td>
+                        <td>{{ $entrada['stock'] }}</td>
+                        <td>${{ $entrada['precio_compra'] }}</td>
+                        <td>${{ $entrada['saldo_compra'] }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3"><strong>Totales:</strong></td>
+                    <td><strong>{{ $totalEntradas }}</strong></td>
+                    <td><strong>{{ $totalSalidas }}</strong></td>
+                    <td><strong>{{ $totalStock }}</strong></td>
+                    <td><strong>${{ number_format($promedioPrecioCompra, 2) }}</strong></td>
+                    <td><strong>${{ $totalSaldoCompra }}</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+    @endif
 </body>
 </html>

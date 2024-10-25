@@ -21,6 +21,7 @@ class ReporteController extends Controller
         return view('reportes.seleccionar-fechas');
     }
 
+
     // Método para generar el reporte basado en el rango de fechas
 
     public function generarReportePorFechas(Request $request)
@@ -162,5 +163,81 @@ class ReporteController extends Controller
         // Enviar los datos a la vista
         return view('reportes.reporte-diario', compact('reporte', 'totalEntradas', 'totalSalidas', 'totalCosto', 'totalEgresos', 'fechaSeleccionada', 'fechaTexto'));
     }
+
+public function generarPdf($fechaTexto)
+{
+    Carbon::setLocale('es');
+
+    // Define el formato exacto de la fecha que estás recibiendo
+    $formato = 'l, d \d\e F \d\e Y';
+
+    // Convertir la fecha de texto a un objeto Carbon
+    try {
+        $fechaSeleccionada = Carbon::createFromFormat($formato, $fechaTexto);
+    } catch (\Exception $e) {
+        return back()->withErrors(['fecha' => 'Formato de fecha no válido.']);
+    }
+
+    // Obtener los datos de entradas y salidas para la fecha seleccionada
+    $entradas = Entrada::whereDate('fecha_ingreso', $fechaSeleccionada)->get();
+    $salidas = Salida::whereDate('fecha_salida', $fechaSeleccionada)->get();
+
+    if ($entradas->isEmpty() && $salidas->isEmpty()) {
+        return back()->withErrors(['reporte' => 'No se encontraron datos para la fecha seleccionada.']);
+    }
+
+    // Generar el reporte basado en las entradas y salidas
+    $reporte = [];
+    $productos = Producto::all();
+    foreach ($productos as $producto) {
+        $entradasProducto = $entradas->where('idproducto', $producto->id);
+        $salidasProducto = $salidas->where('idproducto', $producto->id);
+
+        $cantidadEntradas = $entradasProducto->sum('cantidad_entrante');
+        $cantidadSalidas = $salidasProducto->sum('cantidad');
+        $stock = $producto->stock_actual; // o ajusta según tu lógica
+
+        $costoPorProducto = $entradasProducto->sum(function ($entrada) {
+            return $entrada->cantidad_entrante * $entrada->precio_unidad;
+        });
+
+        $totalEgreso = $salidasProducto->sum(function ($salida) {
+            return $salida->cantidad * $salida->precio_unidad;
+        });
+
+        $reporte[] = [
+            'codigo' => $producto->codigo,
+            'producto' => $producto->nombre,
+            'entradas' => $cantidadEntradas,
+            'salidas' => $cantidadSalidas,
+            'stock' => $stock,
+            'unidad_medida' => $producto->unidad_medida,
+            'costo_por_producto' => $costoPorProducto,
+            'total_egreso' => $totalEgreso,
+        ];
+    }
+
+    // Calcular totales
+    $totalEntradas = array_sum(array_column($reporte, 'entradas'));
+    $totalSalidas = array_sum(array_column($reporte, 'salidas'));
+    $totalCosto = array_sum(array_column($reporte, 'costo_por_producto'));
+    $totalEgresos = array_sum(array_column($reporte, 'total_egreso'));
+
+    // Generar el PDF
+    $pdf = PDF::loadView('reportes.reporte-diario', compact(
+        'reporte',
+        'totalEntradas',
+        'totalSalidas',
+        'totalCosto',
+        'totalEgresos',
+        'fechaSeleccionada',
+        'fechaTexto'
+    ));
+
+    // Descargar el PDF
+    return $pdf->download('reporte_diario_' . $fechaTexto . '.pdf');
+}
+
+
 }
 
