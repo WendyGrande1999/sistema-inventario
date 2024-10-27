@@ -1,17 +1,41 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalle de Producto</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        .bg-success {
+            background-color: #d4edda;
+        }
+        .mt-4 {
+            margin-top: 20px;
+        }
+        .text-right {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
     <h1>Detalle de Producto</h1>
 
-    <table class="table table-striped">
-
+    <table>
         <tr>
             <td><strong>Producto:</strong></td>
             <td>{{ $nombre_producto }}</td>
         </tr>
         <tr>
-            <td><strong>Codigo:</strong></td>
+            <td><strong>Código:</strong></td>
             <td>{{ $codigo }}</td>
         </tr>
         <tr>
@@ -29,11 +53,11 @@
     </table>
 
     @if (!empty($entradas) && count($entradas) > 0)
-        <table class="table table-bordered mt-4">
+        <table class="mt-4">
             <thead>
                 <tr>
                     <th class="bg-success">Fecha Entrada</th>
-                    <th class="bg-success">Descripción</th>
+                
                     <th class="bg-success">Proveedor</th>
                     <th class="bg-success">Entradas</th>
                     <th class="bg-success">Salidas</th>
@@ -47,7 +71,7 @@
                 @foreach ($entradas as $entrada)
                     <tr>
                         <td>{{ $entrada['fecha_ingreso'] }}</td>
-                        <td>{{ $entrada['descripcion'] }}</td>
+                       
                         <td>{{ $entrada['proveedor'] }}</td>
                         <td>{{ $entrada['entradas'] }}</td>
                         <td>{{ $entrada['salidas'] }}</td>
@@ -60,27 +84,16 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="3"><strong>Totales:</strong></td>
+                    <td colspan="2"><strong>Totales:</strong></td>
                     <td><strong>{{ $totalEntradas }}</strong></td>
                     <td><strong>{{ $totalSalidas }}</strong></td>
                     <td><strong>{{ $totalStock }}</strong></td>
                     <td><strong> </strong></td>
-
                     <td><strong>${{ number_format($promedioPrecioCompra, 2) }}</strong></td>
                     <td><strong>${{ $totalSaldoCompra }}</strong></td>
                 </tr>
             </tfoot>
         </table>
     @endif
-
-    <br>
-    <div class="mt-3">
-        <a href="#"class="btn btn-secondary">Volver</a>
-
-        <a href="{{ route('reportes_pdf.pdf', ['codigo' => $codigo]) }}" class="btn btn-primary">Descargar PDF</a>
-
-      
-    </div>
-
-</div>
-@endsection
+</body>
+</html>

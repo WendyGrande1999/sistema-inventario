@@ -69,7 +69,7 @@ class ProductoController extends Controller
     public function generarPdf($codigo)
     {
     $entrada = Entrada::with(['producto', 'proveedor', 'usuario'])->findOrFail($codigo);
-    $pdf = PDF::loadView('entradas.show_pdf', compact('entrada'));
+    $pdf = PDF::loadView('reportes_pdf.pdf', compact('reportes'));
 
     return $pdf->download('reporte por producto_' . $codigo . '.pdf');
     }

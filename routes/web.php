@@ -126,7 +126,9 @@ Route::get('/reportes/seleccionar', [ProductoController::class, 'seleccionarProd
 
 // Ruta para mostrar los detalles del producto seleccionado
 Route::get('/reportes/detalle', [ProductoController::class, 'mostrarDetalleProducto'])->name('reportes.detalle');
-Route::get('/reportes/pdf/{id}', [ProductoController::class, 'generarPDF'])->name('reportes.pdf');
+
+Route::get('/reportes/producto/pdf/{codigo}', [App\Http\Controllers\ReporteController::class, 'generarPDF2'])->name('reportes_pdf.pdf');
+
 Route::get('/reporte-diario/mostrar', [ReporteController::class, 'mostrarReporteDiario'])->name('reporte-diario.mostrar');
 Route::get('/reporte-diario/generar', [ReporteController::class, 'generarReporteDiario'])->name('reporte-diario.generar');
 Route::get('/reporte-diario/generar/{fechaTexto}', [ReporteController::class, 'generarPDF'])->name('reportes.pdf.diario');
