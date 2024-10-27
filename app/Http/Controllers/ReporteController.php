@@ -164,7 +164,7 @@ class ReporteController extends Controller
         return view('reportes.reporte-diario', compact('reporte', 'totalEntradas', 'totalSalidas', 'totalCosto', 'totalEgresos', 'fechaSeleccionada', 'fechaTexto'));
     }
 
-public function generarPdf($fechaTexto)
+public function generarPdfDia($fechaTexto)
 {
     Carbon::setLocale('es');
 

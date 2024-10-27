@@ -3,25 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Detalle de Producto {{ $codigo }}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-    </style>
+
 </head>
 <body>
     <h1>Detalle de Producto</h1>

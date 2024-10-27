@@ -68,10 +68,10 @@ class ProductoController extends Controller
 
     public function generarPdf($codigo)
     {
-    $entrada = Entrada::with(['producto', 'proveedor', 'usuario'])->findOrFail($codigo);
-    $pdf = PDF::loadView('entradas.show_pdf', compact('entrada'));
+    $producto = Entrada::with(['producto', 'proveedor', 'usuario'])->findOrFail($codigo);
+    $pdf = PDF::loadView('reportes.detalle', compact('producto'));
 
-    return $pdf->download('reporte por producto_' . $codigo . '.pdf');
+    return $pdf->download('entrada_' . $codigo . '.pdf');
     }
     // Mostrar un producto específico
     public function show(Producto $producto)

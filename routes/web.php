@@ -71,7 +71,7 @@ Route::get('/inventario/cierre-detalle', [InventarioController::class, 'mostrarE
 
 
 Route::get('/productos/{id}/existencia', [ProductoController::class, 'getExistencia'])->name('productos.existencia');
-Route::get('/salidas/create/{id}', [SalidaController::class, 'getExistencia'])->name('salidas.create');
+
 
 
 
@@ -126,10 +126,10 @@ Route::get('/reportes/seleccionar', [ProductoController::class, 'seleccionarProd
 
 // Ruta para mostrar los detalles del producto seleccionado
 Route::get('/reportes/detalle', [ProductoController::class, 'mostrarDetalleProducto'])->name('reportes.detalle');
-Route::get('/reportes/pdf/{id}', [ProductoController::class, 'generarPDF'])->name('reportes.pdf');
+Route::get('/reportes/detalle/{codigo}', [ProductoController::class, 'generarPDF'])->name('reportes.pdf');
 Route::get('/reporte-diario/mostrar', [ReporteController::class, 'mostrarReporteDiario'])->name('reporte-diario.mostrar');
 Route::get('/reporte-diario/generar', [ReporteController::class, 'generarReporteDiario'])->name('reporte-diario.generar');
-Route::get('/reporte-diario/generar/{fechaTexto}', [ReporteController::class, 'generarPDF'])->name('reportes.pdf.diario');
+Route::get('/reporte-diario/{fechaTexto}', [ReporteController::class, 'generarPdfDia'])->name('reportes_pdf.diario');
 
 
 
