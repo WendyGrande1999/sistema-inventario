@@ -133,6 +133,7 @@ Route::get('/reporte-diario/mostrar', [ReporteController::class, 'mostrarReporte
 Route::get('/reporte-diario/generar', [ReporteController::class, 'generarReporteDiario'])->name('reporte-diario.generar');
 Route::get('/reporte-diario/generar/{fechaTexto}', [ReporteController::class, 'generarPDF'])->name('reportes.pdf.diario');
 
+Route::get('/report/reporte-diario/pdf', [ReporteController::class, 'generarPDF4'])->name('report-diarioo.pdf');
 
 
 Route::get('/grafico', [ChartController::class, 'index'])->name('grafico.index');
