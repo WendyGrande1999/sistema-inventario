@@ -238,6 +238,123 @@ public function generarPdfDia($fechaTexto)
     return $pdf->download('reporte_diario_' . $fechaTexto . '.pdf');
 }
 
+public function generarPDF3($codigo)
+    {
+        // Obtener los detalles del producto utilizando el código proporcionado
+        $producto = Producto::where('codigo', $codigo)->first();
+
+        if (!$producto) {
+            return redirect()->back()->with('error', 'Producto no encontrado.');
+        }
+
+        // Lógica para calcular los detalles necesarios
+        $entradas = $producto->entradas; // Suponiendo que tienes una relación definida en el modelo Producto
+        $totalEntradas = $entradas->sum('cantidad_entrante');
+        $totalSalidas = $entradas->sum('salidas');
+        $totalStock = $totalEntradas - $totalSalidas;
+        $totalSaldoCompra = $entradas->sum('saldo_compra');
+        $precioCompraSum = $entradas->sum('precio_compra');
+        $promedioPrecioCompra = $entradas->count() > 0 ? $precioCompraSum / $entradas->count() : 0;
+
+        // Preparar datos para la vista PDF
+        $data = [
+            'nombre_producto' => $producto->nombre,
+            'codigo' => $producto->codigo,
+            'promedioPrecioCompra' => $promedioPrecioCompra,
+            'totalSaldoCompra' => $totalSaldoCompra,
+            'totalStock' => $totalStock,
+            'entradas' => $entradas,
+            'totalEntradas' => $totalEntradas,
+            'totalSalidas' => $totalSalidas
+        ];
+
+        // Cargar la vista y generar el PDF
+        $pdf = PDF::loadView('reportes_pdf.pdf-detalle', $data);
+
+        // Descargar el PDF con un nombre dinámico basado en el producto
+        return $pdf->download('detalle_producto_' . $producto->codigo . '.pdf');
+    }
+
+
+
+public function generarPDF2($codigo)
+{
+    // Verificar que el código se esté recibiendo correctamente
+    if (!$codigo) {
+        return redirect()->back()->with('error', 'No se proporcionó el código del producto.');
+    }
+
+    // Obtener los detalles del producto utilizando el código proporcionado
+    $producto = Producto::where('codigo', $codigo)->first();
+
+    if (!$producto) {
+        return redirect()->back()->with('error', 'Producto no encontrado.');
+    }
+
+    // Obtener todas las entradas relacionadas con el producto
+    $entradas = $producto->entradas; 
+
+    // Inicializar variables para calcular los totales
+    $totalEntradas = 0;
+    $totalSalidas = 0;
+    $totalStock = 0;
+    $totalSaldoCompra = 0;
+    $precioCompraSum = 0;
+
+    // Mapear y procesar las entradas para enviar los datos correctamente al PDF
+    $entradasData = $entradas->map(function ($entrada) use (&$totalEntradas, &$totalSalidas, &$totalStock, &$totalSaldoCompra, &$precioCompraSum) {
+        // Obtener el total de salidas para esta entrada
+        $salidas = $entrada->salidas->sum('cantidad'); 
+
+        // Calcular el stock restante
+        $stock = $entrada->cantidad; 
+
+         // Convertir fecha_ingreso a Carbon si es un string para asegurar el formato correcto
+        $fechaIngreso = is_string($entrada->fecha_ingreso) ? Carbon::parse($entrada->fecha_ingreso) : $entrada->fecha_ingreso;
+
+        // Acumular los totales
+        $totalEntradas += $entrada->cantidad_entrante;
+        $totalSalidas += $salidas;
+        $totalStock += $stock;
+        $totalSaldoCompra += $entrada->saldo_compra;
+        $precioCompraSum += $entrada->precio_unidad;
+
+        // Devolver el array con los datos necesarios
+        return [
+            
+            'fecha_ingreso' => $fechaIngreso->format('d-m-Y'), // Formatear fecha correctamente
+     
+            'proveedor' => $entrada->proveedor->name ?? 'Proveedor no asignado',
+            'entradas' => $entrada->cantidad_entrante,
+            'salidas' => $salidas,
+            'stock' => $stock,
+            'unidad_medida' => $entrada->unidad_medida,
+            'precio_compra' => $entrada->precio_unidad,
+            'saldo_compra' => $entrada->saldo_compra,
+        ];
+    });
+
+    // Calcular el promedio del precio de compra
+    $promedioPrecioCompra = $entradas->count() > 0 ? $precioCompraSum / $entradas->count() : 0;
+
+    // Preparar datos para la vista PDF
+    $data = [
+        'nombre_producto' => $producto->nombre,
+        'codigo' => $producto->codigo,
+        'promedioPrecioCompra' => $promedioPrecioCompra,
+        'totalSaldoCompra' => $totalSaldoCompra,
+        'totalStock' => $totalStock,
+        'entradas' => $entradasData, // Asegurarse de enviar el array de entradas procesado
+        'totalEntradas' => $totalEntradas,
+        'totalSalidas' => $totalSalidas
+    ];
+
+    // Cargar la vista y generar el PDF
+    $pdf = PDF::loadView('reportes_pdf.pdf-detalle', $data);
+
+    // Descargar el PDF con un nombre dinámico basado en el producto
+    return $pdf->download('detalle_producto_' . $producto->codigo . '.pdf');
+}
 
 }
 
