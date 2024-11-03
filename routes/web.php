@@ -131,7 +131,7 @@ Route::get('/reportes/producto/pdf/{codigo}', [App\Http\Controllers\ReporteContr
 
 Route::get('/reporte-diario/mostrar', [ReporteController::class, 'mostrarReporteDiario'])->name('reporte-diario.mostrar');
 Route::get('/reporte-diario/generar', [ReporteController::class, 'generarReporteDiario'])->name('reporte-diario.generar');
-Route::get('/reporte-diario/{fechaTexto}', [ReporteController::class, 'generarPdfDia'])->name('reportes_pdf.diario');
+Route::get('/reporte-diario/generar/{fechaTexto}/', [ReporteController::class, 'generarPdfDia2'])->name('reportes_diario');
 
 
 
@@ -145,5 +145,6 @@ Route::get('/reportes/mes/seleccionar-fechas', [ReporteController::class, 'selec
 
 // Ruta para generar el reporte de inventario por fechas
 Route::get('/reportes/mes/reporte-por-fechas', [ReporteController::class, 'generarReportePorFechas'])->name('reportes.reportePorFechas');
+Route::get('/reportes/mes/reporte-por-fechas/ {{ $fechaInicioTexto } al { $fechaCierreTexto }}', [ReporteController::class, 'generarPdfPorFechas'])->name('reportes.generarPdfPorFechas');
 
 

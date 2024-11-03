@@ -45,8 +45,8 @@
     </table>
     <br>
     <div class="mt-3">
-        <a href="{{ route('reporte-diario.mostrar') }}"class="btn btn-secondary">Volver</a>
-        <a href="" class="btn btn-primary">Descargar PDF</a>
+        <a href="#"class="btn btn-secondary">Volver</a>
+        <a href="{{ route('reportes_diario', ['fechaTexto' => $fechaTexto]) }}" class="btn btn-primary">Descargar PDF</a>
     </div>
 </div>
 @endsection
