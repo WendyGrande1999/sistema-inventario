@@ -48,10 +48,6 @@ class ReporteController extends Controller
                 ->whereBetween('fecha_ingreso', [$fechaInicio, $fechaCierre])
                 ->get();
 
-
-
-
-
             // Calcular totales
             $cantidadEntradas = $entradasProducto->sum('cantidad_entrante');
             $cantidadSalidas = $entradasProducto->sum('salida');
@@ -423,6 +419,60 @@ public function generarPDF4(Request $request)
 
     return $pdf->download('reporte-diario-' . $fechaSeleccionada->format('Ymd') . '.pdf');
 }
+
+
+
+public function generarPDF6(Request $request)
+{
+    // Reutilizar lógica del método generarReportePorFechas para obtener los datos
+    $request->validate([
+        'fecha_inicio' => 'required|date',
+        'fecha_cierre' => 'required|date',
+    ]);
+
+    $fechaInicio = Carbon::createFromFormat('Y-m-d', $request->input('fecha_inicio'));
+    $fechaCierre = Carbon::createFromFormat('Y-m-d', $request->input('fecha_cierre'));
+    $productos = Producto::all();
+
+    $reporte = [];
+
+    foreach ($productos as $producto) {
+        $entradasProducto = Entrada::where('idproducto', $producto->id)
+            ->whereBetween('fecha_ingreso', [$fechaInicio, $fechaCierre])
+            ->get();
+
+        $cantidadEntradas = $entradasProducto->sum('cantidad_entrante');
+        $cantidadSalidas = $entradasProducto->sum('salida');
+        $stockActual = $entradasProducto->sum('cantidad');
+        $costoPorProducto = $entradasProducto->sum(fn($entrada) => $entrada->cantidad_entrante * $entrada->precio_unidad);
+        $totalEgreso = $entradasProducto->sum(fn($entrada) => $entrada->salida * $entrada->precio_unidad);
+
+        $reporte[] = [
+            'codigo' => $producto->codigo,
+            'producto' => $producto->nombre,
+            'entradas' => $cantidadEntradas,
+            'salidas' => $cantidadSalidas,
+            'stock' => $stockActual,
+            'unidad_medida' => $producto->unidad_medida,
+            'costo_por_producto' => $costoPorProducto,
+            'total_egreso' => $totalEgreso,
+        ];
+    }
+
+    $totalEntradas = array_sum(array_column($reporte, 'entradas'));
+    $totalSalidas = array_sum(array_column($reporte, 'salidas'));
+    $totalCosto = array_sum(array_column($reporte, 'costo_por_producto'));
+    $totalEgresos = array_sum(array_column($reporte, 'total_egreso'));
+
+    $fechaInicioTexto = $fechaInicio->format('d-m-Y');
+    $fechaCierreTexto = $fechaCierre->format('d-m-Y');
+
+    
+    $pdf = Pdf::loadView('report_periodo.reporte-por-fechas-pdf', compact('reporte', 'fechaInicioTexto', 'fechaCierreTexto', 'totalEntradas', 'totalSalidas', 'totalCosto', 'totalEgresos'));
+
+    return $pdf->download("reporte-inventario-{$fechaInicioTexto}_{$fechaCierreTexto}.pdf");
+}
+
 
 }
 

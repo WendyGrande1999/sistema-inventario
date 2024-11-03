@@ -7,6 +7,7 @@
         @csrf
         <br>
         <div class="row">
+            <!-- Primera Columna -->
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="fecha_salida"><strong>Fecha de Salida</strong></label>
@@ -50,11 +51,24 @@
                     <input type="text" name="idusuario" id="idusuario" class="form-control" value="{{ $user->name }}" disabled>
                     <input type="hidden" name="idusuario" value="{{ $user->id }}">
                 </div>
-                <br />
+            </div>
 
-                <!-- Tarjeta para mostrar la cantidad disponible con cambio de color -->
+            <!-- Segunda Columna -->
+            <div class="col-md-6">
+                <!-- Tarjeta para mostrar el stock total del producto seleccionado -->
+               <div class="form-group">
+                   <div id="stock-total-card" class="card bg-warning text-dark mb-3">
+                     <div class="card-body">
+                      <h5 class="card-title"><strong>Stock Total del Producto</strong></h5>
+                <!-- Elemento donde se muestra el stock total -->
+                      <p id="stock-total" class="card-text">N/A</p>
+                   </div>
+                </div>
+             </div>
+                <br>
+                <!-- Tarjeta para mostrar la cantidad disponible en amarillo estático -->
                 <div class="form-group">
-                    <div id="stock-card" class="card bg-warning text-dark mb-3">
+                    <div class="card bg-warning text-dark mb-3">
                         <div class="card-body">
                             <h5 class="card-title"><strong>Cantidad disponible</strong></h5>
                             <input type="text" name="existencia" id="existencia" class="form-control" readonly>
@@ -81,14 +95,14 @@
         // Elementos a actualizar
         const unidadMedidaInput = document.getElementById('unidad_medida');
         const existenciaInput = document.getElementById('existencia');
-        const cantidadInput = document.getElementById('cantidad');
         const entradaSelect = document.getElementById('identrada');
-        const stockCard = document.getElementById('stock-card');
+        const cantidadInput = document.getElementById('cantidad');
+
+        const stockTotalText = document.getElementById('stock-total');
+        const stockTotalCard = document.getElementById('stock-total-card');
+       
 
         if (productoId) {
-            // Habilitar el campo cantidad al seleccionar un producto
-            cantidadInput.disabled = false;
-
             // Obtener la unidad de medida del producto
             fetch(`/api/productos/${productoId}`)
                 .then(response => response.json())
@@ -97,13 +111,23 @@
                 })
                 .catch(error => console.error('Error:', error));
 
-            // Obtener la existencia actual del producto
-            fetch(`/productos/${productoId}/existencia`)
-                .then(response => response.json())
-                .then(data => {
-                    existenciaInput.value = ''; // Limpiar el valor actual antes de asignar uno nuevo
-                })
-                .catch(error => console.error('Error:', error));
+            // Obtener el stock total del producto y actualizar la tarjeta de stock
+            fetch(`/prod/producto/${productoId}/existencia`)
+            
+             .then(response => response.json())
+            .then(data => {
+                const stockTotal = data.stock_total; // Valor del stock total desde el backend
+                stockTotalText.textContent = stockTotal; // Mostrar el stock total en el card
+
+                // Cambiar el color de la tarjeta según el stock total
+                stockTotalCard.classList.remove('bg-warning', 'bg-danger');
+                if (stockTotal <= 15) {
+                    stockTotalCard.classList.add('bg-danger', 'text-white');
+                } else {
+                    stockTotalCard.classList.add('bg-warning', 'text-dark');
+                }
+            })
+            .catch(error => console.error('Error:', error));
 
             // Obtener las entradas asociadas al producto
             fetch(`/salida/entrada/${productoId}`)
@@ -126,40 +150,26 @@
             entradaSelect.innerHTML = '<option value="">Seleccione una entrada</option>';
             cantidadInput.disabled = true;
             cantidadInput.value = '';
+            stockTotalText.textContent = 'N/A';
+            stockTotalCard.classList.remove('bg-danger', 'text-white', 'bg-warning', 'text-dark');
+            stockTotalCard.classList.add('bg-warning', 'text-dark');
         }
     });
 
-    // Escuchar cambios en el select de entradas para actualizar el input de existencia
+    // Escuchar cambios en el select de entradas para habilitar el campo cantidad y actualizar el input de existencia
     document.getElementById('identrada').addEventListener('change', function () {
         const selectedOption = this.options[this.selectedIndex];
         const cantidad = selectedOption.getAttribute('data-cantidad');
         const existenciaInput = document.getElementById('existencia');
-        const stockCard = document.getElementById('stock-card');
+        const cantidadInput = document.getElementById('cantidad');
 
         if (cantidad) {
             existenciaInput.value = cantidad;
-
-            // Cambiar el color de la tarjeta según la cantidad
-            if (cantidad <= 15) {
-                stockCard.classList.remove('bg-warning', 'bg-success');
-                stockCard.classList.add('bg-danger');
-                // Mensaje que el inventario es poco al momento de sacarlo
-                Swal.fire({
-                    title: 'Queda poco producto en el inventario',
-                    text: 'La cantidad existente en el inventario es poca',
-                    icon: 'warning',
-                    confirmButtonText: 'Aceptar',
-                    confirmButtonColor: '#3085d6',
-                }).then(() => {
-                });
-            } else {
-                stockCard.classList.remove('bg-danger', 'bg-warning');
-                stockCard.classList.add('bg-success');
-            }
+            cantidadInput.disabled = false; // Habilitar el campo cantidad solo cuando se selecciona una entrada
         } else {
             existenciaInput.value = '';
-            stockCard.classList.remove('bg-danger', 'bg-warning', 'bg-success');
-            stockCard.classList.add('bg-warning');
+            cantidadInput.disabled = true;
+            cantidadInput.value = '';
         }
     });
 

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Entradas de {{ $producto->nombre }}</h1>
+    <h1>Entradas de productos</h1>
 
     <p><strong>Rango de Fechas:</strong> 
         Desde {{ $fechaInicio }}
