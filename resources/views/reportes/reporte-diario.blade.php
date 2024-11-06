@@ -15,6 +15,7 @@
                 <th class="bg-success">Unit de medida</th>
                 <th class="bg-success">Costo total entradas</th>
                 <th class="bg-success">Total Egreso</th>
+                <th class="bg-success">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +29,11 @@
                     <td>{{ $item['unidad_medida'] }}</td>
                     <td>${{ number_format($item['costo_por_producto'], 2) }}</td>
                     <td>${{ number_format($item['total_egreso'], 2) }}</td>
+
+                    <td>
+                        <!-- Botón Ver que redirige a la vista de entradas del día para este producto -->
+                        <a href="{{ route('entradas.dia', ['fecha' => $fechaSeleccionada->format('Y-m-d'), 'producto' => $item['producto']]) }}" class="btn btn-info btn-sm">Ver</a>
+                    </td>
                 </tr>
             @endforeach
         </tbody>

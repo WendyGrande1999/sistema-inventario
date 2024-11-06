@@ -4,8 +4,8 @@
 <div class="container">
     <h1>Editar Entrada</h1>
 
-     <!-- Contenedor para mensajes de error con JavaScript -->
-     <div id="error-message" class="alert alert-danger d-none"></div>
+    <!-- Contenedor para mensajes de error con JavaScript -->
+    <div id="error-message" class="alert alert-danger d-none"></div>
 
     <form action="{{ route('entradas.update', $entrada->id) }}" method="POST">
         @csrf
@@ -50,8 +50,6 @@
                     </select>
                 </div>
                 <br>
-
-                
             </div>
 
             <div class="col-md-6">
@@ -75,50 +73,46 @@
                     <strong>
                     <label for="saldo_compra">Saldo Compra</label>
                     </strong>
-                    <input type="number" name="saldo_compra" id="saldo_compra" class="form-control" value="{{ $entrada->saldo_compra }}" step="0.01" required>
+                    <input type="number" name="saldo_compra" id="saldo_compra" class="form-control" value="{{ $entrada->saldo_compra }}" step="0.01" required readonly>
                 </div>
             </div>
         </div>
 
         <br>
 
-
         <div class="d-flex justify-content-start gap-2">
-    <a href="{{ route('entradas.index') }}" class="btn btn-secondary">Volver a la Lista</a>
-    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-</div>
-
-   
+            <a href="{{ route('entradas.index') }}" class="btn btn-secondary">Volver a la Lista</a>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </div>
     </form>
 
     <script>
-    // Comprobar si existen errores en la sesión
-    @if ($errors->any())
-        let errorMessage = @json($errors->first()); // Obtener el primer mensaje de error
-        let errorContainer = document.getElementById('error-message');
-        
-        // Mostrar el mensaje de error
-        errorContainer.textContent = errorMessage;
-        errorContainer.classList.remove('d-none'); // Hacer visible la alerta
-    @endif
-</script>
-
+        // Comprobar si existen errores en la sesión
+        @if ($errors->any())
+            let errorMessage = @json($errors->first()); // Obtener el primer mensaje de error
+            let errorContainer = document.getElementById('error-message');
+            
+            // Mostrar el mensaje de error
+            errorContainer.textContent = errorMessage;
+            errorContainer.classList.remove('d-none'); // Hacer visible la alerta
+        @endif
+    </script>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          const cantidadInput = document.getElementById('cantidad');
-          const precioUnidadInput = document.getElementById('precio_unidad');
-          const saldoCompraInput = document.getElementById('saldo_compra');
+        document.addEventListener('DOMContentLoaded', function() {
+            const cantidadInput = document.getElementById('cantidad_entrante');
+            const precioUnidadInput = document.getElementById('precio_unidad');
+            const saldoCompraInput = document.getElementById('saldo_compra');
 
-          function calcularSaldoCompra() {
-              const cantidad = parseFloat(cantidadInput.value) || 0;
-              const precioUnidad = parseFloat(precioUnidadInput.value) || 0;
-              saldoCompraInput.value = (cantidad * precioUnidad).toFixed(2);
-          }
+            function calcularSaldoCompra() {
+                const cantidad = parseFloat(cantidadInput.value) || 0;
+                const precioUnidad = parseFloat(precioUnidadInput.value) || 0;
+                saldoCompraInput.value = (cantidad * precioUnidad).toFixed(2);
+            }
 
-          cantidadInput.addEventListener('input', calcularSaldoCompra);
-          precioUnidadInput.addEventListener('input', calcularSaldoCompra);
-      });
-  </script>
+            cantidadInput.addEventListener('input', calcularSaldoCompra);
+            precioUnidadInput.addEventListener('input', calcularSaldoCompra);
+        });
+    </script>
 </div>
 @endsection

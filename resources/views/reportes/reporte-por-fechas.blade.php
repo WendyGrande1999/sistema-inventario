@@ -15,6 +15,7 @@
                 <th class="bg-success">Unidad de Medida</th>
                 <th class="bg-success">Costo Total Entradas</th>
                 <th class="bg-success">Total Egreso</th>
+                <th class="bg-success">Acciones</th> <!-- Nueva columna para "Ver" -->
             </tr>
         </thead>
         <tbody>
@@ -28,6 +29,10 @@
                     <td>{{ $item['unidad_medida'] }}</td>
                     <td>${{ number_format($item['costo_por_producto'], 2) }}</td>
                     <td>${{ number_format($item['total_egreso'], 2) }}</td>
+                    <td>
+                        <!-- Enlace para ver el detalle del producto en el rango de fechas -->
+                        <a href="{{ route('entradas.detallee', ['codigo' => $item['codigo'], 'fecha_inicio' => request('fecha_inicio'), 'fecha_cierre' => request('fecha_cierre')]) }}" class="btn btn-info btn-sm">Ver</a>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
@@ -40,14 +45,13 @@
                 <th></th>
                 <th>${{ number_format($totalCosto, 2) }}</th>
                 <th>${{ number_format($totalEgresos, 2) }}</th>
+                <th></th>
             </tr>
         </tfoot>
     </table>
     <div class="mt-3">
-        <a href="{{ route('reporte-diario.mostrar') }}"class="btn btn-secondary">Volver</a>
-       
+        <a href="{{ route('reporte-diario.mostrar') }}" class="btn btn-secondary">Volver</a>
         <a href="{{ route('report-porr-fechas.pdf', ['fecha_inicio' => request('fecha_inicio'), 'fecha_cierre' => request('fecha_cierre')]) }}" class="btn btn-primary">Descargar PDF</a>
-
     </div>
 </div>
 @endsection

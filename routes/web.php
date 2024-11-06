@@ -119,6 +119,10 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])
 
 Route::get('/entradas/{id}/pdf', [EntradaController::class, 'generarPdf'])->name('entradas.pdf');
 
+Route::get('/entrad/entradas/{fecha}/{producto}', [EntradaController::class, 'entradasPorDiaYProducto'])->name('entradas.dia');
+Route::get('/end/entradas/detalle/{codigo}', [EntradaController::class, 'detallePorProductoYFechas'])->name('entradas.detallee');
+
+
 // Ruta para mostrar el formulario y los detalles del producto seleccionado
 
 
