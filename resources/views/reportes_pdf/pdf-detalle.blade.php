@@ -71,7 +71,6 @@
                 @foreach ($entradas as $entrada)
                     <tr>
                         <td>{{ $entrada['fecha_ingreso'] }}</td>
-                       
                         <td>{{ $entrada['proveedor'] }}</td>
                         <td>{{ $entrada['entradas'] }}</td>
                         <td>{{ $entrada['salidas'] }}</td>

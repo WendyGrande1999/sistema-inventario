@@ -50,6 +50,7 @@ Route::resource('entradas', EntradaController::class);
 Route::resource('salidas', SalidaController::class);
 
 Route::get('productos/categoria/{category_id}', [EntradaController::class, 'getProductosByCategoria'])->name('productos.categoria');
+Route::get('/prod/producto/{id}/existencia', [ProductoController::class, 'obtenerExistenciaa'])->name('prod-productos.existencia');
 
 Route::get('/salida/entrada/{productoId}', [EntradaController::class, 'getEntradaByProduct']);
 
@@ -133,6 +134,8 @@ Route::get('/reporte-diario/mostrar', [ReporteController::class, 'mostrarReporte
 Route::get('/reporte-diario/generar', [ReporteController::class, 'generarReporteDiario'])->name('reporte-diario.generar');
 Route::get('/reporte-diario/generar/{fechaTexto}/', [ReporteController::class, 'generarPdfDia2'])->name('reportes_diario');
 
+Route::get('/report/reporte-diario/pdf', [ReporteController::class, 'generarPDF4'])->name('report-diarioo.pdf');
+Route::get('/repo/reporte-por-fechas/pdf', [ReporteController::class, 'generarPDF6'])->name('report-porr-fechas.pdf');
 
 
 Route::get('/grafico', [ChartController::class, 'index'])->name('grafico.index');

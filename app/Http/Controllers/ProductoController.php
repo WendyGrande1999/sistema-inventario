@@ -290,6 +290,16 @@ public function mostrarDetalleProducto(Request $request)
     return redirect()->route('reportes.seleccionar')->with('error', 'Debe seleccionar un producto.');
 }
 
+public function obtenerExistenciaa($id)
+{
+   
+
+       // Sumar todas las cantidades de entradas para obtener el stock total
+       $stockTotal = Entrada::where('idproducto', $id)->sum('cantidad');
+
+       // Devuelve el stock total en formato JSON
+       return response()->json(['stock_total' => $stockTotal]);
+}
 
 
 
