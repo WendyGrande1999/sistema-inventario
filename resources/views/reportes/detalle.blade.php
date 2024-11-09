@@ -75,7 +75,7 @@
 
     <br>
     <div class="mt-3">
-        <a href="#"class="btn btn-secondary">Volver</a>
+        <a href="{{ url()->previous() }}" class="btn btn-secondary">Volver</a>
 
         <a href="{{ route('reportes_pdf.pdf', ['codigo' => $codigo]) }}" class="btn btn-primary">Descargar PDF</a>
 
