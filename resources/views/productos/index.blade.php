@@ -49,7 +49,7 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('productos.edit', $producto) }}"
-                                        class="btn btn-sm btn-warning">Editar</a>
+                                        class="btn btn-sm btn-warning"><i class="bi bi-pencil-fill"></i></a>
 
                                 </td>
                                 <td>
@@ -59,7 +59,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button onclick="eliminarEntrada(event, {{ $producto->id }})" type="button"
-                                            class="btn btn-danger btn-sm">Eliminar</button>
+                                            class="btn btn-danger btn-sm"><i class="bi bi-trash3"></i></button>
                                     </form>
 
                                 </td>

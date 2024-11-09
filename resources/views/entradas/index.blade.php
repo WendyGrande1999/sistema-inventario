@@ -68,14 +68,16 @@
                 
                 
                 <td>
+                    
                     <a href="{{ route('entradas.show', $entrada->id) }}" class="btn btn-info btn-sm">
-                        Ver</a>
-              
+                    <i class="bi bi-eye-fill"></i></a>
+                    
                 </td>
 
                                             <td>
                                                 <a href="{{ route('entradas.edit', $entrada->id) }}"
-                                                    class="btn btn-warning btn-sm">Editar</a>
+                                                    class="btn btn-warning btn-sm"><i class="bi bi-pencil-fill"></i></a>
+                                                    
                                             </td>
 
                                             <td>
@@ -88,7 +90,7 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button onclick="eliminarEntrada(event)" type="button"
-                                                        class="btn btn-danger btn-sm">Eliminar</button>
+                                                        class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -153,13 +155,16 @@
                 
                 <td>
                     <a href="{{ route('entradas.show', $entrada->id) }}" class="btn btn-info btn-sm">
-                        Ver</a>
+                    <i class="bi bi-eye-fill"></i>
+                </a>
               
                 </td>
 
                                             <td>
                                                 <a href="{{ route('entradas.edit', $entrada->id) }}"
-                                                    class="btn btn-warning btn-sm">Editar</a>
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="bi bi-pencil-fill"></i>
+                                                </a>
                                             </td>
 
                                             <td>
@@ -172,7 +177,9 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button onclick="eliminarEntrada(event)" type="button"
-                                                        class="btn btn-danger btn-sm">Eliminar</button>
+                                                        class="btn btn-danger btn-sm">
+                                                        <i class="bi bi-trash3"></i>
+                                                    </button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -314,7 +321,7 @@
                                             <td>
                                                 <a href="{{ route('entradas.show', $entrada->id) }}"
                                                     class="btn btn-info btn-sm">
-                                                    Ver</a>
+                                                    <i class="bi bi-eye-fill"></i></a>
 
                                             </td>
                                             <td>
@@ -379,25 +386,25 @@
 
                                     <td>
                                         <a href="{{ route('entradas.show', $entrada->id) }}"
-                                            class="btn btn-info btn-sm">Ver</a>
+                                            class="btn btn-info btn-sm"><i class="bi bi-eye-fill"></i></a>
 
                                     </td>
 
                                     <td>
                                         <a href="{{ route('entradas.edit', $entrada->id) }}"
-                                            class="btn btn-warning btn-sm">Editar</a>
+                                            class="btn btn-warning btn-sm"><i class="bi bi-pencil-fill"></i></a>
                                     </td>
 
                                     <td>
-
-
-
                                         <form id="delete-entry-form" action="{{ route('entradas.destroy', $entrada->id) }}"
                                             method="POST" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button onclick="eliminarEntrada(event)" type="button"
-                                                class="btn btn-danger btn-sm">Eliminar</button>
+                                                class="btn btn-danger btn-sm">
+                                                <i class="bi bi-trash3-fill"></i>
+                                            
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>

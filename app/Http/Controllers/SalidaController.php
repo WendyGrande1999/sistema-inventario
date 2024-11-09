@@ -16,8 +16,8 @@ class SalidaController extends Controller
     public function index()
     {
         // Obtener solo las salidas con estado 'activo'
-        $salidasActivas = Salida::where('estado', 'activo')->get();
-    
+        $salidasActivass = Salida::where('estado', 'activo')->get();
+        $salidasActivas = Salida::all();
         // Pasar las salidas activas a la vista
         return view('salidas.index', compact('salidasActivas'));
     }
@@ -140,12 +140,30 @@ class SalidaController extends Controller
     }
     
 
-    public function destroy(Salida $salida)
-    {
-        $salida->delete();
+  
+    public function destroy(Salida $salida) 
+{
+    // Buscar la entrada asociada a la salida que se va a eliminar
+    $entrada = Entrada::find($salida->identrada);
 
-        return redirect()->route('salidas.index')->with('success', 'Salida eliminada exitosamente.');
+    if ($entrada) {
+        // Restar la cantidad de la salida de los campos correspondientes en la entrada
+        $entrada->salida -= $salida->cantidad;
+        $entrada->cantidad += $salida->cantidad; // Se suma la cantidad de la salida eliminada de vuelta al stock existente
+        // Verificar si la entrada debe estar activa nuevamente
+        if ($entrada->cantidad > 0) {
+            $entrada->estado = 'activo'; // Cambiar el estado a activo si la cantidad es mayor a 0
+        }
+       
+        // Guardar los cambios en la entrada
+        $entrada->save();
     }
+
+    // Eliminar la salida
+    $salida->delete();
+
+    return redirect()->route('salidas.index')->with('success', 'Salida eliminada exitosamente.');
+}
 
     public function getProductosByCategoria($category_id)
     {

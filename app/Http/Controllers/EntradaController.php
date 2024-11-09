@@ -119,6 +119,31 @@ class EntradaController extends Controller
         return view('entradas.show', compact('entrada', 'sumSalida' ));
     }
 
+    public function show1(Entrada $entrada)
+    {
+        // Cargar la relación de salidas para esta entrada
+        // Cargar la entrada con sus salidas asociadas
+       $entrada = Entrada::with('salidas')->findOrFail($entrada->id);
+
+     // Sumar la cantidad de las salidas asociadas a esta entrada
+       $sumSalida = $entrada->salidas->sum('cantidad');
+
+
+        return view('entradas.show1', compact('entrada', 'sumSalida' ));
+    }
+    public function show2(Entrada $entrada)
+    {
+        // Cargar la relación de salidas para esta entrada
+        // Cargar la entrada con sus salidas asociadas
+       $entrada = Entrada::with('salidas')->findOrFail($entrada->id);
+
+     // Sumar la cantidad de las salidas asociadas a esta entrada
+       $sumSalida = $entrada->salidas->sum('cantidad');
+
+
+        return view('entradas.show2', compact('entrada', 'sumSalida' ));
+    }
+
     public function edit(Entrada $entrada)
     {
         $productos = Producto::all();
@@ -235,4 +260,42 @@ return response()->json($entradas);
        // Retornar la vista con las entradas del producto
        return view('entradas.productoCierre', compact('entradas', 'producto', 'fecha_cierre', 'fechaInicio'));
    }
+
+   public function entradasPorDiaYProducto($fecha, $nombre)
+   {
+       // Obtener las entradas activas e inactivas del producto en la fecha especificada
+       $entradas = Entrada::whereHas('producto', function ($query) use ($nombre) {
+                       $query->where('nombre', $nombre);
+                   })
+                   ->whereDate('fecha_ingreso', $fecha)
+                   ->get();
+   
+       return view('entradas.detalle_dia', compact('entradas', 'fecha', 'nombre'));
+   }
+
+   public function detallePorProductoYFechas($codigo)
+{
+    $fechaInicio = request('fecha_inicio');
+    $fechaCierre = request('fecha_cierre');
+    
+    // Obtener las entradas del producto en el rango de fechas usando la relación con Producto
+    $entradas = Entrada::whereHas('producto', function ($query) use ($codigo) {
+                        $query->where('codigo', $codigo);
+                    })
+                    ->whereBetween('fecha_ingreso', [$fechaInicio, $fechaCierre])
+                    ->get();
+    
+    // Verificar si existen entradas para el producto y rango de fechas
+    if ($entradas->isEmpty()) {
+        abort(404, "No se encontraron entradas para el producto con código $codigo en el rango de fechas especificado.");
+    }
+
+    // Acceder al producto a través de la primera entrada
+    $producto = $entradas->first()->producto;
+    $nombre = $producto->nombre;
+
+    return view('entradas.detalle_producto', compact('producto', 'entradas', 'fechaInicio', 'fechaCierre', 'nombre'));
+}
+
+
 }

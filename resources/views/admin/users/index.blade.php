@@ -22,7 +22,7 @@
                     <th>Nombre</th>
                     <th>Email</th>
                     <th>Rol</th>
-                    <th>Editar</th>
+                    <th>Editar rol</th>
                     <th>Eliminar</th>
                 </tr>
             </thead>
@@ -34,7 +34,7 @@
                         <td>{{ implode(', ', $user->getRoleNames()->toArray()) }}</td>
                         <td>
                             <a href="{{ route('admin.users.edit', $user) }}"
-                                class="btn btn-sm btn-warning">Editar Roles</a>
+                                class="btn btn-sm btn-warning"><i class="bi bi-pencil-fill"></i></a>
 
                         </td>
                         <td>
@@ -45,7 +45,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button onclick="eliminarEntrada(event, {{ $user->id }})" type="button"
-                                    class="btn btn-danger btn-sm">Eliminar</button>
+                                    class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i></button>
                             </form>
 
 

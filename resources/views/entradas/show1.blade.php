@@ -81,8 +81,7 @@
 
     <br>
     <div class="mt-3">
-      <a href="javascript:history.back()" class="btn btn-secondary">Volver</a>
-
+        <a href="{{ route('reportes.reporte-diario') }}" class="btn btn-secondary">Volver</a>
         <a href="{{ route('entradas.pdf', $entrada->id) }}" class="btn btn-primary">Descargar PDF</a>
     </div>
 </div>
