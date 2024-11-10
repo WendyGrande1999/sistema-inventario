@@ -199,14 +199,24 @@ class EntradaController extends Controller
 }
 
 
-
     public function generarPdf($id)
-    {
+{
+    // Obtiene la entrada con las relaciones necesarias
     $entrada = Entrada::with(['producto', 'proveedor', 'usuario'])->findOrFail($id);
-    $pdf = PDF::loadView('entradas.show_pdf', compact('entrada'));
-    
+
+    // Ruta al logo en la carpeta 'public/images'
+    $logoPath = public_path('images/logo_eco.png');
+
+    // Convierte la imagen a Base64
+    $logoData = base64_encode(file_get_contents($logoPath));
+    $logoSrc = 'data:image/png;base64,' . $logoData;
+
+    // Cargar la vista del PDF y pasar las variables necesarias
+    $pdf = PDF::loadView('entradas.show_pdf', compact('entrada', 'logoSrc'));
+
+    // Descargar el PDF
     return $pdf->download('entrada_' . $id . '.pdf');
-    }
+}
 
 
    

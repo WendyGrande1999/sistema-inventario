@@ -8,10 +8,33 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            /* Reducimos el margen superior del body */
+            margin-top: -20px;  /* Ajusta este valor según lo necesario */
         }
         .container {
             width: 100%;
             padding: 20px;
+        }
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            /* Reducir el espacio superior de la tabla del encabezado */
+            margin-top: -10px;  /* Ajusta este valor según lo necesario */
+        }
+        .header-table td {
+            vertical-align: middle;
+        }
+        .header-table .logo {
+            width: 150px; /* Ancho fijo para la imagen */
+        }
+        .header-table .details {
+            text-align: right;
+            font-size: 14px;
+        }
+        .header-table .details .company-name {
+            font-weight: bold;
+            font-size: 16px;
         }
         .title {
             text-align: center;
@@ -51,6 +74,20 @@
 </head>
 <body>
     <div class="container">
+        <!-- Encabezado con la tabla sin borde -->
+        <table class="header-table">
+            <tr>
+                <td class="logo">
+                    <img src="{{ $logoSrc }}" alt="Logo de la Empresa" style="max-width: 150px; height: auto;">
+                </td>
+                <td class="details">
+                    <div class="company-name">Hostal Hojas Eco Villa</div>
+                    <div>{{ \Carbon\Carbon::now()->format('d/m/Y') }}</div> <!-- Fecha actual -->
+                    <div>Playa Las Hojas, San Pedro Masahuat, La Paz, El Salvador C.A</div> <!-- Dirección de la empresa -->
+                </td>
+            </tr>
+        </table>
+
         <div class="title">
             Detalle de Compra 
         </div>
@@ -71,7 +108,6 @@
                         <th>Cantidad Entrante</th>
                         <th>Salidas</th>
                         <th>Cantidad Disponible</th>
-                      
                         <th>Precio por Unidad</th>
                         <th>Saldo Compra</th>
                     </tr>
@@ -81,7 +117,6 @@
                         <td>{{ $entrada->cantidad_entrante }}</td>
                         <td>{{ $entrada->salida }}</td>
                         <td>{{ $entrada->cantidad }} {{ $entrada->unidad_medida }}</td>
-                     
                         <td>${{ $entrada->precio_unidad }}</td>
                         <td>${{ $entrada->saldo_compra }}</td>
                     </tr>
@@ -117,7 +152,6 @@
             </table>
             <p class="summary total">Total de Salidas: {{ $entrada->salidas->sum('cantidad') }}</p>
         </div>
-
     </div>
 </body>
 </html>

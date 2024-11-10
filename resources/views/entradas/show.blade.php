@@ -11,7 +11,7 @@
             <p class="card-text"><strong>Producto:</strong> {{ $entrada->producto->nombre }}</p>
             <p class="card-text"><strong>Proveedor:</strong> {{ $entrada->proveedor->name }}</p>
             <p class="card-text"><strong>Usuario:</strong> {{ $entrada->usuario->name }}</p>
-
+            
             <table class="table table-bordered mt-4">
                 <thead>
                     <tr>
