@@ -21,7 +21,6 @@ class ReporteController extends Controller
         return view('reportes.seleccionar-fechas');
     }
 
-
     // Método para generar el reporte basado en el rango de fechas
 
     public function generarReportePorFechas(Request $request)
@@ -160,233 +159,197 @@ class ReporteController extends Controller
         return view('reportes.reporte-diario', compact('reporte', 'totalEntradas', 'totalSalidas', 'totalCosto', 'totalEgresos', 'fechaSeleccionada', 'fechaTexto'));
     }
 
-    public function generarPdfPorFechas(Request $request)
+public function generarPdf($fechaTexto)
 {
-    // Validar las fechas
-    $request->validate([
-        'fecha_inicio' => 'required|date',
-        'fecha_cierre' => 'required|date',
-    ]);
+    Carbon::setLocale('es');
 
-    // Obtener las fechas
-    $fechaInicio = Carbon::createFromFormat('Y-m-d', $request->input('fecha_inicio'));
-    $fechaCierre = Carbon::createFromFormat('Y-m-d', $request->input('fecha_cierre'));
+    // Define el formato exacto de la fecha que estás recibiendo
+    $formato = 'l, d \d\e F \d\e Y';
 
-    // Obtener los productos
-    $productos = Producto::all();
+    // Convertir la fecha de texto a un objeto Carbon
+    try {
+        $fechaSeleccionada = Carbon::createFromFormat($formato, $fechaTexto);
+    } catch (\Exception $e) {
+        return back()->withErrors(['fecha' => 'Formato de fecha no válido.']);
+    }
 
-    // Crear el arreglo para el reporte
+    // Obtener los datos de entradas y salidas para la fecha seleccionada
+    $entradas = Entrada::whereDate('fecha_ingreso', $fechaSeleccionada)->get();
+    $salidas = Salida::whereDate('fecha_salida', $fechaSeleccionada)->get();
+
+    if ($entradas->isEmpty() && $salidas->isEmpty()) {
+        return back()->withErrors(['reporte' => 'No se encontraron datos para la fecha seleccionada.']);
+    }
+
+    // Generar el reporte basado en las entradas y salidas
     $reporte = [];
-
+    $productos = Producto::all();
     foreach ($productos as $producto) {
-        // Obtener las entradas y salidas en el rango de fechas
-        $entradasProducto = Entrada::where('idproducto', $producto->id)
-            ->whereBetween('fecha_ingreso', [$fechaInicio, $fechaCierre])
-            ->get();
+        $entradasProducto = $entradas->where('idproducto', $producto->id);
+        $salidasProducto = $salidas->where('idproducto', $producto->id);
 
-        // Calcular totales
         $cantidadEntradas = $entradasProducto->sum('cantidad_entrante');
-        $cantidadSalidas = $entradasProducto->sum('salida');
-        $stockActual = $cantidadEntradas - $cantidadSalidas;
+        $cantidadSalidas = $salidasProducto->sum('cantidad');
+        $stock = $producto->stock_actual; // o ajusta según tu lógica
 
-        // Calcular costo total de entradas
         $costoPorProducto = $entradasProducto->sum(function ($entrada) {
             return $entrada->cantidad_entrante * $entrada->precio_unidad;
         });
 
-        // Calcular total egreso
-        $totalEgreso = $entradasProducto->sum(function ($entrada) {
-            return $entrada->salida * $entrada->precio_unidad;
+        $totalEgreso = $salidasProducto->sum(function ($salida) {
+            return $salida->cantidad * $salida->precio_unidad;
         });
 
-        // Agregar los datos al reporte
         $reporte[] = [
             'codigo' => $producto->codigo,
             'producto' => $producto->nombre,
             'entradas' => $cantidadEntradas,
             'salidas' => $cantidadSalidas,
-            'stock' => $stockActual,
+            'stock' => $stock,
             'unidad_medida' => $producto->unidad_medida,
             'costo_por_producto' => $costoPorProducto,
             'total_egreso' => $totalEgreso,
         ];
     }
 
-    // Calcular los totales
+    // Calcular totales
     $totalEntradas = array_sum(array_column($reporte, 'entradas'));
     $totalSalidas = array_sum(array_column($reporte, 'salidas'));
     $totalCosto = array_sum(array_column($reporte, 'costo_por_producto'));
     $totalEgresos = array_sum(array_column($reporte, 'total_egreso'));
 
-    // Pasar los datos a la vista para el PDF
-    $fechaInicioTexto = $fechaInicio->format('d-m-Y');
-    $fechaCierreTexto = $fechaCierre->format('d-m-Y');
+    // Generar el PDF
+    $pdf = PDF::loadView('reportes.reporte-diario', compact(
+        'reporte',
+        'totalEntradas',
+        'totalSalidas',
+        'totalCosto',
+        'totalEgresos',
+        'fechaSeleccionada',
+        'fechaTexto'
+    ));
 
-    try {
-        $pdf = PDF::loadView('reportes_pdf.pdf_porfechas', [
-            'reporte' => $reporte,
-            'fechaInicioTexto' => $fechaInicioTexto,
-            'fechaCierreTexto' => $fechaCierreTexto,
-            'totalEntradas' => $totalEntradas,
-            'totalSalidas' => $totalSalidas,
-            'totalCosto' => $totalCosto,
-            'totalEgresos' => $totalEgresos,
-        ])->setPaper('a4', 'landscape');
-
-        return $pdf->download('Reporte_Por_Fechas_' . $fechaInicio->format('Y_m_d') . '_a_' . $fechaCierre->format('Y_m_d') . '.pdf');
-    } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'Error al generar el PDF: ' . $e->getMessage());
-    }
+    // Descargar el PDF
+    return $pdf->download('reporte_diario_' . $fechaTexto . '.pdf');
 }
 
-    public function generarPdfDia($fechaTexto)
+public function generarPDF3($codigo)
     {
-        try {
-            $fecha = Carbon::parse($fechaTexto);
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Fecha inválida proporcionada.');
+        // Obtener los detalles del producto utilizando el código proporcionado
+        $producto = Producto::where('codigo', $codigo)->first();
+
+        if (!$producto) {
+            return redirect()->back()->with('error', 'Producto no encontrado.');
         }
 
-        // Filtrar productos con entradas registradas en la fecha especificada
-        $productos = Producto::whereHas('entradas', function ($query) use ($fecha) {
-            $query->whereDate('fecha_ingreso', $fecha->format('Y-m-d'));
-        })->get();
+        // Lógica para calcular los detalles necesarios
+        $entradas = $producto->entradas; // Suponiendo que tienes una relación definida en el modelo Producto
+        $totalEntradas = $entradas->sum('cantidad_entrante');
+        $totalSalidas = $entradas->sum('salidas');
+        $totalStock = $totalEntradas - $totalSalidas;
+        $totalSaldoCompra = $entradas->sum('saldo_compra');
+        $precioCompraSum = $entradas->sum('precio_compra');
+        $promedioPrecioCompra = $entradas->count() > 0 ? $precioCompraSum / $entradas->count() : 0;
 
-        if ($productos->isEmpty()) {
-            return redirect()->back()->with('error', 'No se encontraron registros para la fecha especificada.');
-        }
-
-        $reportData = [];
-        foreach ($productos as $producto) {
-            $entradas = $producto->entradas()->whereDate('fecha_ingreso', $fecha->format('Y-m-d'))->get();
-
-            $totalEntradas = 0;
-            $totalSalidas = 0;
-            $totalStock = 0;
-            $totalSaldoCompra = 0;
-            $precioCompraSum = 0;
-
-            $entradasData = $entradas->map(function ($entrada) use (&$totalEntradas, &$totalSalidas, &$totalStock, &$totalSaldoCompra, &$precioCompraSum) {
-                $salidas = $entrada->salidas->sum('cantidad');
-                $stock = $entrada->cantidad;
-
-                $fechaIngreso = is_string($entrada->fecha_ingreso) ? Carbon::parse($entrada->fecha_ingreso) : $entrada->fecha_ingreso;
-
-                $totalEntradas += $entrada->cantidad_entrante;
-                $totalSalidas += $salidas;
-                $totalStock += $stock;
-                $totalSaldoCompra += $entrada->saldo_compra;
-                $precioCompraSum += $entrada->precio_unidad;
-
-                return [
-                    'fecha_ingreso' => $fechaIngreso->format('d-m-Y'),
-                    'proveedor' => $entrada->proveedor->name ?? 'Proveedor no asignado',
-                    'entradas' => $entrada->cantidad_entrante,
-                    'salidas' => $salidas,
-                    'stock' => $stock,
-                    'unidad_medida' => $entrada->unidad_medida,
-                    'precio_compra' => $entrada->precio_unidad,
-                    'saldo_compra' => $entrada->saldo_compra,
-                ];
-            });
-
-            $promedioPrecioCompra = $entradas->count() > 0 ? $precioCompraSum / $entradas->count() : 0;
-
-            $data[] = [
-                      'fecha' => $fecha->format('d-m-Y'),
-                'nombre_producto' => $producto->nombre,
-                'codigo' => $producto->codigo,
-                'promedioPrecioCompra' => $promedioPrecioCompra,
-                'totalSaldoCompra' => $totalSaldoCompra,
-                'totalStock' => $totalStock,
-                'entradas' => $entradasData,
-                'totalEntradas' => $totalEntradas,
-                'totalSalidas' => $totalSalidas,
-            ];
-        }
-
+        // Preparar datos para la vista PDF
         $data = [
-            'fecha' => $fecha->format('d-m-Y'),
-            'productos' => $reportData,
+            'nombre_producto' => $producto->nombre,
+            'codigo' => $producto->codigo,
+            'promedioPrecioCompra' => $promedioPrecioCompra,
+            'totalSaldoCompra' => $totalSaldoCompra,
+            'totalStock' => $totalStock,
+            'entradas' => $entradas,
+            'totalEntradas' => $totalEntradas,
+            'totalSalidas' => $totalSalidas
         ];
 
-        try {
-            $pdf = PDF::loadView('reportes_pdf.pdf_diario', $data);
-            return $pdf->download('Reporte_Diario_' . $fecha->format('Y_m_d') . '.pdf');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error al generar el PDF.');
-        }
+        // Cargar la vista y generar el PDF
+        $pdf = PDF::loadView('reportes_pdf.pdf-detalle', $data);
+
+        // Descargar el PDF con un nombre dinámico basado en el producto
+        return $pdf->download('detalle_producto_' . $producto->codigo . '.pdf');
     }
 
-    public function generarPdfDia2($fechaTexto)
-    {
-        // Validar y formatear la fecha ingresada
-        try {
-            $fecha = Carbon::parse($fechaTexto);
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Fecha inválida proporcionada.');
-        }
 
-        // Filtrar productos con entradas registradas en la fecha especificada
-        $productos = Producto::whereHas('entradas', function ($query) use ($fecha) {
-            $query->whereDate('fecha_ingreso', $fecha->format('Y-m-d'));
-        })->get();
 
-        // Verificar si existen registros para la fecha
-        if ($productos->isEmpty()) {
-            return redirect()->back()->with('error', 'No se encontraron registros para la fecha especificada.');
-        }
-
-        // Estructurar datos para el reporte
-        $reportData = [];
-        foreach ($productos as $producto) {
-            $entradas = $producto->entradas()->whereDate('fecha_ingreso', $fecha->format('Y-m-d'))->get();
-
-            // Calcular totales
-            $totalEntradas = $entradas->sum('cantidad_entrante');
-            $totalSalidas = $entradas->flatMap->salidas->sum('cantidad');
-            $totalSaldoCompra = $entradas->sum('saldo_compra');
-            $totalStock = $totalEntradas - $totalSalidas;
-
-            // Preparar datos de entradas
-            $entradasData = $entradas->map(function ($entrada) {
-                return [
-                    'fecha_ingreso' => Carbon::parse($entrada->fecha_ingreso)->format('d-m-Y'),
-                    'proveedor' => $entrada->proveedor->name ?? 'Proveedor no asignado',
-                    'entradas' => $entrada->cantidad_entrante,
-                    'salidas' => $entrada->salidas->sum('cantidad'),
-                    'stock' => $entrada->cantidad_entrante - $entrada->salidas->sum('cantidad'),
-                    'unidad_medida' => $entrada->unidad_medida,
-                    'precio_compra' => $entrada->precio_unidad,
-                    'saldo_compra' => $entrada->saldo_compra,
-                ];
-            });
-
-            // Promedio de precio de compra
-            $promedioPrecioCompra = $entradas->count() > 0 ? $entradas->avg('precio_unidad') : 0;
-
-            $reportData[] = [
-                'fecha' => $fecha->format('d-m-Y'),
-                'nombre_producto' => $producto->nombre,
-                'codigo' => $producto->codigo,
-                'promedioPrecioCompra' => $promedioPrecioCompra,
-                'totalSaldoCompra' => $totalSaldoCompra,
-                'totalStock' => $totalStock,
-                'entradas' => $entradasData,
-                'totalEntradas' => $totalEntradas,
-                'totalSalidas' => $totalSalidas,
-            ];
-        }
-
-        // Generar y descargar PDF
-        try {
-            $pdf = PDF::loadView('reportes_pdf.pdf_diario',  $reportData);
-            return $pdf->download('Reporte_Diario_' . $fecha->format('Y_m_d') . '.pdf');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error al generar el PDF: ' . $e->getMessage());
-        }
+public function generarPDF2($codigo)
+{
+    // Verificar que el código se esté recibiendo correctamente
+    if (!$codigo) {
+        return redirect()->back()->with('error', 'No se proporcionó el código del producto.');
     }
 
+    // Obtener los detalles del producto utilizando el código proporcionado
+    $producto = Producto::where('codigo', $codigo)->first();
+
+    if (!$producto) {
+        return redirect()->back()->with('error', 'Producto no encontrado.');
+    }
+
+    // Obtener todas las entradas relacionadas con el producto
+    $entradas = $producto->entradas;
+
+    // Inicializar variables para calcular los totales
+    $totalEntradas = 0;
+    $totalSalidas = 0;
+    $totalStock = 0;
+    $totalSaldoCompra = 0;
+    $precioCompraSum = 0;
+
+    // Mapear y procesar las entradas para enviar los datos correctamente al PDF
+    $entradasData = $entradas->map(function ($entrada) use (&$totalEntradas, &$totalSalidas, &$totalStock, &$totalSaldoCompra, &$precioCompraSum) {
+        // Obtener el total de salidas para esta entrada
+        $salidas = $entrada->salidas->sum('cantidad');
+
+        // Calcular el stock restante
+        $stock = $entrada->cantidad;
+
+         // Convertir fecha_ingreso a Carbon si es un string para asegurar el formato correcto
+        $fechaIngreso = is_string($entrada->fecha_ingreso) ? Carbon::parse($entrada->fecha_ingreso) : $entrada->fecha_ingreso;
+
+        // Acumular los totales
+        $totalEntradas += $entrada->cantidad_entrante;
+        $totalSalidas += $salidas;
+        $totalStock += $stock;
+        $totalSaldoCompra += $entrada->saldo_compra;
+        $precioCompraSum += $entrada->precio_unidad;
+
+        // Devolver el array con los datos necesarios
+        return [
+
+            'fecha_ingreso' => $fechaIngreso->format('d-m-Y'), // Formatear fecha correctamente
+
+            'proveedor' => $entrada->proveedor->name ?? 'Proveedor no asignado',
+            'entradas' => $entrada->cantidad_entrante,
+            'salidas' => $salidas,
+            'stock' => $stock,
+            'unidad_medida' => $entrada->unidad_medida,
+            'precio_compra' => $entrada->precio_unidad,
+            'saldo_compra' => $entrada->saldo_compra,
+        ];
+    });
+
+    // Calcular el promedio del precio de compra
+    $promedioPrecioCompra = $entradas->count() > 0 ? $precioCompraSum / $entradas->count() : 0;
+
+    // Preparar datos para la vista PDF
+    $data = [
+        'nombre_producto' => $producto->nombre,
+        'codigo' => $producto->codigo,
+        'promedioPrecioCompra' => $promedioPrecioCompra,
+        'totalSaldoCompra' => $totalSaldoCompra,
+        'totalStock' => $totalStock,
+        'entradas' => $entradasData, // Asegurarse de enviar el array de entradas procesado
+        'totalEntradas' => $totalEntradas,
+        'totalSalidas' => $totalSalidas
+    ];
+
+    // Cargar la vista y generar el PDF
+    $pdf = PDF::loadView('reportes_pdf.pdf-detalle', $data);
+
+    // Descargar el PDF con un nombre dinámico basado en el producto
+    return $pdf->download('detalle_producto_' . $producto->codigo . '.pdf');
+}
 
 public function generarPDF4(Request $request)
 {
@@ -419,7 +382,7 @@ public function generarPDF4(Request $request)
         $cantidadEntradas = $entradasProducto->sum('cantidad_entrante');
         $cantidadSalidas = $entradasProducto->sum('salida');
         $cantidadStock = $entradasProducto->sum('cantidad'); // Stock real
-      
+
 
         $costoPorProducto = $entradasProducto->sum(function ($entrada) {
             return $entrada->cantidad_entrante * $entrada->precio_unidad;
@@ -503,12 +466,10 @@ public function generarPDF6(Request $request)
     $fechaInicioTexto = $fechaInicio->format('d-m-Y');
     $fechaCierreTexto = $fechaCierre->format('d-m-Y');
 
-    
+
     $pdf = Pdf::loadView('report_periodo.reporte-por-fechas-pdf', compact('reporte', 'fechaInicioTexto', 'fechaCierreTexto', 'totalEntradas', 'totalSalidas', 'totalCosto', 'totalEgresos'));
 
     return $pdf->download("reporte-inventario-{$fechaInicioTexto}_{$fechaCierreTexto}.pdf");
 }
-
-
 }
 

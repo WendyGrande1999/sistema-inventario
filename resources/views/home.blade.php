@@ -6,11 +6,11 @@
 @section('content')
 
     <div class="pagetitle">
-        <h1>Dashboard</h1>
+        <h1>Inicio</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item"><a href="/home">Inicio</a></li>
+                <li class="breadcrumb-item active">Panel Principal</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -116,9 +116,9 @@
                                     </div>
                                     <div class="ps-3">
                                         @php
-                                        $cantidaddeproveedores = DB::table('proveedors')->count();
-                                    @endphp
-                                    <h6>{{ $cantidaddeproveedores }}</h6>
+                                            $cantidaddeproveedores = DB::table('proveedors')->count();
+                                        @endphp
+                                        <h6>{{ $cantidaddeproveedores }}</h6>
                                     </div>
                                 </div>
 
@@ -191,9 +191,9 @@
                                     </div>
                                     <div class="ps-3">
                                         @php
-                                        $cantidaddesalida = DB::table('salidas')->count();
-                                    @endphp
-                                    <h6>{{ $cantidaddesalida }}</h6>
+                                            $cantidaddesalida = DB::table('salidas')->count();
+                                        @endphp
+                                        <h6>{{ $cantidaddesalida }}</h6>
 
                                     </div>
                                 </div>
