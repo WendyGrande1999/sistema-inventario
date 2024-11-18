@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Dashboard - Sistema de Inventario Hojas Eco Villas</title>
+    <title>Inicio - Sistema de Inventario Hojas Eco Villas</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -51,6 +51,13 @@
             @yield('content')
         </section>
     </main>
+
+<footer class="footer">
+@include('partials.footer')
+</footer>
+    <!-- ======= Footer ======= -->
+   
+    <!-- End Footer -->
     <!-- Vendor JS Files -->
     <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

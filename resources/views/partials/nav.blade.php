@@ -7,8 +7,11 @@
 
 <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
-        <li class="nav-item dropdown">
 
+      
+
+        <!-- Notificaciones -->
+        <li class="nav-item dropdown">
             <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                 <i class="bi bi-bell"></i>
                 <span class="badge bg-primary badge-number">{{ $productosPorAgotarse }}</span>
@@ -27,9 +30,7 @@
                         <li class="notification-item">
                             <i class="bi bi-exclamation-circle text-warning"></i>
                             <div>
-                                <h4>
-                                    <td>{{ $producto['nombre'] }}
-                                </h4>
+                                <h4>{{ $producto['nombre'] }}</h4>
                                 <p>{{ $producto['stockTotalActual'] }}</p>
                                 <p>{{ $producto['unidad_medida'] }}</p>
                             </div>
@@ -43,27 +44,20 @@
                 <li class="dropdown-footer">
                     <a href="/inventario/stock">Ver stock</a>
                 </li>
-
-
             </ul><!-- End Notification Dropdown Items -->
-
         </li><!-- End Notification Nav -->
 
-
-
         @auth
-            <li class="nav-item dropdown">
+            <!-- Dropdown del Usuario -->
+            <li class="nav-item dropdown me-3">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
-
-                    <i class="bi bi-person me-2"></i>
-
-                    {{ Auth::user()->name }}
+                    <i class="bi bi-person me-2"></i> {{ Auth::user()->name }}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li>
                         <a class="dropdown-item" href="{{ route('profile.show') }}">
-                            </i> Mi Perfil
+                            <i class="bi bi-person-circle me-2"></i> Mi Perfil
                         </a>
                     </li>
                     <li>
@@ -88,6 +82,5 @@
                 <a class="nav-link" href="{{ route('login') }}">Iniciar Sesión</a>
             </li>
         @endguest
-
     </ul>
 </nav><!-- End Icons Navigation -->

@@ -71,7 +71,7 @@ class EventServiceProvider extends ServiceProvider
             // Pasar datos al 'nav'
             $view->with('productosPorAgotarse', $productosPorAgotarse)
                 ->with('stockRestantePorAgotarse', $stockRestantePorAgotarse)
-                ->with('producto', $productos)
+                ->with('produc', $productos)
                 ->with('umbral', $umbral)
                 ->with('dataProductos', $dataProductos);
         });

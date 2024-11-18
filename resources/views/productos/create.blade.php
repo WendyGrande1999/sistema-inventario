@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-
+<h1>Agregar Producto</h1>
         <form action="{{ route('productos.store') }}" enctype="multipart/form-data" method="POST">
             @csrf
             <div class="mb-3">
@@ -32,9 +32,9 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <strong>
+                   
                         <label for="unidad_medida">Unidad de Medida</label>
-                    </strong>
+                
                     <select name="unidad_medida" id="unidad_medida" class="form-control" required>
                         <option value="">Seleccione unidad de medida</option>
                         <option value="Libra">Libras</option>
@@ -43,7 +43,7 @@
                         <option value="Cajas">Cajas</option>
                     </select>
                 </div>
-
+<br>
                 <div class="mb-3">
                     <label for="category_id" class="form-label">Categoría</label>
                     <select name="category_id" class="form-control" id="category_id">
@@ -57,10 +57,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="imagen">Imagen</label>
+                    <label for="imagen">Imagenn</label>
                     <input type="file" class="form-control" name="imagen" id="imagen" accept="image/*">
                 </div>
-
+<br>
+<br>
                 <button type="submit" class="btn btn-success">Guardar</button>
                 <a href="{{ route('productos.index') }}" class="btn btn-secondary">Cancelar</a>
         </form>
