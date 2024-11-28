@@ -14,7 +14,7 @@ use App\Http\Controllers\SalidaController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\ChartController;
-
+use App\Http\Controllers\PageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -154,4 +154,6 @@ Route::get('/reportes/mes/seleccionar-fechas', [ReporteController::class, 'selec
 Route::get('/reportes/mes/reporte-por-fechas', [ReporteController::class, 'generarReportePorFechas'])->name('reportes.reportePorFechas');
 Route::get('/reportes/mes/reporte-por-fechas/ {{ $fechaInicioTexto } al { $fechaCierreTexto }}', [ReporteController::class, 'generarPdfPorFechas'])->name('reportes.generarPdfPorFechas');
 
-
+Route::get('/ayuda', [PageController::class, 'ayuda'])->name('ayuda');
+Route::get('/terminos-y-condiciones', [PageController::class, 'terminos'])->name('terminos');
+Route::get('/privacidad', [PageController::class, 'privacidad'])->name('privacidad');

@@ -6,26 +6,26 @@
                 <h5 class="text-uppercase">Recursos</h5>
                 <ul class="list-unstyled mb-2">
                     <li>
-                        <a href="/ayuda" class="text-dark">Ayuda</a>
+                    <a href="{{ route('ayuda') }}" class="text-dark">Ayuda</a>
                     </li>
                     <li>
-                        <a href="/terminos-y-condiciones" class="text-dark">Términos y Condiciones</a>
+                    <a href="{{ route('terminos') }}" class="text-dark">Términos y Condiciones</a>
                     </li>
                     <li>
-                        <a href="/privacidad" class="text-dark">Política de Privacidad</a>
+                      <a href="{{ route('privacidad') }}" class="text-dark">Política de Privacidad</a>
                     </li>
                 </ul>
             </div>
             <div class="col-lg-6 col-md-12 mb-3 text-end">
-                <h5 class="text-uppercase">Contacto</h5>
+                <h5 class="text-uppercase">Hojas Eco Villa</h5>
                 <ul class="list-unstyled">
                     <li>
                         <i class="bi bi-envelope me-2"></i> 
-                        <a href="mailto:soporte@uls.edu.sv" class="text-dark">soporte@uls.edu.sv</a>
+                        <a href="mailto:soporte@uls.edu.sv" class="text-dark">hojasecovillas@gmail.com</a>
                     </li>
                     <li>
                         <i class="bi bi-telephone me-2"></i> 
-                        <a href="tel:+50312345678" class="text-dark">+503 1234 5678</a>
+                        <a href="tel:+50312345678" class="text-dark">Tel: (+503) 6994-3358</a>
                     </li>
                 </ul>
             </div>
@@ -36,10 +36,10 @@
         <!-- Copyright -->
         <div class="d-flex justify-content-between align-items-center">
             <div class="copyright text-start">
-                &copy; Copyright <strong><span>Universidad Luterana Salvadoreña</span></strong>. Todos los derechos reservados
+                &copy; Copyright <strong><span><a href="https://www.uls.edu.sv">Universidad Luterana Salvadoreña</a></span></strong>. Todos los derechos reservados
             </div>
             <div class="credits text-end">
-                Diseñado en <a href="https://www.uls.edu.sv" class="text-dark">Práctica Profesional Informática</a>
+                <a href="#" class="text-dark">Práctica Profesional Informática</a>
             </div>
         </div>
     </div>
