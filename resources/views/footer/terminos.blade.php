@@ -9,7 +9,7 @@
     <div class="mb-4">
         <h2>1. Aceptación de los términos</h2>
         <p>
-            Al utilizar este sistema de inventarios, aceptas cumplir con los términos y condiciones establecidos en este documento. Si no estás de acuerdo, no debes usar el sistema.
+            Al utilizar este sistema de inventarios, aceptas cumplir con los términos y condiciones establecidos en este apartado.
         </p>
     </div>
 
