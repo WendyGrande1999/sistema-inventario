@@ -44,11 +44,16 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        $user->delete();
-
-        return redirect()->route('admin.users.index')->with('success', 'Usuario eliminada exitosamente.');
+        try {
+            $user->delete();
+    
+            return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado exitosamente.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Verifica si el error es causado por restricciones de integridad
+            return redirect()->route('admin.users.index')->with('error', 'No se pudo eliminar el usuario porque está asociado a otros registros.');
+        }
     }
-
+    
 
     public function store(Request $request)
     {

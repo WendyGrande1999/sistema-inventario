@@ -16,10 +16,11 @@ class SalidaController extends Controller
     public function index()
     {
         // Obtener solo las salidas con estado 'activo'
+        $salidasInactivass = Salida::where('estado', 'inactivo')->get();
         $salidasActivass = Salida::where('estado', 'activo')->get();
         $salidasActivas = Salida::all();
         // Pasar las salidas activas a la vista
-        return view('salidas.index', compact('salidasActivas'));
+        return view('salidas.index', compact('salidasActivass', 'salidasInactivass'));
     }
     public function create()
     {

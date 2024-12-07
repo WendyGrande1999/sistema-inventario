@@ -54,7 +54,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4">No se encontraron categorías.</td>
+                        <td colspan="4">No se encontraron usuarios.</td>
                     </tr>
                 @endforelse
             </tbody>
