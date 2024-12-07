@@ -10,38 +10,46 @@
     <div class="mb-5">
         <h2 class="mb-3">Videos</h2>
         <p>Consulta nuestra playlist en YouTube para aprender a usar cada funcionalidad del sistema:</p>
-        <a href="https://www.youtube.com/playlist?list=TU_PLAYLIST_ID" target="_blank" class="btn btn-primary mb-4">
+        <a href="https://www.youtube.com/playlist?list=PLgWOHTG03_v5the31KVhQopMQXk-92wkY" target="_blank" class="btn btn-primary mb-4">
             Ver playlist completa
         </a>
 
         <div class="row">
             <div class="col-md-6">
                 <h5>Gestión de usuarios</h5>
-                <a href="https://www.youtube.com/watch?v=VIDEO_ID1" target="_blank">Ver video</a>
+                <a href="https://www.youtube.com/watch?v=0suDd7DZVqI&list=PLgWOHTG03_v5the31KVhQopMQXk-92wkY&index=11" target="_blank">Ver video</a>
             </div>
             <div class="col-md-6">
                 <h5>Recuperar contraseña</h5>
-                <a href="https://www.youtube.com/watch?v=VIDEO_ID2" target="_blank">Ver video</a>
+                <a href="https://www.youtube.com/watch?v=PY1SKfWrORE&list=PLgWOHTG03_v5the31KVhQopMQXk-92wkY&index=2" target="_blank">Ver video</a>
             </div>
             <div class="col-md-6 mt-3">
                 <h5>Gestión de productos</h5>
-                <a href="https://www.youtube.com/watch?v=VIDEO_ID3" target="_blank">Ver video</a>
+                <a href="https://www.youtube.com/watch?v=zfl-ZTYF9DY&list=PLgWOHTG03_v5the31KVhQopMQXk-92wkY&index=8" target="_blank">Ver video</a>
             </div>
             <div class="col-md-6 mt-3">
                 <h5>Entradas</h5>
-                <a href="https://www.youtube.com/watch?v=VIDEO_ID4" target="_blank">Ver video</a>
+                <a href="https://www.youtube.com/watch?v=e-6Ds3qSfgg&list=PLgWOHTG03_v5the31KVhQopMQXk-92wkY&index=14" target="_blank">Ver video</a>
             </div>
             <div class="col-md-6 mt-3">
                 <h5>Salidas</h5>
-                <a href="https://www.youtube.com/watch?v=VIDEO_ID5" target="_blank">Ver video</a>
+                <a href="https://www.youtube.com/watch?v=qhTs8Mp2lOU&list=PLgWOHTG03_v5the31KVhQopMQXk-92wkY&index=4" target="_blank">Ver video</a>
+            </div>
+            <div class="col-md-6 mt-3">
+                <h5>Stock de productos</h5>
+                <a href="https://www.youtube.com/watch?v=CMG1yXAzef8&list=PLgWOHTG03_v5the31KVhQopMQXk-92wkY&index=7" target="_blank">Ver video</a>
             </div>
             <div class="col-md-6 mt-3">
                 <h5>Cierres de inventario</h5>
-                <a href="https://www.youtube.com/watch?v=VIDEO_ID6" target="_blank">Ver video</a>
+                <a href="https://www.youtube.com/watch?v=jlaE_wMJT1g&list=PLgWOHTG03_v5the31KVhQopMQXk-92wkY&index=15" target="_blank">Ver video</a>
             </div>
             <div class="col-md-6 mt-3">
-                <h5>Gestión de reportes</h5>
-                <a href="https://www.youtube.com/watch?v=VIDEO_ID7" target="_blank">Ver video</a>
+                <h5>Gestión de reporte por producto</h5>
+                <a href="https://www.youtube.com/watch?v=qvl_bA2Mhr8&list=PLgWOHTG03_v5the31KVhQopMQXk-92wkY&index=16" target="_blank">Ver video</a>
+            </div>
+            <div class="col-md-6 mt-3">
+                <h5>Gestión de reporte diario</h5>
+                <a href="https://www.youtube.com/watch?v=psRClqpG_lE&list=PLgWOHTG03_v5the31KVhQopMQXk-92wkY&index=13" target="_blank">Ver video</a>
             </div>
         </div>
     </div>
