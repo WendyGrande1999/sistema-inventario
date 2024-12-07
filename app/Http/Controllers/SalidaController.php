@@ -37,7 +37,7 @@ class SalidaController extends Controller
         $request->validate([
             'fecha_salida' => 'required|date',
             'idproducto' => 'required|exists:productos,id',
-            'identrada' => 'required|exists:entradas,id', // Referencia a la entrada
+            'identrada' => 'required|exists:entradas,id',
             'unidad_medida' => 'required|string|max:255',
             'cantidad' => 'required|integer|min:1',
             'idusuario' => 'required|exists:users,id',
@@ -46,7 +46,7 @@ class SalidaController extends Controller
         // Obtener la entrada seleccionada
         $entrada = Entrada::findOrFail($request->identrada);
     
-        // Verificar si la cantidad de salida es válida (no puede ser mayor a la cantidad disponible)
+        // Verificar si la cantidad de salida es válida
         if ($request->cantidad > $entrada->cantidad) {
             return redirect()->back()->withErrors('La cantidad de salida no puede ser mayor a la cantidad disponible en la entrada.');
         }
@@ -54,33 +54,34 @@ class SalidaController extends Controller
         // Convertir la fecha a formato Carbon
         $fecha_salida = Carbon::parse($request->input('fecha_salida'));
     
-        // Registrar la nueva salida en la tabla 'salida' y almacenar la salida creada
+        // Registrar la nueva salida
         $salida = Salida::create([
             'fecha_salida' => $fecha_salida,
             'idproducto' => $request->input('idproducto'),
-            'identrada' => $request->input('identrada'), // Aquí estás guardando el identrada
+            'identrada' => $request->input('identrada'),
             'idusuario' => $request->input('idusuario'),
             'unidad_medida' => $request->input('unidad_medida'),
             'cantidad' => $request->input('cantidad'),
-            'estado' => 'activo', // Estado inicial de la salida como 'activo'
+            'estado' => 'activo',
         ]);
     
-        // Actualizar los campos 'cantidad' y 'salida' en la tabla 'entrada'
-        $entrada->cantidad -= $request->cantidad; // Reducir la cantidad de la entrada
-        $entrada->salida += $request->cantidad;   // Sumar la cantidad de salida al campo 'salida'
+        // Actualizar los campos en la tabla 'entrada'
+        $entrada->cantidad -= $request->cantidad;
+        $entrada->salida += $request->cantidad;
     
-        // Verificar si la cantidad llega a 0, y cambiar el estado de la entrada a "inactivo"
+        // Verificar si la cantidad llega a 0
         if ($entrada->cantidad == 0) {
-            $entrada->estado = 'inactivo';  // Cambiar el estado de la entrada a inactivo
-            $salida->estado = 'inactivo';   // Cambiar el estado de la salida a inactivo
-            $salida->save();                // Guardar el estado actualizado de la salida
+            $entrada->estado = 'inactivo'; // Cambiar el estado de la entrada a inactivo
+            $entrada->save();
+    
+            // Cambiar el estado de todas las salidas relacionadas a 'inactivo'
+            Salida::where('identrada', $entrada->id)->update(['estado' => 'inactivo']);
+        } else {
+            $entrada->save(); // Guardar cambios si no se llega a 0
         }
     
-        // Guardar la entrada actualizada (siempre se guarda, independientemente de la cantidad)
-        $entrada->save();
-    
         // Redirigir con mensaje de éxito
-        return redirect()->route('salidas.index')->with('success', 'Salida registrada exitosamente. La entrada ha sido actualizada.');
+        return redirect()->route('salidas.index')->with('success', 'Salida registrada exitosamente. La entrada y sus salidas han sido actualizadas.');
     }
     
     

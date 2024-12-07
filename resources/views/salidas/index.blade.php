@@ -2,9 +2,10 @@
 
 @section('content')
 @role('admin')
- <div class="container">
-    <h1>Listado de Salidas</h1>
+<div class="container">
+    <h1 class="text-dark">Listado de Salidas</h1>
     <a href="{{ route('salidas.create') }}" class="btn btn-primary mb-3">Agregar Nueva Salida</a>
+
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
@@ -12,9 +13,10 @@
     @if (session('error'))
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
-    <h1>salidas activas</h1>
-    <table class="table table-bordered">
-        <thead>
+
+    <h2 class="text-dark">Salidas Activas</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
             <tr>
                 <th>Fecha Salida</th>
                 <th>Producto</th>
@@ -34,16 +36,17 @@
                     <td>{{ $salida->usuario->name }}</td>
                     <td>
                         <a href="{{ route('salidas.edit', $salida->id) }}" class="btn btn-warning btn-sm">
-                        <i class="bi bi-pencil-fill"></i>
+                            <i class="bi bi-pencil-fill"></i>
                         </a>
-                        
-                        <form id="delete-entry-form-{{ $salida->id }}" action="{{ route('salidas.destroy', $salida->id) }}"
+                        <form id="delete-entry-form-{{ $salida->id }}" 
+                              action="{{ route('salidas.destroy', $salida->id) }}" 
                               method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
-                            <!-- Nota: En el botón, cambiamos el evento a `onclick="eliminarSalida(event, {{ $salida->id }})"` -->
-                            <button onclick="eliminarSalida(event, {{ $salida->id }})" type="button" class="btn btn-danger btn-sm">
-                            <i class="bi bi-trash3-fill"></i>
+                            <button onclick="eliminarSalida(event, {{ $salida->id }})" 
+                                    type="button" 
+                                    class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash3-fill"></i>
                             </button>
                         </form>
                     </td>
@@ -52,10 +55,9 @@
         </tbody>
     </table>
 
-    <br>
-   <h1>salidas inactivas</h1>
-    <table class="table table-bordered">
-        <thead>
+    <h2 class="text-dark mt-5">Salidas Inactivas</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
             <tr>
                 <th>Fecha Salida</th>
                 <th>Producto</th>
@@ -75,16 +77,17 @@
                     <td>{{ $salida->usuario->name }}</td>
                     <td>
                         <a href="{{ route('salidas.edit', $salida->id) }}" class="btn btn-warning btn-sm">
-                        <i class="bi bi-pencil-fill"></i>
+                            <i class="bi bi-pencil-fill"></i>
                         </a>
-                        
-                        <form id="delete-entry-form-{{ $salida->id }}" action="{{ route('salidas.destroy', $salida->id) }}"
+                        <form id="delete-entry-form-{{ $salida->id }}" 
+                              action="{{ route('salidas.destroy', $salida->id) }}" 
                               method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
-                            <!-- Nota: En el botón, cambiamos el evento a `onclick="eliminarSalida(event, {{ $salida->id }})"` -->
-                            <button onclick="eliminarSalida(event, {{ $salida->id }})" type="button" class="btn btn-danger btn-sm">
-                            <i class="bi bi-trash3-fill"></i>
+                            <button onclick="eliminarSalida(event, {{ $salida->id }})" 
+                                    type="button" 
+                                    class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash3-fill"></i>
                             </button>
                         </form>
                     </td>
@@ -92,13 +95,14 @@
             @endforeach
         </tbody>
     </table>
-   </div>
+</div>
 @endrole
 
 @role('editor')
- <div class="container">
-    <h1>Listado de Salidas</h1>
+<div class="container">
+    <h1 class="text-dark">Listado de Salidas</h1>
     <a href="{{ route('salidas.create') }}" class="btn btn-primary mb-3">Agregar Nueva Salida</a>
+
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
@@ -106,9 +110,10 @@
     @if (session('error'))
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
-    <h1>salidas activas</h1>
-    <table class="table table-bordered">
-        <thead>
+
+    <h2 class="text-dark">Salidas Activas</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
             <tr>
                 <th>Fecha Salida</th>
                 <th>Producto</th>
@@ -130,17 +135,15 @@
         </tbody>
     </table>
 
-    <br>
-   <h1>salidas inactivas</h1>
-    <table class="table table-bordered">
-        <thead>
+    <h2 class="text-dark mt-5">Salidas Inactivas</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
             <tr>
                 <th>Fecha Salida</th>
                 <th>Producto</th>
                 <th>Unidad de Medida</th>
                 <th>Cantidad</th>
                 <th>Usuario</th>
-               
             </tr>
         </thead>
         <tbody>
@@ -151,18 +154,17 @@
                     <td>{{ $salida->unidad_medida }}</td>
                     <td>{{ $salida->cantidad }}</td>
                     <td>{{ $salida->usuario->name }}</td>
-                  
                 </tr>
             @endforeach
         </tbody>
     </table>
-   </div>
+</div>
 @endrole
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Asegúrate de tener SweetAlert2 cargado -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function eliminarSalida(event, id) {
-        event.preventDefault(); // Evita el envío automático del formulario
+        event.preventDefault();
 
         Swal.fire({
             title: '¿Estás seguro que deseas eliminar este registro?',
@@ -174,7 +176,6 @@
             confirmButtonText: 'Sí, eliminar'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Enviar el formulario de eliminación específico
                 document.getElementById(`delete-entry-form-${id}`).submit();
             }
         });

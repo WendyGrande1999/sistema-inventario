@@ -12,7 +12,8 @@ class UserController extends Controller
     // Muestra la lista de usuarios
     public function index()
     {
-        $users = User::all();
+        // Excluye al usuario autenticado de la lista
+        $users = User::where('id', '!=', auth()->id())->get();
         return view('admin.users.index', compact('users'));
     }
 
